@@ -1,11 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import styled from "styled-components";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
+import { useSelector,useDispatch } from "react-redux";
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Cookie from "js-cookie";
 
 function Header() {
   const [burgerState, setBurgerState] = useState(false);
+  const userSignin = useSelector((state) => state.userSignin);
+  let { loading, userInfo, error } = userSignin;
+  const dispatch = useDispatch();
+  useEffect(() => {
+  }, [userInfo]);
+  const signOut =()=>{
+    Cookie.remove('userInfo');
+    window.location.reload();
+  }
   return (
     <Container>
       <a>
@@ -17,7 +31,18 @@ function Header() {
         <Link to="/forum">Tương tác</Link>
       </Menu>
       <RightMenu>
-        <Link to="/signin">Đăng nhập</Link>
+        { userInfo? 
+              <ContainerSubNav>
+                <img src={userInfo.avatar} alt="avatar"/>
+                <FormControl>
+                  <Select>
+                    <MenuItem>Tài khoản</MenuItem>
+                    <MenuItem onClick={signOut}>Đăng xuất</MenuItem>
+                  </Select>
+                </FormControl>
+              </ContainerSubNav>
+              :<Link to="/signin">Đăng nhập</Link>
+        }
       </RightMenu>
       <ContainerCustomeMenu>
         <CustomMenu onClick={() => setBurgerState(!burgerState)}></CustomMenu>
@@ -36,7 +61,13 @@ function Header() {
           <Link to="/forum">Tương tác</Link>
         </li>
         <li>
-          <Link to="/signin">Đăng nhập</Link>
+          { userInfo? 
+              <>
+                <MenuItem><Link to="/me">Tài khoản</Link></MenuItem>
+                <MenuItem onClick={signOut}>Đăng xuất</MenuItem>
+              </>:
+              <Link to="/signin">Đăng nhập</Link>
+          }
         </li>
       </BurgerNav>
     </Container>
@@ -56,9 +87,6 @@ const Container = styled.div`
   left: 0;
   right: 0;
   z-index: 1;
-  a {
-    cursor: pointer;
-  }
   a img {
     width: 68px;
     height: 68px;
@@ -84,10 +112,16 @@ const Menu = styled.div`
 const RightMenu = styled.div`
   display: flex;
   align-items: center;
+  margin-right: 20px;
   a {
     font-weight: 600;
     text-transform: uppercase;
     margin-right: 10px;
+  }
+  img{
+    width:44px;
+    height:44px;
+    cursor: pointer;
   }
   @media (max-width: 600px) {
     display: none;
@@ -133,3 +167,4 @@ const CloseWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
+const ContainerSubNav = styled.div``;
