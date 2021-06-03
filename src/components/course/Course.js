@@ -1,39 +1,46 @@
 import React from "react";
-import "./Course.css";
-import Button from "@material-ui/core/Button";
+import styled from "styled-components";
 
 function Course({ course }) {
   return (
-    <div className="col-lg-4 col-sm-12 col-md-6 course__item">
-      <div className="top">
-        <img className="img__course" src={course.img} alt="img_course" />
-      </div>
-      <div className="center">
-        <p gutterBottom variant="h5" component="h2" className="course__name">
-          {course.title}
-        </p>
-        <p
-          variant="body2"
-          color="textSecondary"
-          component="p"
-          className="course__desc"
-        >
-          {course.description}
-        </p>
-      </div>
-      <div className="bottom">
-        <Button color="primary" size="medium">
-          <a
-            href={`https://www.youtube.com/watch?v=${course.id_video}`}
-            rel="noreferrer"
-            target="_blank"
-          >
-            Xem chi tiết
-          </a>
-        </Button>
-      </div>
-    </div>
+    <Container>
+      <img src={course.img} alt="img_course" />
+      <Title>{course.title}</Title>
+      <LinkTo
+        href={`https://www.youtube.com/watch?v=${course.id_video}`}
+        rel="noreferrer"
+        target="_blank"
+      >
+        Xem chi tiết
+      </LinkTo>
+    </Container>
   );
 }
 
 export default Course;
+const Container = styled.div`
+  width:33%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  img {
+    max-width: 80%;
+    border-radius: 4px;
+  }
+`;
+const Title = styled.p`
+  font-weight: 600;
+  font-size: 20px;
+  padding: 10px 0;
+`;
+const LinkTo = styled.a`
+  background-color: #3163f7;
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 10px;
+`;
