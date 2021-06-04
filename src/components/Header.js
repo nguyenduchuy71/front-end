@@ -77,7 +77,7 @@ function Header() {
               <ElementMenu>
                 <AccountCircleIcon />
                 <div>
-                  <Link to="/">Tài khoản</Link>
+                  <Link to="/me">Tài khoản</Link>
                 </div>
               </ElementMenu>
               <ElementMenu>
@@ -98,7 +98,7 @@ function Header() {
             <ElementSubMenu>
               <AccountCircleIcon />
               <div>
-                <Link to="/">Tài khoản</Link>
+                <Link to="/me">Tài khoản</Link>
               </div>
             </ElementSubMenu>
             <ElementSubMenu>

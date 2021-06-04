@@ -30,6 +30,7 @@ const signin = (username,password) => async (dispatch) => {
         },
       });
       dispatch({ type: USER_SIGNIN_SUCCESS, payload: data.user });
+      console.log(data.user);
       Cookie.set("userInfo", JSON.stringify(data.user));
     } catch (error) {
       dispatch({ type: USER_SIGNIN_FAIL, payload: error.message });

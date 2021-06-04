@@ -8,6 +8,12 @@ function CourseScreen() {
   const [courses, setCourses] = useState([]);
   useEffect(() => {
     setCourses(data.courses);
+    axios.get("https://ailabchatbot.xyz/course/")
+    .then((res) => {
+      if(res.status===200){
+        console.log(res.data);
+      }
+    }).catch((error) => console.log(error.message));
   }, []);
   return (
     <CourseContainer>
