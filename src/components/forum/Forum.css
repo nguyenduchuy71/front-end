@@ -1,0 +1,28 @@
+.forum__content {
+  margin: 20px 10px;
+  border-radius: 4px;
+  padding: 4px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.4);
+}
+.list__forum__option {
+  display: flex;
+  flex-direction: row;
+}
+.item__forum {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-left: 12px;
+  cursor: default;
+}
+.forum__title a p {
+  margin-left: 14px;
+  font-size: 24px;
+  font-weight: 550;
+}
+.icon {
+  margin-right: 2px;
+}
+.forum__content:hover {
+  background-color: rgb(247, 246, 246);
+}

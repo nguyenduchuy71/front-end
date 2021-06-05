@@ -31,9 +31,13 @@ const Container = styled.div`
     max-width: 80%;
     border-radius: 4px;
   }
+  @media (max-width: 489px) {
+    width: 100%;
+  }
 `;
 const Title = styled.p`
   font-weight: 600;
+  text-align: center;
   font-size: 20px;
   padding: 10px 0;
 `;

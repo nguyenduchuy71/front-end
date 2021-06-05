@@ -4,7 +4,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import MenuItem from "@material-ui/core/MenuItem";
 import Cookie from "js-cookie";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -18,6 +17,7 @@ function Header() {
   let { loading, userInfo, error } = userSignin;
   useEffect(() => {}, [userInfo]);
   const signOut = () => {
+    Cookie.remove("access_token");
     Cookie.remove("userInfo");
     window.location.reload();
   };
@@ -77,7 +77,7 @@ function Header() {
               <ElementMenu>
                 <AccountCircleIcon />
                 <div>
-                  <Link to="/me">Tài khoản</Link>
+                  <Link to="/profile">Tài khoản</Link>
                 </div>
               </ElementMenu>
               <ElementMenu>
@@ -98,7 +98,7 @@ function Header() {
             <ElementSubMenu>
               <AccountCircleIcon />
               <div>
-                <Link to="/me">Tài khoản</Link>
+                <Link to="/profile">Tài khoản</Link>
               </div>
             </ElementSubMenu>
             <ElementSubMenu>

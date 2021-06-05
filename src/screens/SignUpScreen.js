@@ -1,67 +1,76 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { signup } from "../actions/userActions";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function SignUpScreen(props) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [repassword, setRepassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [repassword, setRepassword] = useState("");
   const userSignup = useSelector((state) => state.userSignup);
   const { loading, success, error } = userSignup;
   const dispatch = useDispatch();
   useEffect(() => {
-    if(success){
-      props.history.push('/signin');
+    if (success) {
+      props.history.push("/signin");
     }
-  }, [success])
-  const handleSubmit=(e)=>{
+  }, [success]);
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if(password===repassword){
-      const user={
+    if (password === repassword) {
+      const user = {
         username,
         password,
         email: username,
-        confirmpassword:repassword,
+        confirmpassword: repassword,
         avatar:
-            "https://cdn1.iconfinder.com/data/icons/user-pictures/100/unknown-512.png",
+          "https://cdn1.iconfinder.com/data/icons/user-pictures/100/unknown-512.png",
         full_name: username,
       };
       dispatch(signup(user));
+    } else {
+      alert("Mật khẩu không khớp");
     }
-    else{
-      alert('Mật khẩu không khớp');
-    }
-  }
+  };
   return (
     <Container>
-      <h2>Đăng ký tài khoản</h2>
-      <Form onSubmit={handleSubmit}>
-        <TextField
-          id="username"
-          label="Tài khoản"
-          placeholder="..."
-          fullWidth
-          onChange={(e)=>{setUsername(e.target.value)}}
-        />
-        <TextField id="password" label="Mật khẩu" placeholder="..." fullWidth           
-        onChange={(e)=>{setPassword(e.target.value)}}
- />
-        <TextField
-          id="repassword"
-          label="Xác nhận mật khẩu"
-          placeholder="..."
-          fullWidth
-          onChange={(e)=>{setRepassword(e.target.value)}}
-
-        />
-        <Button type="submit">Đăng ký</Button>
-      </Form>
-      <LinkOther>
-        <Link to="/signin">Đã có tài khoản?</Link>
-      </LinkOther>
+      <Content>
+        <h2>Đăng ký tài khoản</h2>
+        <Form onSubmit={handleSubmit}>
+          <TextField
+            id="username"
+            label="Tài khoản"
+            placeholder="..."
+            type="password"
+            fullWidth
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+          />
+          <TextField
+            id="password"
+            label="Mật khẩu"
+            placeholder="..."
+            fullWidth
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+          <TextField
+            id="repassword"
+            label="Xác nhận mật khẩu"
+            placeholder="..."
+            type="password"
+            fullWidth
+            onChange={(e) => {
+              setRepassword(e.target.value);
+            }}
+          />
+          <Button type="submit">Đăng ký</Button>
+        </Form>
+      </Content>
     </Container>
   );
 }
@@ -74,8 +83,19 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
 `;
-const LinkOther = styled.div`
-  border-bottom: 1px solid #304ffe;
+const Content = styled.div`
+  border: 1px solid #111;
+  padding: 4%;
+  line-height: 2rem;
+  border-radius: 6px;
+
+  h2 {
+    text-align: center;
+  }
+
+  &:hover {
+    border: 1px solid #0304ff;
+  }
 `;
 const Form = styled.form`
   display: flex;

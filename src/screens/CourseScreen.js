@@ -8,12 +8,6 @@ function CourseScreen() {
   const [courses, setCourses] = useState([]);
   useEffect(() => {
     setCourses(data.courses);
-    axios.get("https://ailabchatbot.xyz/course/")
-    .then((res) => {
-      if(res.status===200){
-        console.log(res.data);
-      }
-    }).catch((error) => console.log(error.message));
   }, []);
   return (
     <CourseContainer>
@@ -30,6 +24,10 @@ const CourseContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap:wrap;
+  flex-wrap: wrap;
   padding: 0 10px;
+
+  @media (max-width: 489px) {
+    flex-direction: column;
+  }
 `;
