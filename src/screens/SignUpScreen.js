@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { signup } from "../actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -14,7 +13,13 @@ function SignUpScreen(props) {
   const dispatch = useDispatch();
   useEffect(() => {
     if (success) {
+      alert("Đăng ký tài khoản thành công");
+      console.log("Đăng ký tài khoản thành công");
       props.history.push("/signin");
+    }
+    if (error) {
+      alert("Lỗi khi đăng ký tài khoản vui lòng thử lại");
+      console.log("Lỗi khi đăng ký tài khoản vui lòng thử lại");
     }
   }, [success]);
   const handleSubmit = (e) => {
@@ -43,7 +48,7 @@ function SignUpScreen(props) {
             id="username"
             label="Tài khoản"
             placeholder="..."
-            type="password"
+            type="text"
             fullWidth
             onChange={(e) => {
               setUsername(e.target.value);
@@ -54,6 +59,7 @@ function SignUpScreen(props) {
             label="Mật khẩu"
             placeholder="..."
             fullWidth
+            type="password"
             onChange={(e) => {
               setPassword(e.target.value);
             }}

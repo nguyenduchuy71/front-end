@@ -20,7 +20,7 @@ function ProfileScreen(props) {
       <Container>
         <Content>
           <ImageContainer>
-            <ImageProfile src={userInfo.avatar}></ImageProfile>
+            <ImageProfile src={userInfo?.avatar}></ImageProfile>
           </ImageContainer>
           <Info>
             <TextField
@@ -32,7 +32,7 @@ function ProfileScreen(props) {
               InputLabelProps={{
                 shrink: true,
               }}
-              defaultValue={userInfo.email}
+              defaultValue={userInfo?.email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
@@ -43,7 +43,7 @@ function ProfileScreen(props) {
               InputLabelProps={{
                 shrink: true,
               }}
-              defaultValue={userInfo.username}
+              defaultValue={userInfo?.username}
               onChange={(e) => setUserName(e.target.value)}
             />
             <TextField
@@ -54,7 +54,7 @@ function ProfileScreen(props) {
               InputLabelProps={{
                 shrink: true,
               }}
-              defaultValue={userInfo.full_name}
+              defaultValue={userInfo?.full_name}
               onChange={(e) => setFullName(e.target.value)}
             />
           </Info>
@@ -80,6 +80,7 @@ const Content = styled.div`
   border: 1px solid #111;
   flex-direction: column;
   border-radius: 10px;
+  border-top: none;
 `;
 const ImageContainer = styled.div`
   width: 100%;

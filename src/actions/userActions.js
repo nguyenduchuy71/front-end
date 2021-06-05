@@ -12,7 +12,7 @@ import Axios from "axios";
 const signup = (user) => async (dispatch) => {
   dispatch({ type: USER_SIGNUP_REQUEST, payload: user });
   try {
-    const { data } = await Axios.post("/account/", user);
+    const { data } = await Axios.post("https://ailabchatbot.xyz/account/", user);
     dispatch({ type: USER_SIGNUP_SUCCESS, payload: true });
   } catch (error) {
     dispatch({ type: USER_SIGNUP_FAIL, payload: error.message });
@@ -22,7 +22,7 @@ const signup = (user) => async (dispatch) => {
 const signin = (username, password) => async (dispatch) => {
   dispatch({ type: USER_SIGNIN_REQUEST, payload: { username, password } });
   try {
-    const { data } = await Axios.get("/account/", {
+    const { data } = await Axios.get("https://ailabchatbot.xyz/account/", {
       params: {
         username: username,
         password: password,
