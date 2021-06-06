@@ -5,6 +5,9 @@ import {
   USER_SIGNIN_FAIL,
   USER_SIGNIN_REQUEST,
   USER_SIGNIN_SUCCESS,
+  USER_SIGNOUT_FAIL,
+  USER_SIGNOUT_REQUEST,
+  USER_SIGNOUT_SUCCESS,
 } from "../constants/userConstants";
 import Cookie from "js-cookie";
 import Axios from "axios";
@@ -12,7 +15,7 @@ import Axios from "axios";
 const signup = (user) => async (dispatch) => {
   dispatch({ type: USER_SIGNUP_REQUEST, payload: user });
   try {
-    const { data } = await Axios.post("https://ailabchatbot.xyz/account/", user);
+    const { data } = await Axios.post("/account/", user);
     dispatch({ type: USER_SIGNUP_SUCCESS, payload: true });
   } catch (error) {
     dispatch({ type: USER_SIGNUP_FAIL, payload: error.message });
@@ -22,7 +25,7 @@ const signup = (user) => async (dispatch) => {
 const signin = (username, password) => async (dispatch) => {
   dispatch({ type: USER_SIGNIN_REQUEST, payload: { username, password } });
   try {
-    const { data } = await Axios.get("https://ailabchatbot.xyz/account/", {
+    const { data } = await Axios.get("/account/", {
       params: {
         username: username,
         password: password,
@@ -36,4 +39,15 @@ const signin = (username, password) => async (dispatch) => {
   }
 };
 
-export { signup, signin };
+const signout = () => async (dispatch) => {
+  dispatch({ type: USER_SIGNOUT_REQUEST, payload: {} });
+  try {
+    Cookie.remove("access_token");
+    Cookie.remove("userInfo");
+    dispatch({ type: USER_SIGNOUT_SUCCESS, payload: true });
+  } catch (error) {
+    dispatch({ type: USER_SIGNOUT_FAIL, payload: error.message });
+  }
+};
+
+export { signup, signin, signout };

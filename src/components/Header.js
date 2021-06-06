@@ -1,25 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import Cookie from "js-cookie";
+import { useDispatch, useSelector } from "react-redux";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import HomeIcon from "@material-ui/icons/Home";
 import ForumIcon from "@material-ui/icons/Forum";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
+import { signout } from "../actions/userActions";
+
 function Header() {
   const [burgerState, setBurgerState] = useState(false);
   const [openSubMenu, setopenSubMenu] = useState(false);
+  const dispatch = useDispatch();
   const userSignin = useSelector((state) => state.userSignin);
-  let { loading, userInfo, error } = userSignin;
-  useEffect(() => {}, [userInfo]);
+  const { loading, userInfo, error } = userSignin;
+  const userSignout = useSelector((state) => state.userSignout);
+  const { loadingSignOut, success, errorSignOut } = userSignout;
   const signOut = () => {
-    Cookie.remove("access_token");
-    Cookie.remove("userInfo");
-    window.location.reload();
+    dispatch(signout());
+    if (success) window.location.reload();
   };
   const toogleSubMenu = () => {
     setopenSubMenu(!openSubMenu);
@@ -31,9 +33,21 @@ function Header() {
           <img src="/images/logo.png" alt="logo" />
         </a>
         <Menu>
-          <Link to="/">Trang Chủ</Link>
-          <Link to="/course">Khóa học</Link>
-          <Link to="/forum">Tương tác</Link>
+          <MenuItemContainer>
+            <Link to="/">
+              <p>Trang Chủ</p>
+            </Link>
+          </MenuItemContainer>
+          <MenuItemContainer>
+            <Link to="/course">
+              <p>Khóa học</p>
+            </Link>
+          </MenuItemContainer>
+          <MenuItemContainer>
+            <Link to="/forum">
+              <p>Tương tác</p>
+            </Link>
+          </MenuItemContainer>
         </Menu>
         <RightMenu>
           {userInfo ? (
@@ -44,7 +58,9 @@ function Header() {
               </ArrowContainer>
             </SelectMenu>
           ) : (
-            <Link to="/signin">Đăng nhập</Link>
+            <Link to="/signin">
+              <p>Đăng nhập</p>
+            </Link>
           )}
         </RightMenu>
         <ContainerCustomeMenu>
@@ -130,8 +146,8 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #ccc;
   padding: 0 20px;
+  background-color: #6666ff;
   a img {
     width: 68px;
     height: 68px;
@@ -167,6 +183,10 @@ const RightMenu = styled.div`
     width: 44px;
     height: 44px;
     cursor: pointer;
+  }
+  p {
+    color: white;
+    margin-top: 6px;
   }
   @media (max-width: 600px) {
     display: none;
@@ -250,5 +270,15 @@ const ElementMenu = styled.div`
   padding: 20px 0;
   div {
     margin-left: 10px;
+  }
+`;
+const MenuItemContainer = styled.div`
+  margin: 0 8px;
+  padding: 0 10px;
+  font-size:14px;
+  border-radius: 10px;
+  background-color:#fff;
+  p {
+    color: #6666ff;
   }
 `;

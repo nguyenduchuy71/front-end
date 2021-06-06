@@ -19,13 +19,10 @@ function SignInScreen(props) {
   };
   useEffect(() => {
     if (userInfo) {
-      alert("Đăng nhập thành công");
-      console.log("Đăng nhập thành công");
       props.history.push("/");
     }
     if (error) {
       alert("Tài khoản hoặc mật khẩu không đúng");
-      console.log(error);
     }
   }, [userInfo, loading, error]);
   return (

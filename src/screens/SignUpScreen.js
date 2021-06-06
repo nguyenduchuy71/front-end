@@ -13,13 +13,10 @@ function SignUpScreen(props) {
   const dispatch = useDispatch();
   useEffect(() => {
     if (success) {
-      alert("Đăng ký tài khoản thành công");
-      console.log("Đăng ký tài khoản thành công");
       props.history.push("/signin");
     }
     if (error) {
       alert("Lỗi khi đăng ký tài khoản vui lòng thử lại");
-      console.log("Lỗi khi đăng ký tài khoản vui lòng thử lại");
     }
   }, [success]);
   const handleSubmit = (e) => {

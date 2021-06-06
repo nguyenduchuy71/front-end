@@ -8,9 +8,10 @@ function ProfileScreen(props) {
   const userSignin = useSelector((state) => state.userSignin);
   const { loading, userInfo, error } = userSignin;
   const [email, setEmail] = useState("");
-  const [userName, setUserName] = useState("");
+  const [firstName, setFirstName] = useState("");
   const [fullName, setFullName] = useState("");
   useEffect(() => {
+    console.log(userInfo);
     if (!userInfo) {
       props.history.push("/signin");
     }
@@ -36,15 +37,15 @@ function ProfileScreen(props) {
               onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
-              id="username"
-              label="Username"
+              id="firstname"
+              label="First name"
               style={{ margin: 16 }}
               fullWidth
               InputLabelProps={{
                 shrink: true,
               }}
-              defaultValue={userInfo?.username}
-              onChange={(e) => setUserName(e.target.value)}
+              defaultValue={userInfo?.first_name}
+              onChange={(e) => setFirstName(e.target.value)}
             />
             <TextField
               id="full_name"
