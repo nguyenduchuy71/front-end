@@ -4,10 +4,11 @@ import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import DateRangeIcon from "@material-ui/icons/DateRange";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Cookie from "js-cookie";
+import { signout } from "../actions/userActions";
 
 function ForumDetailScreen(props) {
   const [cmt, setCmt] = useState();
@@ -18,40 +19,58 @@ function ForumDetailScreen(props) {
   const [responses, setResponses] = useState([]);
   const [input, setInput] = useState("");
   const submitHandle = async () => {
-    /*     if (user) {
-      if(input!==""){
-        const data ={
-          "id_post":cmt.id,
-          "content":input,
-          "date":Date().toLocaleString()
-        }
-        await axios.post("/forum/comment/", data, {headers:{Authorization: 'Bearer '+localStorage.getItem('token')}})
+    if (input !== "") {
+      const data = {
+        id_post: cmt.id,
+        content: input,
+        date: Date().toLocaleString(),
+      };
+      await axios
+        .post("/forum/comment/", data, {
+          headers: { Authorization: "Bearer " + Cookie.get("access_token") },
+        })
         .then((res) => {
-          if(res.status===200){
-            setResponses([...responses,res.data]);
+          if (res.status === 200) {
+            setResponses([...responses, res.data]);
             setInput("");
           }
-        }).catch((error) => {console.log(error)});
-      }
-      else{
-        alert("Bạn chưa nhập thông tin");
-      }
-    }  */
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      alert("Bạn chưa nhập thông tin");
+    }
   };
   useEffect(() => {
-    /*     axios.get("/account/check-login/", {headers:{Authorization: 'Bearer '+localStorage.getItem('token')}} )
-    .then((res) => {
-      if(res.status===200){
-        axios.get("/forum/", {headers:{Authorization: 'Bearer '+localStorage.getItem('token')}} )
-        .then((res) => {
-          if(res.status===200){
-            const rs=res.data.find(item => item.id=== parseInt(props.match.params.id))
-            setCmt(rs);
-            setResponses(rs.comment);
-          }
-        }).catch((error) => console.log(error.message));
-      }
-    }).catch((error) => { dispatch(logout()); history.push('/signin')}); */
+    axios
+      .get("/account/check-login/", {
+        headers: { Authorization: "Bearer " + Cookie.get("access_token") },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          axios
+            .get("/forum/", {
+              headers: {
+                Authorization: "Bearer " + Cookie.get("access_token"),
+              },
+            })
+            .then((res) => {
+              if (res.status === 200) {
+                const rs = res.data.find(
+                  (item) => item.id === parseInt(props.match.params.id)
+                );
+                setCmt(rs);
+                setResponses(rs.comment);
+              }
+            })
+            .catch((error) => console.log(error.message));
+        }
+      })
+      .catch((error) => {
+        dispatch(signout());
+        history.push("/signin");
+      });
   }, []);
   return (
     <div className="forumdetail">

@@ -6,18 +6,17 @@ import "./ForumScreen.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import Cookie from "js-cookie";
 
 export default function ForumScreen() {
-  const [input, setInput] = useState("");
-  const dispatch = useDispatch();
   const userSignin = useSelector((state) => state.userSignin);
   const { loading, userInfo, error } = userSignin;
+  const [input, setInput] = useState("");
+  const dispatch = useDispatch();
   const history = useHistory();
   const [questions, setQuestions] = useState([]);
   const add = async () => {
-    if (!userInfo) {
-      history.push("/signin");
-    } else {
+    if (userInfo) {
       const data = {
         title: input,
         content: input,
@@ -25,7 +24,7 @@ export default function ForumScreen() {
       };
       await axios
         .post("/forum/", data, {
-          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+          headers: { Authorization: "Bearer " + Cookie.get("access_token") },
         })
         .then((res) => {
           if (res.status === 200) {
@@ -35,6 +34,8 @@ export default function ForumScreen() {
         .catch((error) => {
           console.log(error);
         });
+    } else {
+      history.push("/signin");
     }
   };
   useEffect(() => {

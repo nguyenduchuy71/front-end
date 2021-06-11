@@ -21,7 +21,7 @@ export default function Forum(props) {
         </li>
         <li className="item__forum postdate">
           <DateRangeIcon className="icon"></DateRangeIcon>
-          <span className="text">{cmt.date.split('T')[0]}</span>
+          <span className="text">{cmt.date.split("T")[0]}</span>
         </li>
         <li className="item__forum numbercomment">
           <ChatBubbleOutlineIcon className="icon"></ChatBubbleOutlineIcon>

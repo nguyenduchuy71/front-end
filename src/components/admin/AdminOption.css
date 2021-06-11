@@ -1,0 +1,23 @@
+.list__option {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .item__option {
+    display: flex;
+    justify-content: space-around;
+    padding: 12px;
+    text-decoration: none;
+    cursor: pointer;
+    width: 100%;
+  }
+  .item__option:hover {
+    background-color: #ccc;
+  }
+  .remove_icon {
+    cursor: pointer;
+  }
+  .item__title{
+    color: #111;
+  }
+  

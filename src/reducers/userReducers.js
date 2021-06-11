@@ -8,6 +8,9 @@ import {
   USER_SIGNOUT_FAIL,
   USER_SIGNOUT_REQUEST,
   USER_SIGNOUT_SUCCESS,
+  USER_CHECKLOGIN_FAIL,
+  USER_CHECKLOGIN_REQUEST,
+  USER_CHECKLOGIN_SUCCESS,
 } from "../constants/userConstants";
 
 function userSignupReducer(state = {}, action) {
@@ -49,4 +52,22 @@ function userSignoutReducer(state = {}, action) {
   }
 }
 
-export { userSignupReducer, userSigninReducer, userSignoutReducer };
+function userCheckLoginReducer(state = {}, action) {
+  switch (action.type) {
+    case USER_CHECKLOGIN_REQUEST:
+      return { loadingCheckLogin: true };
+    case USER_CHECKLOGIN_SUCCESS:
+      return { loadingCheckLogin: false, userCheck: action.payload };
+    case USER_CHECKLOGIN_FAIL:
+      return { loadingCheckLogin: false, errorCheckLogin: action.payload };
+    default:
+      return state;
+  }
+}
+
+export {
+  userSignupReducer,
+  userSigninReducer,
+  userSignoutReducer,
+  userCheckLoginReducer,
+};

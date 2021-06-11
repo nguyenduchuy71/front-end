@@ -11,7 +11,6 @@ function ProfileScreen(props) {
   const [firstName, setFirstName] = useState("");
   const [fullName, setFullName] = useState("");
   useEffect(() => {
-    console.log(userInfo);
     if (!userInfo) {
       props.history.push("/signin");
     }

@@ -8,6 +8,9 @@ import {
   USER_SIGNOUT_FAIL,
   USER_SIGNOUT_REQUEST,
   USER_SIGNOUT_SUCCESS,
+  USER_CHECKLOGIN_FAIL,
+  USER_CHECKLOGIN_REQUEST,
+  USER_CHECKLOGIN_SUCCESS,
 } from "../constants/userConstants";
 import Cookie from "js-cookie";
 import Axios from "axios";
@@ -50,4 +53,16 @@ const signout = () => async (dispatch) => {
   }
 };
 
-export { signup, signin, signout };
+const checklogin = () => async (dispatch) => {
+  dispatch({ type: USER_CHECKLOGIN_REQUEST, payload: {} });
+  try {
+    const { data } = await Axios.get("/account/check-login/", {
+      headers: { Authorization: "Bearer " + Cookie.get("access_token") },
+    });
+    dispatch({ type: USER_CHECKLOGIN_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: USER_CHECKLOGIN_FAIL, payload: error.message });
+  }
+};
+
+export { signup, signin, signout,checklogin };

@@ -240,7 +240,7 @@ const ElementSubMenu = styled.li`
   margin: 10px 4px;
   display: flex;
   align-items: center;
-  padding: 0px 10px;
+  padding: 8px 10px;
   &:hover {
     background-color: #ccc;
   }

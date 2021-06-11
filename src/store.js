@@ -5,7 +5,10 @@ import {
   userSignupReducer,
   userSigninReducer,
   userSignoutReducer,
+  userCheckLoginReducer,
 } from "./reducers/userReducers";
+
+import { getUsersReducer } from "./reducers/adminReducers";
 
 const userInfo = Cookie.getJSON("userInfo") || null;
 const initialState = { userSignin: { userInfo } };
@@ -13,6 +16,8 @@ const reducer = combineReducers({
   userSignup: userSignupReducer,
   userSignin: userSigninReducer,
   userSignout: userSignoutReducer,
+  userCheckLogin: userCheckLoginReducer,
+  getUsers: getUsersReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
