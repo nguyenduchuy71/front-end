@@ -8,6 +8,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Cookie from "js-cookie";
 import { signout } from "../../actions/userActions";
+import styled from "styled-components";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -44,6 +45,7 @@ export default function TableUserAdmin({ columns }) {
       })
       .catch((error) => {
         dispatch(signout());
+        window.location.reload();
         history.push("/signin");
       });
   }, []);
@@ -61,14 +63,18 @@ export default function TableUserAdmin({ columns }) {
           selectionModel={selectionModel}
         />
       </div>
-      <div className="list_btn">
+      <Container>
         <Button
           variant="contained"
           color="secondary"
           className={classes.button}
           startIcon={<DeleteIcon />}
         />
-      </div>
+      </Container>
     </>
   );
 }
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+`;

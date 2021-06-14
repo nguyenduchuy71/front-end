@@ -6,6 +6,10 @@ import {
   userSigninReducer,
   userSignoutReducer,
   userCheckLoginReducer,
+  userLoadCoursesReducer,
+  userLoadForumsReducer,
+  userAddForumReducer,
+  userUpdateProfileReducer,
 } from "./reducers/userReducers";
 
 import { getUsersReducer } from "./reducers/adminReducers";
@@ -18,6 +22,10 @@ const reducer = combineReducers({
   userSignout: userSignoutReducer,
   userCheckLogin: userCheckLoginReducer,
   getUsers: getUsersReducer,
+  userLoadCourses: userLoadCoursesReducer,
+  userLoadForums: userLoadForumsReducer,
+  userAddForum: userAddForumReducer,
+  userUpdateProfile: userUpdateProfileReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

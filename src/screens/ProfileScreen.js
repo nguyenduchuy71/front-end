@@ -3,65 +3,88 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import TextField from "@material-ui/core/TextField";
 import Fade from "react-reveal/Fade";
+import { updateProfile } from "../actions/userActions";
+import Spinner from "../components/Spinner";
 
 function ProfileScreen(props) {
   const userSignin = useSelector((state) => state.userSignin);
   const { loading, userInfo, error } = userSignin;
   const [email, setEmail] = useState("");
-  const [firstName, setFirstName] = useState("");
+  const [url, setUrl] = useState("");
   const [fullName, setFullName] = useState("");
+  const dispatch = useDispatch();
+  const update = () => {
+    dispatch(
+      updateProfile({
+        "full_name": fullName,
+        "email": email,
+        "avatar": url,
+      })
+    );
+  };
   useEffect(() => {
-    if (!userInfo) {
+    if (userInfo) {
+      setEmail(userInfo?.email);
+      setUrl(userInfo?.avatar);
+      setFullName(userInfo?.full_name);
+    } else {
       props.history.push("/signin");
     }
-  });
+  }, []);
   return (
-    <Fade bottom>
-      <Container>
-        <Content>
-          <ImageContainer>
-            <ImageProfile src={userInfo?.avatar}></ImageProfile>
-          </ImageContainer>
-          <Info>
-            <TextField
-              id="email"
-              label="Email"
-              style={{ margin: 16 }}
-              placeholder="Placeholder"
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-              defaultValue={userInfo?.email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <TextField
-              id="firstname"
-              label="First name"
-              style={{ margin: 16 }}
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-              defaultValue={userInfo?.first_name}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-            <TextField
-              id="full_name"
-              label="Full name"
-              style={{ margin: 16 }}
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-              defaultValue={userInfo?.full_name}
-              onChange={(e) => setFullName(e.target.value)}
-            />
-          </Info>
-          <Button type="submit">Cập nhật</Button>
-        </Content>
-      </Container>
-    </Fade>
+    <>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <Fade bottom>
+          <Container>
+            <Content>
+              <ImageContainer>
+                <ImageProfile src={userInfo?.avatar}></ImageProfile>
+              </ImageContainer>
+              <Info>
+                <TextField
+                  id="email"
+                  label="Email"
+                  style={{ margin: 16 }}
+                  fullWidth
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  defaultValue={userInfo?.email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <TextField
+                  id="full_name"
+                  label="Full name"
+                  style={{ margin: 16 }}
+                  fullWidth
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  defaultValue={userInfo?.full_name}
+                  onChange={(e) => setFullName(e.target.value)}
+                />
+                <TextField
+                  id="url_avatar"
+                  label="Url Avatar"
+                  style={{ margin: 16 }}
+                  fullWidth
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  defaultValue={userInfo?.avatar}
+                  onChange={(e) => setUrl(e.target.value)}
+                />
+              </Info>
+              <Button type="submit" onClick={update}>
+                Cập nhật
+              </Button>
+            </Content>
+          </Container>
+        </Fade>
+      )}
+    </>
   );
 }
 

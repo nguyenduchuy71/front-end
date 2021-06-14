@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
@@ -10,6 +10,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import ForumIcon from "@material-ui/icons/Forum";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import { signout } from "../actions/userActions";
+import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 
 function Header() {
   const [burgerState, setBurgerState] = useState(false);
@@ -21,11 +22,14 @@ function Header() {
   const { loadingSignOut, success, errorSignOut } = userSignout;
   const signOut = () => {
     dispatch(signout());
-    if (success) window.location.reload();
+    if (success) {
+      window.location.reload();
+    }
   };
   const toogleSubMenu = () => {
     setopenSubMenu(!openSubMenu);
   };
+  useEffect(() => {}, [userSignin]);
   return (
     <Content>
       <Container>
@@ -102,6 +106,16 @@ function Header() {
                   <Link onClick={signOut}>Đăng xuất</Link>
                 </div>
               </ElementMenu>
+              {userInfo.is_staff ? (
+                <ElementMenu>
+                  <SupervisorAccountIcon />
+                  <div>
+                    <Link to="/admin/users">Quản lý</Link>
+                  </div>
+                </ElementMenu>
+              ) : (
+                <></>
+              )}
             </div>
           ) : (
             <Link to="/signin">Đăng nhập</Link>
@@ -123,6 +137,18 @@ function Header() {
                 <Link onClick={signOut}>Đăng xuất</Link>
               </div>
             </ElementSubMenu>
+            {userInfo.is_staff ? (
+              <SubNewMenu>
+                <ElementMenu>
+                  <SupervisorAccountIcon />
+                  <div>
+                    <Link to="/admin/users">Quản lý</Link>
+                  </div>
+                </ElementMenu>
+              </SubNewMenu>
+            ) : (
+              <></>
+            )}
           </ListSubMenu>
         </SubMenu>
       ) : (
@@ -267,7 +293,7 @@ const ElementMenu = styled.div`
   display: flex;
   align-items: center;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  padding: 20px 0;
+  padding: 10px 0;
   div {
     margin-left: 10px;
   }
@@ -275,10 +301,17 @@ const ElementMenu = styled.div`
 const MenuItemContainer = styled.div`
   margin: 0 8px;
   padding: 0 10px;
-  font-size:14px;
+  font-size: 14px;
   border-radius: 10px;
-  background-color:#fff;
+  background-color: #fff;
   p {
     color: #6666ff;
+  }
+`;
+const SubNewMenu = styled.div`
+  margin-top: -8px;
+  padding: 0 16px;
+  &:hover {
+    background-color: #ccc;
   }
 `;

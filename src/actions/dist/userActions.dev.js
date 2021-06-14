@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.checklogin = exports.signout = exports.signin = exports.signup = void 0;
+exports.updateProfile = exports.addForum = exports.loadForums = exports.loadCourses = exports.checklogin = exports.signout = exports.signin = exports.signup = void 0;
 
 var _userConstants = require("../constants/userConstants");
 
@@ -202,3 +202,193 @@ var checklogin = function checklogin() {
 };
 
 exports.checklogin = checklogin;
+
+var loadCourses = function loadCourses() {
+  return function _callee5(dispatch) {
+    var _ref4, data;
+
+    return regeneratorRuntime.async(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            dispatch({
+              type: _userConstants.LOAD_COURSES_REQUEST,
+              payload: {}
+            });
+            _context5.prev = 1;
+            _context5.next = 4;
+            return regeneratorRuntime.awrap(_axios["default"].get("/course/"));
+
+          case 4:
+            _ref4 = _context5.sent;
+            data = _ref4.data;
+            dispatch({
+              type: _userConstants.LOAD_COURSES_SUCCESS,
+              payload: data
+            });
+            _context5.next = 12;
+            break;
+
+          case 9:
+            _context5.prev = 9;
+            _context5.t0 = _context5["catch"](1);
+            dispatch({
+              type: _userConstants.LOAD_COURSES_FAIL,
+              payload: _context5.t0.message
+            });
+
+          case 12:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, null, null, [[1, 9]]);
+  };
+};
+
+exports.loadCourses = loadCourses;
+
+var loadForums = function loadForums() {
+  return function _callee6(dispatch) {
+    var _ref5, data;
+
+    return regeneratorRuntime.async(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            dispatch({
+              type: _userConstants.LOAD_FORUMS_REQUEST,
+              payload: {}
+            });
+            _context6.prev = 1;
+            _context6.next = 4;
+            return regeneratorRuntime.awrap(_axios["default"].get("/forum/"));
+
+          case 4:
+            _ref5 = _context6.sent;
+            data = _ref5.data;
+            dispatch({
+              type: _userConstants.LOAD_FORUMS_SUCCESS,
+              payload: data
+            });
+            _context6.next = 12;
+            break;
+
+          case 9:
+            _context6.prev = 9;
+            _context6.t0 = _context6["catch"](1);
+            dispatch({
+              type: _userConstants.LOAD_FORUMS_FAIL,
+              payload: _context6.t0.message
+            });
+
+          case 12:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, null, null, [[1, 9]]);
+  };
+};
+
+exports.loadForums = loadForums;
+
+var addForum = function addForum(value) {
+  return function _callee7(dispatch) {
+    var _ref6, data;
+
+    return regeneratorRuntime.async(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            dispatch({
+              type: _userConstants.ADD_FORUM_REQUEST,
+              payload: {}
+            });
+            _context7.prev = 1;
+            _context7.next = 4;
+            return regeneratorRuntime.awrap(_axios["default"].post("/forum/", value, {
+              headers: {
+                Authorization: "Bearer " + _jsCookie["default"].get("access_token")
+              }
+            }));
+
+          case 4:
+            _ref6 = _context7.sent;
+            data = _ref6.data;
+            dispatch({
+              type: _userConstants.ADD_FORUM_SUCCESS,
+              payload: data
+            });
+            _context7.next = 12;
+            break;
+
+          case 9:
+            _context7.prev = 9;
+            _context7.t0 = _context7["catch"](1);
+            dispatch({
+              type: _userConstants.ADD_FORUM_FAIL,
+              payload: _context7.t0.message
+            });
+
+          case 12:
+          case "end":
+            return _context7.stop();
+        }
+      }
+    }, null, null, [[1, 9]]);
+  };
+};
+
+exports.addForum = addForum;
+
+var updateProfile = function updateProfile(value) {
+  return function _callee8(dispatch) {
+    var _ref7, data;
+
+    return regeneratorRuntime.async(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            dispatch({
+              type: _userConstants.UPDATE_PROFILE_REQUEST,
+              payload: {}
+            });
+            _context8.prev = 1;
+            console.log(value);
+            _context8.next = 5;
+            return regeneratorRuntime.awrap(_axios["default"].post("/account/update/", value, {
+              headers: {
+                Authorization: "Bearer " + _jsCookie["default"].get("access_token")
+              }
+            }));
+
+          case 5:
+            _ref7 = _context8.sent;
+            data = _ref7.data;
+            console.log(data);
+            dispatch({
+              type: _userConstants.UPDATE_PROFILE_SUCCESS,
+              payload: data
+            });
+            _context8.next = 14;
+            break;
+
+          case 11:
+            _context8.prev = 11;
+            _context8.t0 = _context8["catch"](1);
+            dispatch({
+              type: _userConstants.UPDATE_PROFILE_FAIL,
+              payload: _context8.t0.message
+            });
+
+          case 14:
+          case "end":
+            return _context8.stop();
+        }
+      }
+    }, null, null, [[1, 11]]);
+  };
+};
+
+exports.updateProfile = updateProfile;

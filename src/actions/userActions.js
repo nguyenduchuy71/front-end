@@ -11,6 +11,18 @@ import {
   USER_CHECKLOGIN_FAIL,
   USER_CHECKLOGIN_REQUEST,
   USER_CHECKLOGIN_SUCCESS,
+  LOAD_COURSES_REQUEST,
+  LOAD_COURSES_SUCCESS,
+  LOAD_COURSES_FAIL,
+  LOAD_FORUMS_REQUEST,
+  LOAD_FORUMS_SUCCESS,
+  LOAD_FORUMS_FAIL,
+  ADD_FORUM_REQUEST,
+  ADD_FORUM_SUCCESS,
+  ADD_FORUM_FAIL,
+  UPDATE_PROFILE_REQUEST,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAIL,
 } from "../constants/userConstants";
 import Cookie from "js-cookie";
 import Axios from "axios";
@@ -65,4 +77,59 @@ const checklogin = () => async (dispatch) => {
   }
 };
 
-export { signup, signin, signout,checklogin };
+const loadCourses = () => async (dispatch) => {
+  dispatch({ type: LOAD_COURSES_REQUEST, payload: {} });
+  try {
+    const { data } = await Axios.get("/course/");
+    dispatch({ type: LOAD_COURSES_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: LOAD_COURSES_FAIL, payload: error.message });
+  }
+};
+
+const loadForums = () => async (dispatch) => {
+  dispatch({ type: LOAD_FORUMS_REQUEST, payload: {} });
+  try {
+    const { data } = await Axios.get("/forum/");
+    dispatch({ type: LOAD_FORUMS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: LOAD_FORUMS_FAIL, payload: error.message });
+  }
+};
+
+const addForum = (value) => async (dispatch) => {
+  dispatch({ type: ADD_FORUM_REQUEST, payload: {} });
+  try {
+    const { data } = await Axios.post("/forum/", value, {
+      headers: { Authorization: "Bearer " + Cookie.get("access_token") },
+    });
+    dispatch({ type: ADD_FORUM_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: ADD_FORUM_FAIL, payload: error.message });
+  }
+};
+
+const updateProfile = (value) => async (dispatch) => {
+  dispatch({ type: UPDATE_PROFILE_REQUEST, payload: {} });
+  try {
+    console.log(value);
+    const { data } = await Axios.post("/account/update/", value, {
+      headers: { Authorization: "Bearer " + Cookie.get("access_token") },
+    });
+    console.log(data);
+    dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: UPDATE_PROFILE_FAIL, payload: error.message });
+  }
+};
+
+export {
+  signup,
+  signin,
+  signout,
+  checklogin,
+  loadCourses,
+  loadForums,
+  addForum,
+  updateProfile,
+};

@@ -29,7 +29,7 @@ const data = {
       title: "Machine Learning Full Course",
       img: "https://i.ytimg.com/vi/GwIo3gDZCVQ/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCEr8qd7Nm1isQJ6f5DomlI7Eme8w",
       description:
-        "In this Python Programming video, we will be learning how to get started with Matplotlib",
+        "In this Python Programming video, we will be learning how to get started with Machine Learning",
       id_video: "GwIo3gDZCVQ",
     },
     {

@@ -13,12 +13,19 @@ import ProfileScreen from "./screens/ProfileScreen";
 import AdminUserScreen from "./screens/AdminUserScreen";
 import AdminCourseScreen from "./screens/AdminCourseScreen";
 import AdminForumScreen from "./screens/AdminForumScreen";
+import AddCourseScreen from "./screens/AddCourseScreen";
+import UpdateCourseScreen from "./screens/UpdateCourseScreen";
 function App() {
   return (
     <BrowserRouter>
       <Header />
       <div className="container">
         <Switch>
+          <Route
+            path="/course/updatecourse/:id"
+            component={UpdateCourseScreen}
+          ></Route>
+          <Route path="/course/addcourse" component={AddCourseScreen}></Route>
           <Route path="/admin/forums" component={AdminForumScreen}></Route>
           <Route path="/admin/courses" component={AdminCourseScreen}></Route>
           <Route path="/admin/users" component={AdminUserScreen}></Route>

@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from "react";
 import Course from "../components/course/Course";
 import styled from "styled-components";
-import data from "../data";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { loadCourses } from "../actions/userActions";
+import Spinner from "../components/Spinner";
 
 function CourseScreen() {
-  const [courses, setCourses] = useState([]);
+  const userLoadCourses = useSelector((state) => state.userLoadCourses);
+  const { loadingCourses, courses, errorLoadCourses } = userLoadCourses;
+  const dispatch = useDispatch();
   useEffect(() => {
-    setCourses(data.courses);
-  }, []);
+    dispatch(loadCourses());
+  }, [dispatch]);
   return (
-    <CourseContainer>
-      {courses?.map((course) => {
-        return <Course key={course._id} course={course} />;
-      })}
-    </CourseContainer>
+    <>
+      {loadingCourses ? (
+        <Spinner />
+      ) : (
+        <CourseContainer>
+          {courses?.map((course) => {
+            return <Course key={course._id} course={course} />;
+          })}
+        </CourseContainer>
+      )}
+    </>
   );
 }
 
