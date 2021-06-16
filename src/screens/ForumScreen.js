@@ -7,13 +7,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { loadForums } from "../actions/userActions";
 import Spinner from "../components/Spinner";
-import { addForum } from "../actions/userActions";
+import { addForum, checklogin, signout } from "../actions/userActions";
 
 export default function ForumScreen() {
   const userSignin = useSelector((state) => state.userSignin);
   const { loading, userInfo, error } = userSignin;
   const userLoadForums = useSelector((state) => state.userLoadForums);
   const { loadingForums, forums, errorLoadForums } = userLoadForums;
+  const userCheckLogin = useSelector((state) => state.userCheckLogin);
+  const { loadingCheckLogin, userCheck, errorCheckLogin } = userCheckLogin;
   const [input, setInput] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
@@ -25,14 +27,20 @@ export default function ForumScreen() {
         date: Date().toLocaleString(),
       };
       dispatch(addForum(data));
-      dispatch(loadForums());
+      window.location.reload();
     } else {
       history.push("/signin");
     }
   };
   useEffect(() => {
+    if (userInfo) {
+      dispatch(checklogin());
+      if (errorCheckLogin) {
+        dispatch(signout());
+      }
+    }
     dispatch(loadForums());
-  }, [dispatch]);
+  }, [userSignin]);
   return (
     <>
       {loadingForums && loading ? (

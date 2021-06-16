@@ -4,14 +4,25 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { loadCourses } from "../actions/userActions";
 import Spinner from "../components/Spinner";
+import { checklogin, signout } from "../actions/userActions";
 
 function CourseScreen() {
+  const userSignin = useSelector((state) => state.userSignin);
+  const { loading, userInfo, error } = userSignin;
+  const userCheckLogin = useSelector((state) => state.userCheckLogin);
+  const { loadingCheckLogin, userCheck, errorCheckLogin } = userCheckLogin;
   const userLoadCourses = useSelector((state) => state.userLoadCourses);
   const { loadingCourses, courses, errorLoadCourses } = userLoadCourses;
   const dispatch = useDispatch();
   useEffect(() => {
+    if (userInfo) {
+      dispatch(checklogin());
+      if (errorCheckLogin) {
+        dispatch(signout());
+      }
+    }
     dispatch(loadCourses());
-  }, [dispatch]);
+  }, [userSignin]);
   return (
     <>
       {loadingCourses ? (

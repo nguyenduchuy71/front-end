@@ -177,27 +177,28 @@ var checklogin = function checklogin() {
           case 4:
             _ref3 = _context4.sent;
             data = _ref3.data;
+            console.log(data);
             dispatch({
               type: _userConstants.USER_CHECKLOGIN_SUCCESS,
               payload: data
             });
-            _context4.next = 12;
+            _context4.next = 13;
             break;
 
-          case 9:
-            _context4.prev = 9;
+          case 10:
+            _context4.prev = 10;
             _context4.t0 = _context4["catch"](1);
             dispatch({
               type: _userConstants.USER_CHECKLOGIN_FAIL,
               payload: _context4.t0.message
             });
 
-          case 12:
+          case 13:
           case "end":
             return _context4.stop();
         }
       }
-    }, null, null, [[1, 9]]);
+    }, null, null, [[1, 10]]);
   };
 };
 
@@ -355,39 +356,37 @@ var updateProfile = function updateProfile(value) {
               payload: {}
             });
             _context8.prev = 1;
-            console.log(value);
-            _context8.next = 5;
+            _context8.next = 4;
             return regeneratorRuntime.awrap(_axios["default"].post("/account/update/", value, {
               headers: {
                 Authorization: "Bearer " + _jsCookie["default"].get("access_token")
               }
             }));
 
-          case 5:
+          case 4:
             _ref7 = _context8.sent;
             data = _ref7.data;
-            console.log(data);
             dispatch({
               type: _userConstants.UPDATE_PROFILE_SUCCESS,
               payload: data
             });
-            _context8.next = 14;
+            _context8.next = 12;
             break;
 
-          case 11:
-            _context8.prev = 11;
+          case 9:
+            _context8.prev = 9;
             _context8.t0 = _context8["catch"](1);
             dispatch({
               type: _userConstants.UPDATE_PROFILE_FAIL,
               payload: _context8.t0.message
             });
 
-          case 14:
+          case 12:
           case "end":
             return _context8.stop();
         }
       }
-    }, null, null, [[1, 11]]);
+    }, null, null, [[1, 9]]);
   };
 };
 

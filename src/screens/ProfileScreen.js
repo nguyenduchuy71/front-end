@@ -16,9 +16,9 @@ function ProfileScreen(props) {
   const update = () => {
     dispatch(
       updateProfile({
-        "full_name": fullName,
-        "email": email,
-        "avatar": url,
+        full_name: fullName,
+        avatar: url,
+        email: email,
       })
     );
   };
@@ -77,7 +77,7 @@ function ProfileScreen(props) {
                   onChange={(e) => setUrl(e.target.value)}
                 />
               </Info>
-              <Button type="submit" onClick={update}>
+              <Button type="button" onClick={update}>
                 Cập nhật
               </Button>
             </Content>
