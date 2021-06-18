@@ -222,7 +222,7 @@ function userUpdateProfileReducer() {
     case _userConstants.UPDATE_PROFILE_FAIL:
       return {
         loadingUpdateProfile: false,
-        errorAddForum: action.payload
+        errorUpdateProfile: action.payload
       };
 
     default:

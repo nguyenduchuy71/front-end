@@ -56,7 +56,7 @@ function Header() {
         <RightMenu>
           {userInfo ? (
             <SelectMenu onClick={toogleSubMenu}>
-              <img src={userInfo.avatar} alt="avatar" />
+              <img src={userInfo.avatar} alt="avatar" style={{borderRadius:'99px'}} />
               <ArrowContainer className="arrowcontainer">
                 <img src="/images/arrow.png" alt="arrow" />
               </ArrowContainer>

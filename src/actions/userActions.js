@@ -71,7 +71,6 @@ const checklogin = () => async (dispatch) => {
     const { data } = await Axios.get("/account/check-login/", {
       headers: { Authorization: "Bearer " + Cookie.get("access_token") },
     });
-    console.log(data);
     dispatch({ type: USER_CHECKLOGIN_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: USER_CHECKLOGIN_FAIL, payload: error.message });
@@ -116,6 +115,7 @@ const updateProfile = (value) => async (dispatch) => {
     const { data } = await Axios.post("/account/update/", value, {
       headers: { Authorization: "Bearer " + Cookie.get("access_token") },
     });
+    Cookie.set("userInfo", JSON.stringify(data));
     dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: UPDATE_PROFILE_FAIL, payload: error.message });

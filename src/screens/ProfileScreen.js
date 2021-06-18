@@ -9,18 +9,21 @@ import Spinner from "../components/Spinner";
 function ProfileScreen(props) {
   const userSignin = useSelector((state) => state.userSignin);
   const { loading, userInfo, error } = userSignin;
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
+  const { loadingUpdateProfile, profile, errorUpdateProfile } =
+    userUpdateProfile;
   const [email, setEmail] = useState("");
   const [url, setUrl] = useState("");
   const [fullName, setFullName] = useState("");
   const dispatch = useDispatch();
-  const update = () => {
-    dispatch(
-      updateProfile({
-        full_name: fullName,
-        avatar: url,
-        email: email,
-      })
-    );
+  const update = async () => {
+    const value = {
+      username: userInfo.username,
+      full_name: fullName,
+      avatar: url,
+      email: email,
+    };
+    dispatch(updateProfile(value));
   };
   useEffect(() => {
     if (userInfo) {
@@ -30,7 +33,10 @@ function ProfileScreen(props) {
     } else {
       props.history.push("/signin");
     }
-  }, []);
+    if (profile) {
+      window.location.reload();
+    }
+  }, [profile]);
   return (
     <>
       {loading ? (
@@ -116,6 +122,7 @@ const ImageContainer = styled.div`
 const ImageProfile = styled.img`
   width: 100px;
   padding: 8px;
+  border-radius:99px;
 `;
 const Info = styled.form`
   display: flex;

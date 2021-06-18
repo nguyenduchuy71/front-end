@@ -120,7 +120,7 @@ function userUpdateProfileReducer(state = {}, action) {
     case UPDATE_PROFILE_SUCCESS:
       return { loadingUpdateProfile: false, profile: action.payload };
     case UPDATE_PROFILE_FAIL:
-      return { loadingUpdateProfile: false, errorAddForum: action.payload };
+      return { loadingUpdateProfile: false, errorUpdateProfile: action.payload };
     default:
       return state;
   }
