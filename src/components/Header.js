@@ -106,15 +106,13 @@ function Header() {
                   <Link onClick={signOut}>Đăng xuất</Link>
                 </div>
               </ElementMenu>
-              {userInfo.is_staff ? (
+              {userInfo.is_staff && (
                 <ElementMenu>
                   <SupervisorAccountIcon />
                   <div>
                     <Link to="/admin/users">Quản lý</Link>
                   </div>
                 </ElementMenu>
-              ) : (
-                <></>
               )}
             </div>
           ) : (
