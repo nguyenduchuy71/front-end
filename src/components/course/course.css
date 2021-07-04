@@ -1,0 +1,58 @@
+.job-title {
+  background-color: #1c1c24;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 10px 20px;
+  transition: transform 0.2s ease-in;
+}
+
+.job-title:hover {
+  transform: scale(1.02);
+}
+.top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.top img {
+  width: 100%;
+  height: 150px;
+  border-radius: 10px;
+}
+.rolename {
+  padding: 20px 0;
+}
+.rolename span {
+  font-size: 22px;
+  color: #fff !important;
+}
+.description {
+  height: 105px;
+  overflow: hidden;
+  font-size: 18px;
+  color: #96939b;
+  flex-grow: 1;
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  height: 45px;
+}
+.button {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #96939b;
+  background-color: #2e2e39;
+  font-size: 14px;
+  border-radius: 20px;
+}
+.apply-now {
+  color: white;
+  background-color: #3060ff;
+  margin-right: 15px;
+}

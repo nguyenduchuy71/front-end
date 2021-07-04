@@ -1,35 +1,39 @@
-import React, { useState, useEffect } from "react";
-import TextField from "@material-ui/core/TextField";
-import "./AddCourseScreen.css";
-import Button from "@material-ui/core/Button";
+import "./user.css";
+import { useState, useEffect } from "react";
+import Error404Page from "./Error404Page";
+import { useSelector, useDispatch } from "react-redux";
+import AdminOption from "../components/admin/AdminOption";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { useDispatch } from "react-redux";
 import Cookie from "js-cookie";
 import { signout } from "../actions/userActions";
-
+import Spinner from "../components/Spinner";
 function UpdateCourseScreen(props) {
-  const [course, setCourse] = useState();
+  const userSignin = useSelector((state) => state.userSignin);
+  const { loadingInfo, userInfo, error } = userSignin;
   const [loading, setLoading] = useState(false);
+  const [course, setCourse] = useState();
   const [url, setUrl] = useState("");
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [source, setSource] = useState("");
+  const [img, setImg] = useState("");
   const history = useHistory();
   const dispatch = useDispatch();
-  const updatecourse = async () => {
+  const updatecourse = async (e) => {
+    e.preventDefault();
     const data = {
       id: props.match.params.id,
       title: title,
       id_video: url,
       description: desc,
       src: source,
+      url: img,
     };
     await axios
       .put("/course/", data)
       .then((res) => {
         if (res.status === 200) {
-          alert("Cập nhật khóa học thành công");
           history.push("/admin/courses");
         }
       })
@@ -62,51 +66,99 @@ function UpdateCourseScreen(props) {
             setTitle(course.title);
             setDesc(course.description);
             setSource(course.src);
+            setImg(course.url);
           }
         }
       })
       .catch((error) => {
         dispatch(signout());
-        history.push("/signin");
       });
   }, [loading]);
   return (
-    <div className="list_input row">
-      <TextField
-        placeholder="Url khóa học"
-        margin="normal"
-        className="col-lg-6"
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-      />
-      <TextField
-        placeholder="Tên khóa học"
-        margin="normal"
-        className="col-lg-6"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <TextField
-        placeholder="Mô tả khóa học"
-        margin="normal"
-        className="col-lg-6"
-        value={desc}
-        onChange={(e) => setDesc(e.target.value)}
-      />
-      <TextField
-        placeholder="Nguồn khóa học"
-        margin="normal"
-        value={source}
-        className="col-lg-6"
-        onChange={(e) => setSource(e.target.value)}
-      />
-      <div className="btn_content">
-        <Button onClick={updatecourse} variant="contained" color="primary">
-          CẬP NHẬT
-        </Button>
-      </div>
-    </div>
+    <>
+      {!loading ? (
+        <Spinner />
+      ) : (
+        <>
+          {userInfo?.is_staff ? (
+            <div className="user">
+              <div className="userContainer">
+                <div className="usershow">
+                  <AdminOption />
+                </div>
+                <div className="userUpdate">
+                  <span className="userUpdateTitle">Edit Course</span>
+                  <form className="userUpdateForm">
+                    <div className="userUpdateLeft">
+                      <div className="userUpdateItem">
+                        <label>Tên khóa học</label>
+                        <input
+                          type="text"
+                          value={title}
+                          className="userUpdateInput"
+                          onChange={(e) => setTitle(e.target.value)}
+                        />
+                      </div>
+                      <div className="userUpdateItem">
+                        <label>ID video</label>
+                        <input
+                          type="text"
+                          value={url}
+                          className="userUpdateInput"
+                          onChange={(e) => setUrl(e.target.value)}
+                        />
+                      </div>
+                      <div className="userUpdateItem">
+                        <label>Mô tả khóa học</label>
+                        <input
+                          type="text"
+                          className="userUpdateInput"
+                          value={desc}
+                          onChange={(e) => setDesc(e.target.value)}
+                        />
+                      </div>
+                      <div className="userUpdateItem">
+                        <label>Url ảnh khóa học</label>
+                        <input
+                          type="text"
+                          value={img}
+                          className="col-lg-6"
+                          onChange={(e) => setImg(e.target.value)}
+                          className="userUpdateInput"
+                        />
+                      </div>
+                      <div className="userUpdateItem">
+                        <label>Nguồn khóa học</label>
+                        <input
+                          type="text"
+                          className="userUpdateInput"
+                          value={source}
+                          onChange={(e) => setSource(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <div className="userUpdateRight">
+                      <div className="userUpdateUpload">
+                        <img src={img} alt="img" className="userUpdateImg" />
+                      </div>
+                      <button
+                        type="submit"
+                        onClick={updatecourse}
+                        class="userUpdateButton"
+                      >
+                        Update
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <Error404Page />
+          )}
+        </>
+      )}
+    </>
   );
 }
-
 export default UpdateCourseScreen;

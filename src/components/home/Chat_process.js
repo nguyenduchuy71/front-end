@@ -38,7 +38,6 @@ const botResponse = (res) => {
     para.innerHTML = res;
     bot.appendChild(image);
     bot.appendChild(para);
-
     chat.appendChild(bot);
 };
 
@@ -54,7 +53,6 @@ const userChat = (req) => {
     para.innerHTML = req;
     user.appendChild(para);
     user.appendChild(image);
-
     chat.appendChild(user);
 };
 

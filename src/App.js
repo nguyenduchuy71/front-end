@@ -9,12 +9,12 @@ import Footer from "./components/Footer";
 import Error404Page from "./screens/Error404Page";
 import ForumScreen from "./screens/ForumScreen";
 import ForumDetailScreen from "./screens/ForumDetailScreen";
-import ProfileScreen from "./screens/ProfileScreen";
 import AdminUserScreen from "./screens/AdminUserScreen";
 import AdminCourseScreen from "./screens/AdminCourseScreen";
 import AdminForumScreen from "./screens/AdminForumScreen";
 import AddCourseScreen from "./screens/AddCourseScreen";
 import UpdateCourseScreen from "./screens/UpdateCourseScreen";
+
 function App() {
   return (
     <BrowserRouter>
@@ -29,7 +29,6 @@ function App() {
           <Route path="/admin/forums" component={AdminForumScreen}></Route>
           <Route path="/admin/courses" component={AdminCourseScreen}></Route>
           <Route path="/admin/users" component={AdminUserScreen}></Route>
-          <Route path="/profile" component={ProfileScreen}></Route>
           <Route path="/forum/:id" component={ForumDetailScreen}></Route>
           <Route path="/forum" component={ForumScreen}></Route>
           <Route path="/signup" component={SignUpScreen}></Route>

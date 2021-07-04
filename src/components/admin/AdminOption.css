@@ -1,23 +1,18 @@
 .list__option {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-  }
-  .item__option {
-    display: flex;
-    justify-content: space-around;
-    padding: 12px;
-    text-decoration: none;
-    cursor: pointer;
-    width: 100%;
-  }
-  .item__option:hover {
-    background-color: #ccc;
-  }
-  .remove_icon {
-    cursor: pointer;
-  }
-  .item__title{
-    color: #111;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.item__option {
+  display: flex;
+  align-items: center;
+  padding: 14px;
+  width: 100%;
+}
+.item__option > span {
+  margin-left: 10px;
+}
+.item__option:hover {
+  background-color: #ccc;
+}

@@ -41,13 +41,14 @@ function CourseScreen() {
 export default CourseScreen;
 const CourseContainer = styled.div`
   margin-top: 100px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  padding: 0 10px;
-
-  @media (max-width: 489px) {
-    flex-direction: column;
+  padding: 0 20px;
+  display: grid;
+  gap: 40px;
+  grid-template-columns: repeat(3, 1fr);
+  @media screen and (max-width: 930px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (max-width: 600px) {
+    grid-template-columns: repeat(1, 1fr);
   }
 `;

@@ -12,7 +12,8 @@ function SignInScreen(props) {
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(signin(username, password));
+    const user = { username, password };
+    dispatch(signin(user));
   };
   const goSignUp = () => {
     props.history.push("/signup");

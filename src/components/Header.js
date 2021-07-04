@@ -4,7 +4,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import HomeIcon from "@material-ui/icons/Home";
 import ForumIcon from "@material-ui/icons/Forum";
@@ -22,9 +21,7 @@ function Header() {
   const { loadingSignOut, success, errorSignOut } = userSignout;
   const signOut = () => {
     dispatch(signout());
-    if (success) {
-      window.location.reload();
-    }
+    window.location.reload();
   };
   const toogleSubMenu = () => {
     setopenSubMenu(!openSubMenu);
@@ -56,7 +53,11 @@ function Header() {
         <RightMenu>
           {userInfo ? (
             <SelectMenu onClick={toogleSubMenu}>
-              <img src={userInfo.avatar} alt="avatar" style={{borderRadius:'99px'}} />
+              <img
+                src={userInfo.avatar}
+                alt="avatar"
+                style={{ borderRadius: "99px" }}
+              />
               <ArrowContainer className="arrowcontainer">
                 <img src="/images/arrow.png" alt="arrow" />
               </ArrowContainer>
@@ -95,28 +96,33 @@ function Header() {
           {userInfo ? (
             <div>
               <ElementMenu>
-                <AccountCircleIcon />
-                <div>
-                  <Link to="/profile">Tài khoản</Link>
-                </div>
-              </ElementMenu>
-              <ElementMenu>
                 <ExitToAppIcon />
-                <div>
-                  <Link onClick={signOut}>Đăng xuất</Link>
-                </div>
+                <Link style={{ marginLeft: "10px" }} onClick={signOut}>
+                  Đăng xuất
+                </Link>
               </ElementMenu>
               {userInfo.is_staff && (
                 <ElementMenu>
                   <SupervisorAccountIcon />
-                  <div>
-                    <Link to="/admin/users">Quản lý</Link>
-                  </div>
+                  <Link style={{ marginLeft: "10px" }} to="/admin/users">
+                    Quản lý
+                  </Link>
                 </ElementMenu>
               )}
             </div>
           ) : (
-            <Link to="/signin">Đăng nhập</Link>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "10px 0",
+              }}
+            >
+              <ExitToAppIcon />
+              <Link style={{ marginLeft: "10px" }} to="/signin">
+                Đăng nhập
+              </Link>
+            </div>
           )}
         </BurgerNav>
       </Container>
@@ -124,16 +130,8 @@ function Header() {
         <SubMenu className="sub_menu">
           <ListSubMenu>
             <ElementSubMenu>
-              <AccountCircleIcon />
-              <div>
-                <Link to="/profile">Tài khoản</Link>
-              </div>
-            </ElementSubMenu>
-            <ElementSubMenu>
               <ExitToAppIcon />
-              <div>
-                <Link onClick={signOut}>Đăng xuất</Link>
-              </div>
+              <Link style={{ marginLeft: "10px" }} onClick={signOut}>Đăng xuất</Link>
             </ElementSubMenu>
             {userInfo.is_staff ? (
               <SubNewMenu>
@@ -290,8 +288,8 @@ const ArrowContainer = styled.div`
 const ElementMenu = styled.div`
   display: flex;
   align-items: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   padding: 10px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   div {
     margin-left: 10px;
   }

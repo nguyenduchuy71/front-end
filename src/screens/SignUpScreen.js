@@ -6,7 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 function SignUpScreen(props) {
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [fullname, setFullname] = useState("");
   const [password, setPassword] = useState("");
+  const [avartar, setAvartar] = useState();
   const [repassword, setRepassword] = useState("");
   const userSignup = useSelector((state) => state.userSignup);
   const { loading, success, error } = userSignup;
@@ -22,15 +25,13 @@ function SignUpScreen(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password === repassword) {
-      const user = {
-        username,
-        password,
-        email: username,
-        confirmpassword: repassword,
-        avatar:
-          "https://cdn1.iconfinder.com/data/icons/user-pictures/100/unknown-512.png",
-        full_name: username,
-      };
+      const user = new FormData();
+      user.append("username", username);
+      user.append("password", password);
+      user.append("email", email);
+      user.append("full_name", fullname);
+      user.append("confirmpassword", repassword);
+      user.append("avatar", avartar, avartar.name);
       dispatch(signup(user));
     } else {
       alert("Mật khẩu không khớp");
@@ -49,6 +50,34 @@ function SignUpScreen(props) {
             fullWidth
             onChange={(e) => {
               setUsername(e.target.value);
+            }}
+          />
+          <TextField
+            id="email"
+            label="Email"
+            placeholder="..."
+            type="text"
+            fullWidth
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+          <TextField
+            id="fullname"
+            label="Full name"
+            placeholder="..."
+            type="text"
+            fullWidth
+            onChange={(e) => {
+              setFullname(e.target.value);
+            }}
+          />
+          <TextField
+            id="avartar"
+            type="file"
+            fullWidth
+            onChange={(e) => {
+              setAvartar(e.target.files[0]);
             }}
           />
           <TextField

@@ -30,22 +30,17 @@ import Axios from "axios";
 const signup = (user) => async (dispatch) => {
   dispatch({ type: USER_SIGNUP_REQUEST, payload: user });
   try {
-    const { data } = await Axios.post("/account/", user);
+    await Axios.post("/account/create-user/", user);
     dispatch({ type: USER_SIGNUP_SUCCESS, payload: true });
   } catch (error) {
     dispatch({ type: USER_SIGNUP_FAIL, payload: error.message });
   }
 };
 
-const signin = (username, password) => async (dispatch) => {
-  dispatch({ type: USER_SIGNIN_REQUEST, payload: { username, password } });
+const signin = (user) => async (dispatch) => {
+  dispatch({ type: USER_SIGNIN_REQUEST, payload: user });
   try {
-    const { data } = await Axios.get("/account/", {
-      params: {
-        username: username,
-        password: password,
-      },
-    });
+    const { data } = await Axios.post("/account/login/", user);
     dispatch({ type: USER_SIGNIN_SUCCESS, payload: data.user });
     Cookie.set("access_token", data.access_token);
     Cookie.set("userInfo", JSON.stringify(data.user));
@@ -54,7 +49,7 @@ const signin = (username, password) => async (dispatch) => {
   }
 };
 
-const signout = () => async (dispatch) => {
+const signout = () => (dispatch) => {
   dispatch({ type: USER_SIGNOUT_REQUEST, payload: {} });
   try {
     Cookie.remove("access_token");

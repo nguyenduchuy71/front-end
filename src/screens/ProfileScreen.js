@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import TextField from "@material-ui/core/TextField";
 import Fade from "react-reveal/Fade";
-import { updateProfile } from "../actions/userActions";
+import { updateProfile, signout, checklogin } from "../actions/userActions";
 import Spinner from "../components/Spinner";
 
 function ProfileScreen(props) {
@@ -12,11 +12,13 @@ function ProfileScreen(props) {
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   const { loadingUpdateProfile, profile, errorUpdateProfile } =
     userUpdateProfile;
+  const userCheckLogin = useSelector((state) => state.userCheckLogin);
+  const { loadingCheckLogin, userCheck, errorCheckLogin } = userCheckLogin;
   const [email, setEmail] = useState("");
   const [url, setUrl] = useState("");
   const [fullName, setFullName] = useState("");
   const dispatch = useDispatch();
-  const update = async () => {
+  const update = () => {
     const value = {
       username: userInfo.username,
       full_name: fullName,
@@ -27,16 +29,17 @@ function ProfileScreen(props) {
   };
   useEffect(() => {
     if (userInfo) {
+      dispatch(checklogin());
+      if (errorCheckLogin) {
+        dispatch(signout());
+      }
       setEmail(userInfo?.email);
       setUrl(userInfo?.avatar);
       setFullName(userInfo?.full_name);
     } else {
       props.history.push("/signin");
     }
-    if (profile) {
-      window.location.reload();
-    }
-  }, [profile]);
+  }, []);
   return (
     <>
       {loading ? (
@@ -83,7 +86,7 @@ function ProfileScreen(props) {
                   onChange={(e) => setUrl(e.target.value)}
                 />
               </Info>
-              <Button type="button" onClick={update}>
+              <Button type="submit" onClick={update}>
                 Cập nhật
               </Button>
             </Content>
@@ -122,7 +125,7 @@ const ImageContainer = styled.div`
 const ImageProfile = styled.img`
   width: 100px;
   padding: 8px;
-  border-radius:99px;
+  border-radius: 99px;
 `;
 const Info = styled.form`
   display: flex;
