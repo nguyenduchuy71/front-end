@@ -9,8 +9,14 @@ function SignUpScreen(props) {
   const [email, setEmail] = useState("");
   const [fullname, setFullname] = useState("");
   const [password, setPassword] = useState("");
-  const [avartar, setAvartar] = useState();
   const [repassword, setRepassword] = useState("");
+  const [avartar, setAvartar] = useState();
+  const [errorUsername, setErrorUsername] = useState("");
+  const [errorEmail, setErrorEmail] = useState("");
+  const [errorFullname, setErrorFullname] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
+  const [errorRepassword, setErrorRepassword] = useState("");
+  const [errorAvatar, setErrorAvatar] = useState("");
   const userSignup = useSelector((state) => state.userSignup);
   const { loading, success, error } = userSignup;
   const dispatch = useDispatch();
@@ -24,7 +30,41 @@ function SignUpScreen(props) {
   }, [success]);
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password === repassword) {
+    let check = true;
+    if (!username.trim()) {
+      setErrorUsername("Tên đăng nhập không được để trống");
+      check = false;
+    }
+    if (!password.trim() || !repassword.trim()) {
+      setPassword("Mật khẩu không được để trống");
+      check = false;
+    } else if (password.length < 6) {
+      setErrorPassword("Mật khẩu phải dài hơn 6 kí tự");
+      check = false;
+    }
+    if (!fullname.trim()) {
+      setErrorFullname("Họ và tên không được để trống");
+      check = false;
+    }
+    if (repassword.length < 6) {
+      setErrorRepassword("Mật khẩu phải dài hơn 6 kí tự");
+      check = false;
+    } else if (password !== repassword) {
+      setErrorRepassword("Mật khẩu không khớp");
+      check = false;
+    }
+    if (!email.trim()) {
+      setErrorEmail("Email không được để trống");
+      check = false;
+    } else if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email)) {
+      setErrorEmail("Email không hợp lệ");
+      check = false;
+    }
+    if (!avartar) {
+      setErrorAvatar("Vui lòng chọn ảnh đại diện");
+      check = false;
+    }
+    if (check === true) {
       const user = new FormData();
       user.append("username", username);
       user.append("password", password);
@@ -33,8 +73,6 @@ function SignUpScreen(props) {
       user.append("confirmpassword", repassword);
       user.append("avatar", avartar, avartar.name);
       dispatch(signup(user));
-    } else {
-      alert("Mật khẩu không khớp");
     }
   };
   return (
@@ -48,72 +86,90 @@ function SignUpScreen(props) {
         <Form onSubmit={handleSubmit}>
           <FormTop>
             <FormLeft>
-              <TextField
-                id="username"
-                label="Tài khoản"
-                placeholder="..."
-                type="text"
-                fullWidth
-                className="input-field"
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }}
-              />
-              <TextField
-                id="password"
-                label="Mật khẩu"
-                placeholder="..."
-                fullWidth
-                className="input-field"
-                type="password"
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              />
-              <TextField
-                id="repassword"
-                label="Xác nhận mật khẩu"
-                placeholder="..."
-                type="password"
-                className="input-field"
-                fullWidth
-                onChange={(e) => {
-                  setRepassword(e.target.value);
-                }}
-              />
+              <FormElement>
+                <TextField
+                  id="username"
+                  label="Tài khoản"
+                  placeholder="..."
+                  type="text"
+                  fullWidth
+                  className="input-field"
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                  }}
+                />
+                {errorUsername ? <p>{errorUsername}</p> : <p>*</p>}
+              </FormElement>
+              <FormElement>
+                <TextField
+                  id="password"
+                  label="Mật khẩu"
+                  placeholder="..."
+                  fullWidth
+                  className="input-field"
+                  type="password"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+                {errorPassword ? <p>{errorPassword}</p> : <p>*</p>}
+              </FormElement>
+              <FormElement>
+                <TextField
+                  id="repassword"
+                  label="Xác nhận mật khẩu"
+                  placeholder="..."
+                  type="password"
+                  className="input-field"
+                  fullWidth
+                  onChange={(e) => {
+                    setRepassword(e.target.value);
+                  }}
+                />
+                {errorRepassword ? <p>{errorRepassword}</p> : <p>*</p>}
+              </FormElement>
             </FormLeft>
             <FormRight>
-              <TextField
-                id="email"
-                label="Email"
-                placeholder="..."
-                type="text"
-                fullWidth
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
-              <TextField
-                id="fullname"
-                label="Họ và tên"
-                placeholder="..."
-                type="text"
-                fullWidth
-                onChange={(e) => {
-                  setFullname(e.target.value);
-                }}
-              />
-              <TextField
-                id="avartar"
-                type="file"
-                placeholder="..."
-                fullWidth
-                label=" "
-                className="file-input"
-                onChange={(e) => {
-                  setAvartar(e.target.files[0]);
-                }}
-              />
+              <FormElement>
+                <TextField
+                  id="email"
+                  label="Email"
+                  placeholder="..."
+                  type="text"
+                  fullWidth
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+                {errorEmail ? <p>{errorEmail}</p> : <p>*</p>}
+              </FormElement>
+              <FormElement>
+                <TextField
+                  id="fullname"
+                  label="Họ và tên"
+                  placeholder="..."
+                  type="text"
+                  fullWidth
+                  onChange={(e) => {
+                    setFullname(e.target.value);
+                  }}
+                />
+                {errorFullname ? <p>{errorFullname}</p> : <p>*</p>}
+              </FormElement>
+              <FormElement>
+                <TextField
+                  id="avartar"
+                  type="file"
+                  placeholder="..."
+                  fullWidth
+                  label=" "
+                  className="file-input"
+                  onChange={(e) => {
+                    setAvartar(e.target.files[0]);
+                  }}
+                />
+                {errorAvatar ? <p>{errorAvatar}</p> : <p>*</p>}
+              </FormElement>
             </FormRight>
           </FormTop>
           <FormBottom>
@@ -161,7 +217,7 @@ const Right = styled.div`
   flex-direction: column;
   border: 1px solid #ccc;
   border-radius: 10px;
-  padding:10px;
+  padding: 10px;
 `;
 
 const Title = styled.h2`
@@ -171,7 +227,6 @@ const Title = styled.h2`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  align-items: center;
 `;
 const FormTop = styled.div`
   display: flex;
@@ -180,14 +235,23 @@ const FormTop = styled.div`
 const FormBottom = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-top: 40px;
 `;
 const FormLeft = styled.div`
   margin-right: 20px;
-  line-height: 5rem;
+  width: 100%;
 `;
 const FormRight = styled.div`
-  line-height: 5rem;
+  width: 100%;
+`;
+const FormElement = styled.div`
+  width: 100%;
+  p {
+    color: red;
+    padding: 8px 0;
+    font-size: 14px;
+  }
 `;
 const Button = styled.button`
   width: 100px;

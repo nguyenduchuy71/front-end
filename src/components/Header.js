@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
@@ -17,16 +17,15 @@ function Header() {
   const dispatch = useDispatch();
   const userSignin = useSelector((state) => state.userSignin);
   const { loading, userInfo, error } = userSignin;
-  const userSignout = useSelector((state) => state.userSignout);
-  const { loadingSignOut, success, errorSignOut } = userSignout;
+  const [info, setInfo] = useState(userInfo);
   const signOut = () => {
     dispatch(signout());
-    window.location.reload();
+    setInfo();
+    setopenSubMenu(false);
   };
   const toogleSubMenu = () => {
     setopenSubMenu(!openSubMenu);
   };
-  useEffect(() => {}, [userSignin]);
   return (
     <Content>
       <Container>
@@ -51,10 +50,10 @@ function Header() {
           </MenuItemContainer>
         </Menu>
         <RightMenu>
-          {userInfo ? (
+          {info ? (
             <SelectMenu onClick={toogleSubMenu}>
               <img
-                src={userInfo.avatar}
+                src={info.avatar}
                 alt="avatar"
                 style={{ borderRadius: "99px" }}
               />
@@ -93,7 +92,7 @@ function Header() {
               <Link to="/forum">Tương tác</Link>
             </div>
           </ElementMenu>
-          {userInfo ? (
+          {info ? (
             <div>
               <ElementMenu>
                 <ExitToAppIcon />
@@ -101,7 +100,7 @@ function Header() {
                   Đăng xuất
                 </Link>
               </ElementMenu>
-              {userInfo.is_staff && (
+              {info.is_staff && (
                 <ElementMenu>
                   <SupervisorAccountIcon />
                   <Link style={{ marginLeft: "10px" }} to="/admin/users">
@@ -131,9 +130,11 @@ function Header() {
           <ListSubMenu>
             <ElementSubMenu>
               <ExitToAppIcon />
-              <Link style={{ marginLeft: "10px" }} onClick={signOut}>Đăng xuất</Link>
+              <Link style={{ marginLeft: "10px" }} onClick={signOut}>
+                Đăng xuất
+              </Link>
             </ElementSubMenu>
-            {userInfo.is_staff ? (
+            {info?.is_staff ? (
               <SubNewMenu>
                 <ElementMenu>
                   <SupervisorAccountIcon />

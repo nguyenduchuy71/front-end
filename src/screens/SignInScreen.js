@@ -1,31 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import styled from "styled-components";
 import { signin } from "../actions/userActions";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 function SignInScreen(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const userSignin = useSelector((state) => state.userSignin);
-  const { loading, userInfo, error } = userSignin;
   const dispatch = useDispatch();
-  const handleSubmit = (e) => {
+  const [errorUsername, setErrorUsername] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const user = { username, password };
-    dispatch(signin(user));
-  };
-  const goSignUp = () => {
-    props.history.push("/signup");
-  };
-  useEffect(() => {
-    if (userInfo) {
+    let check = true;
+    if (!username.trim()) {
+      setErrorUsername("Tên đăng nhập không được để trống");
+      check = false;
+    }
+    if (!password.trim()) {
+      setErrorPassword("Mật khẩu không được để trống");
+      check = false;
+    }
+    if (check == true) {
+      await dispatch(signin(user));
       props.history.push("/");
+      window.location.reload();
     }
-    if (error) {
-      alert("Tài khoản hoặc mật khẩu không đúng");
-    }
-  }, [userInfo, loading, error]);
+  };
   return (
     <Container>
       <Left>
@@ -37,28 +39,34 @@ function SignInScreen(props) {
         <Form onSubmit={handleSubmit}>
           <FormTop>
             <FormLeft>
-              <TextField
-                id="username"
-                label="Tài khoản"
-                placeholder="..."
-                type="text"
-                fullWidth
-                className="input-field"
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }}
-              />
-              <TextField
-                id="password"
-                label="Mật khẩu"
-                placeholder="..."
-                fullWidth
-                className="input-field"
-                type="password"
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              />
+              <FormElement>
+                <TextField
+                  id="username"
+                  label="Tài khoản"
+                  placeholder="..."
+                  type="text"
+                  fullWidth
+                  className="input-field"
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                  }}
+                />
+                {errorUsername ? <p>{errorUsername}</p> : <p>*</p>}
+              </FormElement>
+              <FormElement>
+                <TextField
+                  id="password"
+                  label="Mật khẩu"
+                  placeholder="..."
+                  fullWidth
+                  className="input-field"
+                  type="password"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+                {errorPassword ? <p>{errorPassword}</p> : <p>*</p>}
+              </FormElement>
             </FormLeft>
           </FormTop>
           <FormBottom>
@@ -109,7 +117,7 @@ const Left = styled.div`
   }
 `;
 const Right = styled.div`
-  flex: 1;
+  flex: 1.5;
   margin-left: 20px;
   display: flex;
   flex-direction: column;
@@ -126,18 +134,21 @@ const Title = styled.h2`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  width: 60%;
 `;
 const FormTop = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0 0 20px;
 `;
 const FormBottom = styled.div`
   display: flex;
   justify-content: center;
 `;
 const FormLeft = styled.div`
+  width: 100%;
   margin-right: 20px;
-  line-height: 5rem;
 `;
 const Button = styled.button`
   width: 100px;
@@ -154,5 +165,13 @@ const Bot = styled.div`
   font-size: 18px;
   .bot-link {
     color: #0304ff;
+  }
+`;
+const FormElement = styled.div`
+  width: 100%;
+  p {
+    color: red;
+    padding: 8px 0;
+    font-size: 14px;
   }
 `;
