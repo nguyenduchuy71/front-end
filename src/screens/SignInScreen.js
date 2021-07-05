@@ -3,7 +3,7 @@ import TextField from "@material-ui/core/TextField";
 import styled from "styled-components";
 import { signin } from "../actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
-
+import { Link } from "react-router-dom";
 function SignInScreen(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -28,86 +28,131 @@ function SignInScreen(props) {
   }, [userInfo, loading, error]);
   return (
     <Container>
-      <Content>
-        <h2>Đăng nhập</h2>
+      <Left>
+        <h2>Welcome to AI lab</h2>
+        <img src="/images/logo.png" alt="logo" />
+      </Left>
+      <Right>
+        <Title>Đăng nhập</Title>
         <Form onSubmit={handleSubmit}>
-          <TextField
-            id="username"
-            label="Tài khoản"
-            placeholder="..."
-            fullWidth
-            onChange={(e) => {
-              setUsername(e.target.value);
-            }}
-          />
-          <TextField
-            id="password"
-            label="Mật khẩu"
-            type="password"
-            placeholder="..."
-            fullWidth
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
-          <LinkOther>
-            <Button onClick={goSignUp}>Đăng ký</Button>
+          <FormTop>
+            <FormLeft>
+              <TextField
+                id="username"
+                label="Tài khoản"
+                placeholder="..."
+                type="text"
+                fullWidth
+                className="input-field"
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
+              />
+              <TextField
+                id="password"
+                label="Mật khẩu"
+                placeholder="..."
+                fullWidth
+                className="input-field"
+                type="password"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+            </FormLeft>
+          </FormTop>
+          <FormBottom>
             <Button type="submit">Đăng nhập</Button>
-          </LinkOther>
+          </FormBottom>
         </Form>
-      </Content>
+        <Bot>
+          <span>
+            Chưa có tài khoản?
+            <Link to="/signup" class="bot-link">
+              {" "}
+              Đăng ký
+            </Link>
+          </span>
+        </Bot>
+      </Right>
     </Container>
   );
 }
 
 export default SignInScreen;
 const Container = styled.div`
-  display: flex;
+  width: 100%;
+  height: 410px;
   margin-top: 100px;
+  padding: 0 40px;
+  display: flex;
   justify-content: center;
+`;
+const Left = styled.div`
+  flex: 1;
+  display: flex;
+  background-color: black;
   align-items: center;
-  flex-direction: column;
-`;
-const Content = styled.div`
-  border: 1px solid #111;
-  border-radius: 6px;
-  padding: 4%;
-  line-height: 2rem;
-  margin: 17px;
-  h2 {
-    text-align: center;
-  }
-
-  &:hover {
-    border: 1px solid #0304ff;
-  }
-`;
-const LinkOther = styled.div`
   justify-content: center;
-  padding: 4px;
+  flex-direction: column;
+  border-radius: 10px;
+  cursor: default;
+  img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+  }
+  h2 {
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+`;
+const Right = styled.div`
+  flex: 1;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+`;
+
+const Title = styled.h2`
+  margin: 20px 0;
+  cursor: default;
 `;
 const Form = styled.form`
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+const FormTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const FormBottom = styled.div`
   display: flex;
   justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 10px;
-
-  * {
-    margin-bottom: 20px;
-  }
+`;
+const FormLeft = styled.div`
+  margin-right: 20px;
+  line-height: 5rem;
 `;
 const Button = styled.button`
-  color: white;
   width: 100px;
   height: 40px;
-  background-color: #304ffe;
   border: none;
-  border-radius: 4px;
+  outline: none;
   cursor: pointer;
-  margin-left: 10px;
-  &:hover {
-    opacity: 0.85;
+  background-color: #0304ff;
+  color: #fff;
+  border-radius: 10px;
+`;
+const Bot = styled.div`
+  margin-top: 50px;
+  font-size: 18px;
+  .bot-link {
+    color: #0304ff;
   }
 `;

@@ -39,117 +39,163 @@ function SignUpScreen(props) {
   };
   return (
     <Container>
-      <Content>
-        <h2>Đăng ký tài khoản</h2>
+      <Left>
+        <h2>Welcome to AI lab</h2>
+        <img src="/images/logo.png" alt="logo" />
+      </Left>
+      <Right>
+        <Title>Đăng ký</Title>
         <Form onSubmit={handleSubmit}>
-          <TextField
-            id="username"
-            label="Tài khoản"
-            placeholder="..."
-            type="text"
-            fullWidth
-            onChange={(e) => {
-              setUsername(e.target.value);
-            }}
-          />
-          <TextField
-            id="email"
-            label="Email"
-            placeholder="..."
-            type="text"
-            fullWidth
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
-          <TextField
-            id="fullname"
-            label="Full name"
-            placeholder="..."
-            type="text"
-            fullWidth
-            onChange={(e) => {
-              setFullname(e.target.value);
-            }}
-          />
-          <TextField
-            id="avartar"
-            type="file"
-            fullWidth
-            onChange={(e) => {
-              setAvartar(e.target.files[0]);
-            }}
-          />
-          <TextField
-            id="password"
-            label="Mật khẩu"
-            placeholder="..."
-            fullWidth
-            type="password"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
-          <TextField
-            id="repassword"
-            label="Xác nhận mật khẩu"
-            placeholder="..."
-            type="password"
-            fullWidth
-            onChange={(e) => {
-              setRepassword(e.target.value);
-            }}
-          />
-          <Button type="submit">Đăng ký</Button>
+          <FormTop>
+            <FormLeft>
+              <TextField
+                id="username"
+                label="Tài khoản"
+                placeholder="..."
+                type="text"
+                fullWidth
+                className="input-field"
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
+              />
+              <TextField
+                id="password"
+                label="Mật khẩu"
+                placeholder="..."
+                fullWidth
+                className="input-field"
+                type="password"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+              <TextField
+                id="repassword"
+                label="Xác nhận mật khẩu"
+                placeholder="..."
+                type="password"
+                className="input-field"
+                fullWidth
+                onChange={(e) => {
+                  setRepassword(e.target.value);
+                }}
+              />
+            </FormLeft>
+            <FormRight>
+              <TextField
+                id="email"
+                label="Email"
+                placeholder="..."
+                type="text"
+                fullWidth
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+              <TextField
+                id="fullname"
+                label="Họ và tên"
+                placeholder="..."
+                type="text"
+                fullWidth
+                onChange={(e) => {
+                  setFullname(e.target.value);
+                }}
+              />
+              <TextField
+                id="avartar"
+                type="file"
+                placeholder="..."
+                fullWidth
+                label=" "
+                className="file-input"
+                onChange={(e) => {
+                  setAvartar(e.target.files[0]);
+                }}
+              />
+            </FormRight>
+          </FormTop>
+          <FormBottom>
+            <Button type="submit">Đăng ký</Button>
+          </FormBottom>
         </Form>
-      </Content>
+      </Right>
     </Container>
   );
 }
 
 export default SignUpScreen;
 const Container = styled.div`
-  display: flex;
+  width: 100%;
+  height: 410px;
   margin-top: 100px;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
 `;
-const Content = styled.div`
-  border: 1px solid #111;
-  padding: 4%;
-  line-height: 2rem;
-  border-radius: 6px;
-
+const Left = styled.div`
+  flex: 1;
+  display: flex;
+  background-color: black;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 10px;
+  cursor: default;
+  img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+  }
   h2 {
-    text-align: center;
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 4px;
   }
+`;
+const Right = styled.div`
+  margin-left: 20px;
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding:10px;
+`;
 
-  &:hover {
-    border: 1px solid #0304ff;
-  }
+const Title = styled.h2`
+  margin-bottom: 20px;
+  cursor: default;
 `;
 const Form = styled.form`
   display: flex;
-  justify-content: center;
   flex-direction: column;
   align-items: center;
-  padding-top: 10px;
-
-  * {
-    margin-bottom: 20px;
-  }
+`;
+const FormTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const FormBottom = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 40px;
+`;
+const FormLeft = styled.div`
+  margin-right: 20px;
+  line-height: 5rem;
+`;
+const FormRight = styled.div`
+  line-height: 5rem;
 `;
 const Button = styled.button`
-  color: white;
   width: 100px;
   height: 40px;
-  background-color: #304ffe;
   border: none;
-  border-radius: 4px;
+  outline: none;
   cursor: pointer;
-
-  &:hover {
-    opacity: 0.85;
-  }
+  background-color: #0304ff;
+  color: #fff;
+  border-radius: 10px;
 `;
