@@ -13,14 +13,16 @@ import styled from "styled-components";
 import "./users.css";
 import Spinner from "../components/Spinner";
 
+
 function AdminCourseScreen() {
   const [data, setData] = useState([]);
   const history = useHistory();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const url='http://127.0.0.1:8000';
   const handleDelete = async (id) => {
     await axios
-      .delete("/course/", {
+      .delete(`${url}/course/`, {
         data: {
           id: id,
         },
@@ -75,13 +77,13 @@ function AdminCourseScreen() {
   ];
   useEffect(() => {
     axios
-      .get("/account/check-login/", {
+      .get(`${url}/account/check-login/`, {
         headers: { Authorization: "Bearer " + Cookie.get("access_token") },
       })
       .then((res) => {
         if (res.status === 200) {
           axios
-            .get("/course/", {
+            .get(`${url}/course/`, {
               headers: {
                 Authorization: "Bearer " + Cookie.get("access_token"),
               },

@@ -14,6 +14,7 @@ function AddCourseScreen() {
   const [source, setSource] = useState("");
   const [img, setImg] = useState("");
   const history = useHistory();
+  const server='http://127.0.0.1:8000';
   const addCourse = async (e) => {
     e.preventDefault();
     const data = {
@@ -24,7 +25,7 @@ function AddCourseScreen() {
       url: img,
     };
     await axios
-      .post("/course/", data)
+      .post(`${server}/course/`, data)
       .then((res) => {
         if (res.status === 200) {
           history.push("/admin/courses");

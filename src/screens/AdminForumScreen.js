@@ -15,12 +15,13 @@ import "./users.css";
 import Spinner from "../components/Spinner";
 
 function AdminForumScreen() {
+  const server = 'http://127.0.0.1:8000';
   const [data, setData] = useState([]);
   const history = useHistory();
   const dispatch = useDispatch();
   const handleDelete = async (id) => {
     await axios
-      .delete("/forum/", {
+      .delete(`${server}/forum/`, {
         data: { id: id },
       })
       .then((res) => {
@@ -65,13 +66,13 @@ function AdminForumScreen() {
   ];
   useEffect(() => {
     axios
-      .get("/account/check-login/", {
+      .get(`${server}/account/check-login/`, {
         headers: { Authorization: "Bearer " + Cookie.get("access_token") },
       })
       .then((res) => {
         if (res.status === 200) {
           axios
-            .get("/forum/", {
+            .get(`${server}/forum/`, {
               headers: {
                 Authorization: "Bearer " + Cookie.get("access_token"),
               },
