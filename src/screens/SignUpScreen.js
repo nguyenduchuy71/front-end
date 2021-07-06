@@ -217,7 +217,9 @@ const Right = styled.div`
   flex-direction: column;
   border: 1px solid #ccc;
   border-radius: 10px;
-  padding: 10px;
+  padding: 20px;
+  -webkit-box-shadow: 0px 0px 11px -1px #000000;
+  box-shadow: 0px 0px 11px -1px #000000;
 `;
 
 const Title = styled.h2`

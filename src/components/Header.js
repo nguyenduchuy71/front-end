@@ -10,18 +10,21 @@ import ForumIcon from "@material-ui/icons/Forum";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import { signout } from "../actions/userActions";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+import { useHistory } from "react-router-dom";
 
 function Header() {
   const [burgerState, setBurgerState] = useState(false);
   const [openSubMenu, setopenSubMenu] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory();
   const userSignin = useSelector((state) => state.userSignin);
   const { loading, userInfo, error } = userSignin;
   const [info, setInfo] = useState(userInfo);
-  const signOut = () => {
-    dispatch(signout());
+  const signOut = async () => {
+    await dispatch(signout());
     setInfo();
     setopenSubMenu(false);
+    history.push('/signin');
   };
   const toogleSubMenu = () => {
     setopenSubMenu(!openSubMenu);

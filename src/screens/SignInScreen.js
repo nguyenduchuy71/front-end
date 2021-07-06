@@ -125,6 +125,8 @@ const Right = styled.div`
   justify-content: flex-start;
   border: 1px solid #ccc;
   border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 11px -1px #000000;
+  box-shadow: 0px 0px 11px -1px #000000;
 `;
 
 const Title = styled.h2`

@@ -1,7 +1,7 @@
 import "./user.css";
 import { useState } from "react";
 import Error404Page from "./Error404Page";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import AdminOption from "../components/admin/AdminOption";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
