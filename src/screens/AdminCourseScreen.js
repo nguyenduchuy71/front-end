@@ -1,43 +1,31 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import AdminOption from "../components/admin/AdminOption";
 import Error404Page from "./Error404Page";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { useHistory } from "react-router-dom";
-import Cookie from "js-cookie";
-import { signout } from "../actions/userActions";
+import { signout, loadCourses, checklogin } from "../actions/userActions";
+import { deleteCourse } from "../actions/adminActions";
 import styled from "styled-components";
-import "./users.css";
 import Spinner from "../components/Spinner";
-
+import "./users.css";
 
 function AdminCourseScreen() {
-  const [data, setData] = useState([]);
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
-  const url='http://127.0.0.1:8000';
-  const handleDelete = async (id) => {
-    await axios
-      .delete(`${url}/course/`, {
-        data: {
-          id: id,
-        },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          setData(data.filter((item) => item.id !== id));
-        }
-      })
-      .catch((error) => {
-        alert(error);
-      });
-  };
   const userSignin = useSelector((state) => state.userSignin);
   const { loadingInfo, userInfo, error } = userSignin;
+  const userCheckLogin = useSelector((state) => state.userCheckLogin);
+  const { loadingCheckLogin, userCheck, errorCheckLogin } = userCheckLogin;
+  const userLoadCourses = useSelector((state) => state.userLoadCourses);
+  const { loadingCourses, courses, errorLoadCourses } = userLoadCourses;
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const handleDelete = (id) => {
+    dispatch(deleteCourse(id));
+    dispatch(loadCourses());
+  };
   const columns = [
     { field: "id", headerName: "ID", width: 100 },
     {
@@ -76,35 +64,18 @@ function AdminCourseScreen() {
     },
   ];
   useEffect(() => {
-    axios
-      .get(`${url}/account/check-login/`, {
-        headers: { Authorization: "Bearer " + Cookie.get("access_token") },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          axios
-            .get(`${url}/course/`, {
-              headers: {
-                Authorization: "Bearer " + Cookie.get("access_token"),
-              },
-            })
-            .then(async (res) => {
-              if (res.status === 200) {
-                await setData(res.data);
-                setLoading(true);
-              }
-            })
-            .catch((error) => console.log(error.message));
-        }
-      })
-      .catch((error) => {
+    if (userInfo) {
+      dispatch(checklogin());
+      if (errorCheckLogin) {
         dispatch(signout());
-        history.push("/");
-      });
-  }, []);
+        history.push("/signin");
+      }
+    }
+    dispatch(loadCourses());
+  }, [dispatch]);
   return (
-    <div className="">
-      {!loading ? (
+    <>
+      {loadingCourses || loadingCheckLogin || loadingInfo ? (
         <Spinner />
       ) : (
         <>
@@ -116,7 +87,7 @@ function AdminCourseScreen() {
               <Right>
                 <div className="userList">
                   <DataGrid
-                    rows={data}
+                    rows={courses ? courses : []}
                     disableSelectionOnClick
                     columns={columns}
                     pageSize={6}
@@ -135,7 +106,7 @@ function AdminCourseScreen() {
           )}
         </>
       )}
-    </div>
+    </>
   );
 }
 

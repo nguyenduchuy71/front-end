@@ -11,8 +11,13 @@ import {
   userAddForumReducer,
   userUpdateProfileReducer,
 } from "./reducers/userReducers";
-
-import { getUsersReducer } from "./reducers/adminReducers";
+import {
+  getUsersReducer,
+  adminDeleteCourseReducer,
+  adminAddCourseReducer,
+  adminDeleteForumReducer,
+  adminLoadForumReducer,
+} from "./reducers/adminReducers";
 
 const userInfo = Cookie.getJSON("userInfo") || null;
 const initialState = { userSignin: { userInfo } };
@@ -21,11 +26,15 @@ const reducer = combineReducers({
   userSignin: userSigninReducer,
   userSignout: userSignoutReducer,
   userCheckLogin: userCheckLoginReducer,
-  getUsers: getUsersReducer,
   userLoadCourses: userLoadCoursesReducer,
   userLoadForums: userLoadForumsReducer,
   userAddForum: userAddForumReducer,
   userUpdateProfile: userUpdateProfileReducer,
+  getUsers: getUsersReducer,
+  adminDeleteForum: adminDeleteForumReducer,
+  adminDeleteCourse: adminDeleteCourseReducer,
+  adminAddCourse: adminAddCourseReducer,
+  adminLoadForum:adminLoadForumReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

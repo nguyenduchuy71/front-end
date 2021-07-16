@@ -13,7 +13,6 @@ import "./users.css";
 import Spinner from "../components/Spinner";
 
 function AdminUserScreen() {
-  const url = "http://127.0.0.1:8000";
   const [data, setData] = useState([]);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -58,13 +57,13 @@ function AdminUserScreen() {
   ];
   useEffect(() => {
     axios
-      .get(`${url}/account/check-login/`, {
+      .get("/account/check-login/", {
         headers: { Authorization: "Bearer " + Cookie.get("access_token") },
       })
       .then((res) => {
         if (res.status === 200) {
           axios
-            .get(`${url}/account/get-all/`, {
+            .get("/account/get-all/", {
               headers: {
                 Authorization: "Bearer " + Cookie.get("access_token"),
               },
@@ -80,7 +79,7 @@ function AdminUserScreen() {
       })
       .catch((error) => {
         dispatch(signout());
-        history.push("/");
+        history.push("/signin");
       });
   }, []);
   return (

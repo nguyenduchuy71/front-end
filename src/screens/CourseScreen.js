@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import Course from "../components/course/Course";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { loadCourses } from "../actions/userActions";
 import Spinner from "../components/Spinner";
-import { checklogin, signout } from "../actions/userActions";
+import { checklogin, signout, loadCourses } from "../actions/userActions";
 
 function CourseScreen() {
   const userSignin = useSelector((state) => state.userSignin);
@@ -25,7 +24,7 @@ function CourseScreen() {
   }, [userSignin]);
   return (
     <>
-      {loadingCourses ? (
+      {loadingCourses || loading || loadingCheckLogin ? (
         <Spinner />
       ) : (
         <CourseContainer>

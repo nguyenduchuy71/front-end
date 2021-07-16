@@ -28,11 +28,15 @@ var reducer = (0, _redux.combineReducers)({
   userSignin: _userReducers.userSigninReducer,
   userSignout: _userReducers.userSignoutReducer,
   userCheckLogin: _userReducers.userCheckLoginReducer,
-  getUsers: _adminReducers.getUsersReducer,
   userLoadCourses: _userReducers.userLoadCoursesReducer,
   userLoadForums: _userReducers.userLoadForumsReducer,
   userAddForum: _userReducers.userAddForumReducer,
-  userUpdateProfile: _userReducers.userUpdateProfileReducer
+  userUpdateProfile: _userReducers.userUpdateProfileReducer,
+  getUsers: _adminReducers.getUsersReducer,
+  adminDeleteForum: _adminReducers.adminDeleteForumReducer,
+  adminDeleteCourse: _adminReducers.adminDeleteCourseReducer,
+  adminAddCourse: _adminReducers.adminAddCourseReducer,
+  adminLoadForum: _adminReducers.adminLoadForumReducer
 });
 var composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _redux.compose;
 var store = (0, _redux.createStore)(reducer, initialState, composeEnhancer((0, _redux.applyMiddleware)(_reduxThunk["default"])));

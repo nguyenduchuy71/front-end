@@ -7,6 +7,8 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Cookie from "js-cookie";
 import { signout } from "../actions/userActions";
+import { updateCourse } from "../actions/adminActions";
+
 import Spinner from "../components/Spinner";
 function UpdateCourseScreen(props) {
   const userSignin = useSelector((state) => state.userSignin);
@@ -20,7 +22,7 @@ function UpdateCourseScreen(props) {
   const [img, setImg] = useState("");
   const history = useHistory();
   const dispatch = useDispatch();
-  const updatecourse = async (e) => {
+  const handleUpdatecourse = async (e) => {
     e.preventDefault();
     const data = {
       id: props.match.params.id,
@@ -30,16 +32,8 @@ function UpdateCourseScreen(props) {
       src: source,
       url: img,
     };
-    await axios
-      .put("/course/", data)
-      .then((res) => {
-        if (res.status === 200) {
-          history.push("/admin/courses");
-        }
-      })
-      .catch((error) => {
-        alert(error);
-      });
+    dispatch(updateCourse(data));
+    history.push("/admin/courses");
   };
   useEffect(() => {
     axios
@@ -76,7 +70,7 @@ function UpdateCourseScreen(props) {
   }, [loading]);
   return (
     <>
-      {!loading ? (
+      {!loading||loadingInfo ? (
         <Spinner />
       ) : (
         <>
@@ -143,7 +137,7 @@ function UpdateCourseScreen(props) {
                       </div>
                       <button
                         type="submit"
-                        onClick={updatecourse}
+                        onClick={handleUpdatecourse}
                         class="userUpdateButton"
                       >
                         Update

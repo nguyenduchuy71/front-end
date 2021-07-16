@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Forum from "../components/forum/Forum";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -26,8 +26,8 @@ export default function ForumScreen() {
         content: input,
         date: Date().toLocaleString(),
       };
-      dispatch(addForum(data));
-      window.location.reload();
+      await dispatch(addForum(data));
+      dispatch(loadForums());
     } else {
       history.push("/signin");
     }
@@ -37,13 +37,15 @@ export default function ForumScreen() {
       dispatch(checklogin());
       if (errorCheckLogin) {
         dispatch(signout());
+        history.push("/signin");
+        window.location.reload();
       }
     }
     dispatch(loadForums());
   }, [userSignin]);
   return (
     <>
-      {loadingForums && loading ? (
+      {loadingForums || loading || loadingCheckLogin ? (
         <Spinner />
       ) : (
         <div>

@@ -1,10 +1,11 @@
 import "./user.css";
 import { useState } from "react";
 import Error404Page from "./Error404Page";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import AdminOption from "../components/admin/AdminOption";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
+import { addCourse } from "../actions/adminActions";
+
 function AddCourseScreen() {
   const userSignin = useSelector((state) => state.userSignin);
   const { loadinguser, userInfo, error } = userSignin;
@@ -14,8 +15,8 @@ function AddCourseScreen() {
   const [source, setSource] = useState("");
   const [img, setImg] = useState("");
   const history = useHistory();
-  const server='http://127.0.0.1:8000';
-  const addCourse = async (e) => {
+  const dispatch = useDispatch();
+  const handleAddCourse = (e) => {
     e.preventDefault();
     const data = {
       title: title,
@@ -24,16 +25,8 @@ function AddCourseScreen() {
       src: source,
       url: img,
     };
-    await axios
-      .post(`${server}/course/`, data)
-      .then((res) => {
-        if (res.status === 200) {
-          history.push("/admin/courses");
-        }
-      })
-      .catch((error) => {
-        alert(error);
-      });
+    dispatch(addCourse(data));
+    history.push("/admin/courses");
   };
   return (
     <>
@@ -108,7 +101,7 @@ function AddCourseScreen() {
                   </div>
                   <button
                     type="submit"
-                    onClick={addCourse}
+                    onClick={handleAddCourse}
                     class="userUpdateButton"
                   >
                     Add

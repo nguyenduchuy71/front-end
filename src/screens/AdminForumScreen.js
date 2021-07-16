@@ -1,41 +1,34 @@
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import AdminOption from "../components/admin/AdminOption";
 import Error404Page from "./Error404Page";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import Cookie from "js-cookie";
-import { signout } from "../actions/userActions";
+import { Link, useHistory } from "react-router-dom";
+import { signout, loadForums } from "../actions/userActions";
+import { deleteForum } from "../actions/adminActions";
 import styled from "styled-components";
-import "./users.css";
 import Spinner from "../components/Spinner";
+import "./users.css";
 
 function AdminForumScreen() {
-  const server = 'http://127.0.0.1:8000';
-  const [data, setData] = useState([]);
   const history = useHistory();
   const dispatch = useDispatch();
-  const handleDelete = async (id) => {
-    await axios
-      .delete(`${server}/forum/`, {
-        data: { id: id },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          setData(data.filter((item) => item.id !== id));
-        }
-      })
-      .catch((error) => {
-        alert(error);
-      });
-  };
   const userSignin = useSelector((state) => state.userSignin);
   const { loadingInfo, userInfo, error } = userSignin;
-  const [loading, setLoading] = useState(false);
+  const userLoadForums = useSelector((state) => state.userLoadForums);
+  const { loadingForums, forums, errorLoadForums } = userLoadForums;
+  const fetchForums = async () => {
+    await dispatch(loadForums());
+    if (errorLoadForums) {
+      dispatch(signout());
+      history.push("/signin");
+    }
+  };
+  const handleDelete = async (id) => {
+    await dispatch(deleteForum(id));
+    fetchForums();
+  };
   const columns = [
     { field: "id", headerName: "ID", width: 100 },
     {
@@ -65,35 +58,13 @@ function AdminForumScreen() {
     },
   ];
   useEffect(() => {
-    axios
-      .get(`${server}/account/check-login/`, {
-        headers: { Authorization: "Bearer " + Cookie.get("access_token") },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          axios
-            .get(`${server}/forum/`, {
-              headers: {
-                Authorization: "Bearer " + Cookie.get("access_token"),
-              },
-            })
-            .then((res) => {
-              if (res.status === 200) {
-                setData(res.data);
-                setLoading(true);
-              }
-            })
-            .catch((error) => console.log(error.message));
-        }
-      })
-      .catch((error) => {
-        dispatch(signout());
-        history.push("/");
-      });
-  }, []);
+    if (userInfo) {
+      fetchForums();
+    }
+  }, [dispatch]);
   return (
     <div>
-      {!loading ? (
+      {loadingInfo || loadingForums ? (
         <Spinner />
       ) : (
         <>
@@ -105,7 +76,7 @@ function AdminForumScreen() {
               <Right>
                 <div className="userList">
                   <DataGrid
-                    rows={data}
+                    rows={forums ? forums : []}
                     disableSelectionOnClick
                     columns={columns}
                     pageSize={8}
