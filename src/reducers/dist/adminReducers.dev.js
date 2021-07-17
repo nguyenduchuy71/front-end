@@ -3,41 +3,14 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getUsersReducer = getUsersReducer;
 exports.adminDeleteCourseReducer = adminDeleteCourseReducer;
 exports.adminAddCourseReducer = adminAddCourseReducer;
 exports.adminUpdateCourseReducer = adminUpdateCourseReducer;
 exports.adminDeleteForumReducer = adminDeleteForumReducer;
 exports.adminLoadForumReducer = adminLoadForumReducer;
+exports.adminLoadUsersReducer = adminLoadUsersReducer;
 
 var _adminConstants = require("../constants/adminConstants");
-
-function getUsersReducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-
-  switch (action.type) {
-    case _adminConstants.ADMIN_GETUSERS_REQUEST:
-      return {
-        loadingGetUsers: true
-      };
-
-    case _adminConstants.ADMIN_GETUSERS_SUCCESS:
-      return {
-        loadingGetUsers: false,
-        users: action.payload
-      };
-
-    case _adminConstants.ADMIN_GETUSERS_FAIL:
-      return {
-        loadingGetUsers: false,
-        errorGetUsers: action.payload
-      };
-
-    default:
-      return state;
-  }
-}
 
 function adminDeleteCourseReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -167,6 +140,33 @@ function adminLoadForumReducer() {
       return {
         loadingLoadForum: false,
         errorLoadForum: action.payload
+      };
+
+    default:
+      return state;
+  }
+}
+
+function adminLoadUsersReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _adminConstants.ADMIN_LOAD_USERS_REQUEST:
+      return {
+        loadingUsers: true
+      };
+
+    case _adminConstants.ADMIN_LOAD_USERS_SUCCESS:
+      return {
+        loadingUsersForum: false,
+        users: action.payload
+      };
+
+    case _adminConstants.ADMIN_LOAD_USERS_FAIL:
+      return {
+        loadingUsers: false,
+        errorUsers: action.payload
       };
 
     default:

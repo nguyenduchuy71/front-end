@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Course from "../components/course/Course";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../components/Spinner";
 import { checklogin, signout, loadCourses } from "../actions/userActions";
+import { useHistory } from "react-router-dom";
 
 function CourseScreen() {
   const userSignin = useSelector((state) => state.userSignin);
@@ -12,16 +13,19 @@ function CourseScreen() {
   const { loadingCheckLogin, userCheck, errorCheckLogin } = userCheckLogin;
   const userLoadCourses = useSelector((state) => state.userLoadCourses);
   const { loadingCourses, courses, errorLoadCourses } = userLoadCourses;
+  const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
     if (userInfo) {
       dispatch(checklogin());
       if (errorCheckLogin) {
         dispatch(signout());
+        history.push("/signin");
+        window.location.reload();
       }
     }
     dispatch(loadCourses());
-  }, [userSignin]);
+  }, [dispatch]);
   return (
     <>
       {loadingCourses || loading || loadingCheckLogin ? (

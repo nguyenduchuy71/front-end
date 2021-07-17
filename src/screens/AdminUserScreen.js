@@ -1,27 +1,27 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import AdminOption from "../components/admin/AdminOption";
 import Error404Page from "./Error404Page";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
-import axios from "axios";
 import { useHistory } from "react-router-dom";
-import Cookie from "js-cookie";
 import { signout } from "../actions/userActions";
+import { loadUsers } from "../actions/adminActions";
 import styled from "styled-components";
-import "./users.css";
 import Spinner from "../components/Spinner";
+import "./users.css";
 
 function AdminUserScreen() {
-  const [data, setData] = useState([]);
   const history = useHistory();
   const dispatch = useDispatch();
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
   const userSignin = useSelector((state) => state.userSignin);
   const { loadingInfo, userInfo, error } = userSignin;
-  const [loading, setLoading] = useState(false);
+  const adminLoadUsers = useSelector((state) => state.adminLoadUsers);
+  const { loadingUsers, users, errorUsers } = adminLoadUsers;
+  const handleDelete = (id) => {};
+  const fetchUsers = async () => {
+    await dispatch(loadUsers());
+  };
   const columns = [
     { field: "id", headerName: "ID", width: 100 },
     {
@@ -56,35 +56,18 @@ function AdminUserScreen() {
     },
   ];
   useEffect(() => {
-    axios
-      .get("/account/check-login/", {
-        headers: { Authorization: "Bearer " + Cookie.get("access_token") },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          axios
-            .get("/account/get-all/", {
-              headers: {
-                Authorization: "Bearer " + Cookie.get("access_token"),
-              },
-            })
-            .then(async (res) => {
-              if (res.status === 200) {
-                await setData(res.data.filter((row) => row.is_staff === false));
-                setLoading(true);
-              }
-            })
-            .catch((error) => console.log(error.message));
-        }
-      })
-      .catch((error) => {
+    if (userInfo) {
+      fetchUsers();
+      if (errorUsers) {
         dispatch(signout());
         history.push("/signin");
-      });
-  }, []);
+        window.location.reload();
+      }
+    }
+  }, [dispatch]);
   return (
-    <div>
-      {!loading ? (
+    <>
+      {loadingInfo || loadingUsers ? (
         <Spinner />
       ) : (
         <>
@@ -96,7 +79,7 @@ function AdminUserScreen() {
               <Right>
                 <div className="userList">
                   <DataGrid
-                    rows={data}
+                    rows={users ? users.filter((user) => !user.is_staff) : []}
                     disableSelectionOnClick
                     columns={columns}
                     pageSize={8}
@@ -110,7 +93,7 @@ function AdminUserScreen() {
           )}
         </>
       )}
-    </div>
+    </>
   );
 }
 

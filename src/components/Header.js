@@ -24,7 +24,7 @@ function Header() {
     await dispatch(signout());
     setInfo();
     setopenSubMenu(false);
-    history.push('/signin');
+    history.push("/signin");
   };
   const toogleSubMenu = () => {
     setopenSubMenu(!openSubMenu);
@@ -56,7 +56,11 @@ function Header() {
           {info ? (
             <SelectMenu onClick={toogleSubMenu}>
               <img
-                src={info.avatar}
+                src={
+                  info.avatar
+                    ? info.avatar
+                    : "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+                }
                 alt="avatar"
                 style={{ borderRadius: "99px" }}
               />
@@ -131,11 +135,11 @@ function Header() {
       {openSubMenu ? (
         <SubMenu className="sub_menu">
           <ListSubMenu>
-            <ElementSubMenu>
+            <ElementSubMenu style={{ cursor: "pointer" }}>
               <ExitToAppIcon />
-              <Link style={{ marginLeft: "10px" }} onClick={signOut}>
+              <span style={{ marginLeft: "10px" }} onClick={signOut}>
                 Đăng xuất
-              </Link>
+              </span>
             </ElementSubMenu>
             {info?.is_staff ? (
               <SubNewMenu>

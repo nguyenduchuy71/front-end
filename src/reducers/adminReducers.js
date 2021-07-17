@@ -1,7 +1,4 @@
 import {
-  ADMIN_GETUSERS_FAIL,
-  ADMIN_GETUSERS_REQUEST,
-  ADMIN_GETUSERS_SUCCESS,
   ADMIN_DELETE_COURSE_FAIL,
   ADMIN_DELETE_COURSE_REQUEST,
   ADMIN_DELETE_COURSE_SUCCESS,
@@ -17,20 +14,11 @@ import {
   ADMIN_LOAD_FORUM_FAIL,
   ADMIN_LOAD_FORUM_REQUEST,
   ADMIN_LOAD_FORUM_SUCCESS,
+  ADMIN_LOAD_USERS_FAIL,
+  ADMIN_LOAD_USERS_REQUEST,
+  ADMIN_LOAD_USERS_SUCCESS,
 } from "../constants/adminConstants";
 
-function getUsersReducer(state = {}, action) {
-  switch (action.type) {
-    case ADMIN_GETUSERS_REQUEST:
-      return { loadingGetUsers: true };
-    case ADMIN_GETUSERS_SUCCESS:
-      return { loadingGetUsers: false, users: action.payload };
-    case ADMIN_GETUSERS_FAIL:
-      return { loadingGetUsers: false, errorGetUsers: action.payload };
-    default:
-      return state;
-  }
-}
 function adminDeleteCourseReducer(state = {}, action) {
   switch (action.type) {
     case ADMIN_DELETE_COURSE_REQUEST:
@@ -91,11 +79,24 @@ function adminLoadForumReducer(state = {}, action) {
       return state;
   }
 }
+function adminLoadUsersReducer(state = {}, action) {
+  switch (action.type) {
+    case ADMIN_LOAD_USERS_REQUEST:
+      return { loadingUsers: true };
+    case ADMIN_LOAD_USERS_SUCCESS:
+      return { loadingUsersForum: false, users: action.payload };
+    case ADMIN_LOAD_USERS_FAIL:
+      return { loadingUsers: false, errorUsers: action.payload };
+    default:
+      return state;
+  }
+}
+
 export {
-  getUsersReducer,
   adminDeleteCourseReducer,
   adminAddCourseReducer,
   adminUpdateCourseReducer,
   adminDeleteForumReducer,
   adminLoadForumReducer,
+  adminLoadUsersReducer,
 };

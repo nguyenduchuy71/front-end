@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import AdminOption from "../components/admin/AdminOption";
 import Error404Page from "./Error404Page";
@@ -19,7 +19,6 @@ function AdminCourseScreen() {
   const { loadingCheckLogin, userCheck, errorCheckLogin } = userCheckLogin;
   const userLoadCourses = useSelector((state) => state.userLoadCourses);
   const { loadingCourses, courses, errorLoadCourses } = userLoadCourses;
-
   const history = useHistory();
   const dispatch = useDispatch();
   const handleDelete = (id) => {
@@ -63,15 +62,19 @@ function AdminCourseScreen() {
       },
     },
   ];
+  const fetchCourses = async () => {
+    await dispatch(loadCourses());
+  };
   useEffect(() => {
     if (userInfo) {
       dispatch(checklogin());
       if (errorCheckLogin) {
         dispatch(signout());
         history.push("/signin");
+        window.location.reload();
       }
     }
-    dispatch(loadCourses());
+    fetchCourses();
   }, [dispatch]);
   return (
     <>

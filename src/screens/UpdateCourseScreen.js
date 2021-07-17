@@ -66,11 +66,13 @@ function UpdateCourseScreen(props) {
       })
       .catch((error) => {
         dispatch(signout());
+        history.push("/signin");
+        window.location.reload();
       });
   }, [loading]);
   return (
     <>
-      {!loading||loadingInfo ? (
+      {!loading || loadingInfo ? (
         <Spinner />
       ) : (
         <>

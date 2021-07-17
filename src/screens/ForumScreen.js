@@ -42,7 +42,7 @@ export default function ForumScreen() {
       }
     }
     dispatch(loadForums());
-  }, [userSignin]);
+  }, [dispatch]);
   return (
     <>
       {loadingForums || loading || loadingCheckLogin ? (

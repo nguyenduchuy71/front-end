@@ -5,7 +5,7 @@ import Error404Page from "./Error404Page";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link, useHistory } from "react-router-dom";
-import { signout, loadForums } from "../actions/userActions";
+import { signout, loadForums, checklogin } from "../actions/userActions";
 import { deleteForum } from "../actions/adminActions";
 import styled from "styled-components";
 import Spinner from "../components/Spinner";
@@ -16,19 +16,10 @@ function AdminForumScreen() {
   const dispatch = useDispatch();
   const userSignin = useSelector((state) => state.userSignin);
   const { loadingInfo, userInfo, error } = userSignin;
+  const userCheckLogin = useSelector((state) => state.userCheckLogin);
+  const { loadingCheckLogin, userCheck, errorCheckLogin } = userCheckLogin;
   const userLoadForums = useSelector((state) => state.userLoadForums);
   const { loadingForums, forums, errorLoadForums } = userLoadForums;
-  const fetchForums = async () => {
-    await dispatch(loadForums());
-    if (errorLoadForums) {
-      dispatch(signout());
-      history.push("/signin");
-    }
-  };
-  const handleDelete = async (id) => {
-    await dispatch(deleteForum(id));
-    fetchForums();
-  };
   const columns = [
     { field: "id", headerName: "ID", width: 100 },
     {
@@ -57,14 +48,27 @@ function AdminForumScreen() {
       },
     },
   ];
+  const fetchForums = async () => {
+    await dispatch(loadForums());
+  };
+  const handleDelete = async (id) => {
+    await dispatch(deleteForum(id));
+    fetchForums();
+  };
   useEffect(() => {
     if (userInfo) {
-      fetchForums();
+      dispatch(checklogin());
+      if (errorCheckLogin) {
+        dispatch(signout());
+        history.push("/signin");
+        window.location.reload();
+      }
     }
+    fetchForums();
   }, [dispatch]);
   return (
     <div>
-      {loadingInfo || loadingForums ? (
+      {loadingInfo || loadingForums || loadingCheckLogin ? (
         <Spinner />
       ) : (
         <>

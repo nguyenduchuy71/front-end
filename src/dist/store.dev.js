@@ -32,11 +32,11 @@ var reducer = (0, _redux.combineReducers)({
   userLoadForums: _userReducers.userLoadForumsReducer,
   userAddForum: _userReducers.userAddForumReducer,
   userUpdateProfile: _userReducers.userUpdateProfileReducer,
-  getUsers: _adminReducers.getUsersReducer,
   adminDeleteForum: _adminReducers.adminDeleteForumReducer,
   adminDeleteCourse: _adminReducers.adminDeleteCourseReducer,
   adminAddCourse: _adminReducers.adminAddCourseReducer,
-  adminLoadForum: _adminReducers.adminLoadForumReducer
+  adminLoadForum: _adminReducers.adminLoadForumReducer,
+  adminLoadUsers: _adminReducers.adminLoadUsersReducer
 });
 var composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _redux.compose;
 var store = (0, _redux.createStore)(reducer, initialState, composeEnhancer((0, _redux.applyMiddleware)(_reduxThunk["default"])));

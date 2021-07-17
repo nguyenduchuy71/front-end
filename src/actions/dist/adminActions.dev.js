@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.loadForums = exports.deleteForum = exports.updateCourse = exports.addCourse = exports.deleteCourse = exports.getusers = void 0;
+exports.loadUsers = exports.loadForums = exports.deleteForum = exports.updateCourse = exports.addCourse = exports.deleteCourse = void 0;
 
 var _adminConstants = require("../constants/adminConstants");
 
@@ -13,7 +13,7 @@ var _axios = _interopRequireDefault(require("axios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var getusers = function getusers() {
+var deleteCourse = function deleteCourse(id) {
   return function _callee(dispatch) {
     var _ref, data;
 
@@ -22,14 +22,14 @@ var getusers = function getusers() {
         switch (_context.prev = _context.next) {
           case 0:
             dispatch({
-              type: _adminConstants.ADMIN_GETUSERS_REQUEST,
+              type: _adminConstants.ADMIN_DELETE_COURSE_REQUEST,
               payload: {}
             });
             _context.prev = 1;
             _context.next = 4;
-            return regeneratorRuntime.awrap(_axios["default"].get("/account/get-all/", {
-              headers: {
-                Authorization: "Bearer " + _jsCookie["default"].get("access_token")
+            return regeneratorRuntime.awrap(_axios["default"]["delete"]("/course/", {
+              data: {
+                id: id
               }
             }));
 
@@ -37,10 +37,8 @@ var getusers = function getusers() {
             _ref = _context.sent;
             data = _ref.data;
             dispatch({
-              type: _adminConstants.ADMIN_GETUSERS_SUCCESS,
-              payload: data.filter(function (row) {
-                return row.is_staff === false;
-              })
+              type: _adminConstants.ADMIN_DELETE_COURSE_SUCCESS,
+              payload: data
             });
             _context.next = 12;
             break;
@@ -49,7 +47,7 @@ var getusers = function getusers() {
             _context.prev = 9;
             _context.t0 = _context["catch"](1);
             dispatch({
-              type: _adminConstants.ADMIN_GETUSERS_FAIL,
+              type: _adminConstants.ADMIN_DELETE_COURSE_FAIL,
               payload: _context.t0.message
             });
 
@@ -62,34 +60,30 @@ var getusers = function getusers() {
   };
 };
 
-exports.getusers = getusers;
+exports.deleteCourse = deleteCourse;
 
-var deleteCourse = function deleteCourse(id) {
+var addCourse = function addCourse(data) {
   return function _callee2(dispatch) {
-    var _ref2, data;
+    var _ref2, new_data;
 
     return regeneratorRuntime.async(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
             dispatch({
-              type: _adminConstants.ADMIN_DELETE_COURSE_REQUEST,
+              type: _adminConstants.ADMIN_ADD_COURSE_REQUEST,
               payload: {}
             });
             _context2.prev = 1;
             _context2.next = 4;
-            return regeneratorRuntime.awrap(_axios["default"]["delete"]("/course/", {
-              data: {
-                id: id
-              }
-            }));
+            return regeneratorRuntime.awrap(_axios["default"].post("/course/", data));
 
           case 4:
             _ref2 = _context2.sent;
-            data = _ref2.data;
+            new_data = _ref2.new_data;
             dispatch({
-              type: _adminConstants.ADMIN_DELETE_COURSE_SUCCESS,
-              payload: data
+              type: _adminConstants.ADMIN_ADD_COURSE_SUCCESS,
+              payload: new_data
             });
             _context2.next = 12;
             break;
@@ -98,7 +92,7 @@ var deleteCourse = function deleteCourse(id) {
             _context2.prev = 9;
             _context2.t0 = _context2["catch"](1);
             dispatch({
-              type: _adminConstants.ADMIN_DELETE_COURSE_FAIL,
+              type: _adminConstants.ADMIN_ADD_COURSE_FAIL,
               payload: _context2.t0.message
             });
 
@@ -111,9 +105,9 @@ var deleteCourse = function deleteCourse(id) {
   };
 };
 
-exports.deleteCourse = deleteCourse;
+exports.addCourse = addCourse;
 
-var addCourse = function addCourse(data) {
+var updateCourse = function updateCourse(data) {
   return function _callee3(dispatch) {
     var _ref3, new_data;
 
@@ -122,18 +116,18 @@ var addCourse = function addCourse(data) {
         switch (_context3.prev = _context3.next) {
           case 0:
             dispatch({
-              type: _adminConstants.ADMIN_ADD_COURSE_REQUEST,
+              type: _adminConstants.ADMIN_UPDATE_COURSE_REQUEST,
               payload: {}
             });
             _context3.prev = 1;
             _context3.next = 4;
-            return regeneratorRuntime.awrap(_axios["default"].post("/course/", data));
+            return regeneratorRuntime.awrap(_axios["default"].put("/course/", data));
 
           case 4:
             _ref3 = _context3.sent;
             new_data = _ref3.new_data;
             dispatch({
-              type: _adminConstants.ADMIN_ADD_COURSE_SUCCESS,
+              type: _adminConstants.ADMIN_UPDATE_COURSE_SUCCESS,
               payload: new_data
             });
             _context3.next = 12;
@@ -143,7 +137,7 @@ var addCourse = function addCourse(data) {
             _context3.prev = 9;
             _context3.t0 = _context3["catch"](1);
             dispatch({
-              type: _adminConstants.ADMIN_ADD_COURSE_FAIL,
+              type: _adminConstants.ADMIN_UPDATE_COURSE_FAIL,
               payload: _context3.t0.message
             });
 
@@ -156,30 +150,34 @@ var addCourse = function addCourse(data) {
   };
 };
 
-exports.addCourse = addCourse;
+exports.updateCourse = updateCourse;
 
-var updateCourse = function updateCourse(data) {
+var deleteForum = function deleteForum(id) {
   return function _callee4(dispatch) {
-    var _ref4, new_data;
+    var _ref4, data;
 
     return regeneratorRuntime.async(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
             dispatch({
-              type: _adminConstants.ADMIN_UPDATE_COURSE_REQUEST,
+              type: _adminConstants.ADMIN_DELETE_FORUM_REQUEST,
               payload: {}
             });
             _context4.prev = 1;
             _context4.next = 4;
-            return regeneratorRuntime.awrap(_axios["default"].put("/course/", data));
+            return regeneratorRuntime.awrap(_axios["default"]["delete"]("/forum/", {
+              data: {
+                id: id
+              }
+            }));
 
           case 4:
             _ref4 = _context4.sent;
-            new_data = _ref4.new_data;
+            data = _ref4.data;
             dispatch({
-              type: _adminConstants.ADMIN_UPDATE_COURSE_SUCCESS,
-              payload: new_data
+              type: _adminConstants.ADMIN_DELETE_FORUM_SUCCESS,
+              payload: data
             });
             _context4.next = 12;
             break;
@@ -188,7 +186,7 @@ var updateCourse = function updateCourse(data) {
             _context4.prev = 9;
             _context4.t0 = _context4["catch"](1);
             dispatch({
-              type: _adminConstants.ADMIN_UPDATE_COURSE_FAIL,
+              type: _adminConstants.ADMIN_DELETE_FORUM_FAIL,
               payload: _context4.t0.message
             });
 
@@ -201,69 +199,20 @@ var updateCourse = function updateCourse(data) {
   };
 };
 
-exports.updateCourse = updateCourse;
+exports.deleteForum = deleteForum;
 
-var deleteForum = function deleteForum(id) {
+var loadForums = function loadForums() {
   return function _callee5(dispatch) {
-    var _ref5, data;
-
     return regeneratorRuntime.async(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             dispatch({
-              type: _adminConstants.ADMIN_DELETE_FORUM_REQUEST,
+              type: _adminConstants.ADMIN_LOAD_FORUM_REQUEST,
               payload: {}
             });
             _context5.prev = 1;
             _context5.next = 4;
-            return regeneratorRuntime.awrap(_axios["default"]["delete"]("/forum/", {
-              data: {
-                id: id
-              }
-            }));
-
-          case 4:
-            _ref5 = _context5.sent;
-            data = _ref5.data;
-            dispatch({
-              type: _adminConstants.ADMIN_DELETE_FORUM_SUCCESS,
-              payload: data
-            });
-            _context5.next = 12;
-            break;
-
-          case 9:
-            _context5.prev = 9;
-            _context5.t0 = _context5["catch"](1);
-            dispatch({
-              type: _adminConstants.ADMIN_DELETE_FORUM_FAIL,
-              payload: _context5.t0.message
-            });
-
-          case 12:
-          case "end":
-            return _context5.stop();
-        }
-      }
-    }, null, null, [[1, 9]]);
-  };
-};
-
-exports.deleteForum = deleteForum;
-
-var loadForums = function loadForums() {
-  return function _callee6(dispatch) {
-    return regeneratorRuntime.async(function _callee6$(_context6) {
-      while (1) {
-        switch (_context6.prev = _context6.next) {
-          case 0:
-            dispatch({
-              type: _adminConstants.ADMIN_LOAD_FORUM_REQUEST,
-              payload: {}
-            });
-            _context6.prev = 1;
-            _context6.next = 4;
             return regeneratorRuntime.awrap(_axios["default"].get("/account/check-login/", {
               headers: {
                 Authorization: "Bearer " + _jsCookie["default"].get("access_token")
@@ -290,6 +239,66 @@ var loadForums = function loadForums() {
             }));
 
           case 4:
+            _context5.next = 9;
+            break;
+
+          case 6:
+            _context5.prev = 6;
+            _context5.t0 = _context5["catch"](1);
+            dispatch({
+              type: _adminConstants.ADMIN_LOAD_FORUM_FAIL,
+              payload: _context5.t0.message
+            });
+
+          case 9:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, null, null, [[1, 6]]);
+  };
+};
+
+exports.loadForums = loadForums;
+
+var loadUsers = function loadUsers() {
+  return function _callee6(dispatch) {
+    return regeneratorRuntime.async(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            dispatch({
+              type: _adminConstants.ADMIN_LOAD_USERS_REQUEST,
+              payload: {}
+            });
+            _context6.prev = 1;
+            _context6.next = 4;
+            return regeneratorRuntime.awrap(_axios["default"].get("/account/check-login/", {
+              headers: {
+                Authorization: "Bearer " + _jsCookie["default"].get("access_token")
+              }
+            }).then(function (res) {
+              if (res.status === 200) {
+                _axios["default"].get("/account/get-all/", {
+                  headers: {
+                    Authorization: "Bearer " + _jsCookie["default"].get("access_token")
+                  }
+                }).then(function (res) {
+                  if (res.status === 200) {
+                    dispatch({
+                      type: _adminConstants.ADMIN_LOAD_USERS_SUCCESS,
+                      payload: res.data
+                    });
+                  }
+                })["catch"](function (error) {
+                  return console.log(error.message);
+                });
+              }
+            })["catch"](function (error) {
+              return console.log(error.message);
+            }));
+
+          case 4:
             _context6.next = 9;
             break;
 
@@ -297,7 +306,7 @@ var loadForums = function loadForums() {
             _context6.prev = 6;
             _context6.t0 = _context6["catch"](1);
             dispatch({
-              type: _adminConstants.ADMIN_LOAD_FORUM_FAIL,
+              type: _adminConstants.ADMIN_LOAD_USERS_FAIL,
               payload: _context6.t0.message
             });
 
@@ -310,4 +319,4 @@ var loadForums = function loadForums() {
   };
 };
 
-exports.loadForums = loadForums;
+exports.loadUsers = loadUsers;
