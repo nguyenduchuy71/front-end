@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./ForumDetailScreen.css";
-import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import DateRangeIcon from "@material-ui/icons/DateRange";
-import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import Cookie from "js-cookie";
 import { signout } from "../actions/userActions";
+import styled from "styled-components";
+import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 
 function ForumDetailScreen(props) {
   const [cmt, setCmt] = useState();
@@ -70,81 +70,168 @@ function ForumDetailScreen(props) {
       .catch((error) => {
         dispatch(signout());
         history.push("/signin");
+        window.location.reload();
       });
   }, []);
   return (
-    <div className="forumdetail">
-      <div className="forum__detail__content">
-        <div className="list__info__author">
-          <p className="item__author content_title">{cmt?.title}</p>
-          <ul className="list__infor__content item__author">
-            <li className="infor__content username">
-              <PersonOutlineIcon className="icon"></PersonOutlineIcon>
-              <span className="name__author">{cmt?.user}</span>
-            </li>
-            <li className="infor__content postdate">
-              <DateRangeIcon className="icon"></DateRangeIcon>
-              <span className="date__post">{cmt?.date.split("T")[0]}</span>
-            </li>
-          </ul>
-        </div>
-        <div className="list__responde">
-          {responses.map((res) => {
-            return (
-              <div key={res.id} className="item__responde row">
-                <div className="left col-lg-3 col-md-2 col-sm-12">
-                  <img
-                    className="avartar__author__responde"
-                    src={userInfo?.avatar}
-                    alt="img"
+    <Content>
+      <AuthorCotent style={{ borderBottom: "2px solid #fff" }}>
+        <AuthorLeft>
+          <AuthorImage src={userInfo.avatar} alt="avatar" />
+        </AuthorLeft>
+        <AuthorRight>
+          <TitleForum>{cmt?.title}</TitleForum>
+          <AuthorRightBot>
+            <DateRangeIcon />
+            <span>{cmt?.date.split("T")[0]}</span>
+          </AuthorRightBot>
+        </AuthorRight>
+      </AuthorCotent>
+      <ResponseContent>
+        <span style={{ fontSize: "18px", fontWeight: "bold" }}>
+          {responses.length} Comments
+        </span>
+        {responses.map((res) => {
+          return (
+            <ListResponse>
+              <AuthorCotent>
+                <AuthorLeft>
+                  <AuthorImage
+                    style={{ width: "60px", height: "60px" }}
+                    src={userInfo.avatar}
+                    alt="avatar"
                   />
-                </div>
-                <div className="center col-lg-6 col-md-8 col-sm-12">
-                  <p className="text__author__responde">{res.content}</p>
-                </div>
-                <div className="right col-lg-3 col-md-2 col-sm-12">
-                  <span className="time__author__responde">{res.date}</span>
-                  <Button
-                    className="bnt__reply"
-                    variant="contained"
-                    size="small"
-                    color="secondary"
-                    onClick={() => {
-                      setInput(`@:${res.user} `);
-                    }}
-                  >
-                    Reply
-                  </Button>
-                </div>
+                </AuthorLeft>
+                <AuthorRight>
+                  <AuthorResponseContent>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "2px 4px",
+                      }}
+                    >
+                      <PermIdentityIcon />
+                      <AuthorResponseName>{res.id}</AuthorResponseName>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "2px 4px",
+                      }}
+                    >
+                      <DateRangeIcon />
+                      <span style={{ fontSize: "18px" }}>
+                        {res.date.split("T")[0]}
+                      </span>
+                    </div>
+                  </AuthorResponseContent>
+                  <TitleForum style={{ fontSize: "18px", paddingLeft: "10px" }}>
+                    {res.content}
+                  </TitleForum>
+                </AuthorRight>
+              </AuthorCotent>
+              <div
+                style={{ borderBottom: "2px solid #fff", paddingBottom: "8px" }}
+              >
+                <Button
+                  onClick={() => {
+                    setInput(`@:${res.user} `);
+                  }}
+                >
+                  Reply
+                </Button>
               </div>
-            );
-          })}
-        </div>
-        <div className="row post_comment">
-          <TextField
-            fullWidth
-            value={input}
-            id="cmt__post"
-            placeholder="Nhập bình luận"
-            variant="outlined"
-            size="small"
-            className="col-lg-8 col-md-6 col-sm-12 input__cmt__post"
-            onChange={(e) => setInput(e.target.value)}
-          />
-          <span className="col-lg-1 col-md-12 col-sm-12"></span>
-          <Button
-            className="col-lg-1 col-md-6 col-sm-12 btn__post__cmt"
-            variant="contained"
-            size="small"
-            color="primary"
-            onClick={submitHandle}
-          >
+            </ListResponse>
+          );
+        })}
+      </ResponseContent>
+      <div
+        style={{
+          width: "90%",
+          margin: "0 auto",
+          display: "flex",
+          alignItems: "stretch",
+          justifyContent: "space-between",
+        }}
+      >
+        <TextField
+          fullWidth
+          value={input}
+          placeholder="Nhập bình luận"
+          variant="outlined"
+          size="small"
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <div style={{ padding: " 8px" }}>
+          <Button style={{ backgroundColor: "blue" }} onClick={submitHandle}>
             Post
           </Button>
         </div>
       </div>
-    </div>
+    </Content>
   );
 }
-
 export default ForumDetailScreen;
+const Content = styled.div`
+  width: 80%;
+  margin: 100px auto;
+  padding: 10px;
+  height: calc(100vh - 100px);
+  border-radius: 8px;
+  background-color: #ddd;
+`;
+const AuthorCotent = styled.div`
+  display: flex;
+  align-items: stretch;
+`;
+const AuthorRight = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 20px;
+`;
+const AuthorLeft = styled.div`
+  padding: 4px;
+`;
+const AuthorRightBot = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const TitleForum = styled.p`
+  font-size: 24px;
+  font-weight: bold;
+`;
+const AuthorImage = styled.img`
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+`;
+const ResponseContent = styled.div`
+  width: 90%;
+  margin: 20px auto;
+`;
+const ListResponse = styled.div`
+  padding: 4px;
+`;
+const AuthorResponseName = styled.p`
+  font-size: 20px;
+`;
+const AuthorResponseContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+const Button = styled.button`
+  width: 56px;
+  height: 24px;
+  padding: 4px;
+  background-color: red;
+  color: #fff;
+  font-weight: 600;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+`;

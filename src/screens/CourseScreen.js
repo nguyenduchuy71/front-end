@@ -32,9 +32,9 @@ function CourseScreen() {
         <Spinner />
       ) : (
         <CourseContainer>
-          {courses?.map((course) => {
-            return <Course key={course._id} course={course} />;
-          })}
+          {courses?.map((course) => (
+            <Course key={course._id} course={course} />
+          ))}
         </CourseContainer>
       )}
     </>
@@ -47,9 +47,9 @@ const CourseContainer = styled.div`
   padding: 0 20px;
   display: grid;
   gap: 40px;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   @media screen and (max-width: 930px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
   @media screen and (max-width: 600px) {
     grid-template-columns: repeat(1, 1fr);

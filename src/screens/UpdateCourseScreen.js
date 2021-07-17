@@ -8,7 +8,6 @@ import axios from "axios";
 import Cookie from "js-cookie";
 import { signout } from "../actions/userActions";
 import { updateCourse } from "../actions/adminActions";
-
 import Spinner from "../components/Spinner";
 function UpdateCourseScreen(props) {
   const userSignin = useSelector((state) => state.userSignin);

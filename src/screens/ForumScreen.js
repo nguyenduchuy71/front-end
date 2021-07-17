@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import Forum from "../components/forum/Forum";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import "./ForumScreen.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { loadForums } from "../actions/userActions";
 import Spinner from "../components/Spinner";
 import { addForum, checklogin, signout } from "../actions/userActions";
+import styled from "styled-components";
 
 export default function ForumScreen() {
   const userSignin = useSelector((state) => state.userSignin);
@@ -48,24 +47,57 @@ export default function ForumScreen() {
       {loadingForums || loading || loadingCheckLogin ? (
         <Spinner />
       ) : (
-        <div>
-          <div className="top">
-            <TextField
-              id="input__question"
-              placeholder="Nhập câu hỏi"
-              onChange={(e) => setInput(e.target.value)}
-            />
-            <Button variant="contained" color="secondary" onClick={add}>
-              Đăng
-            </Button>
-          </div>
-          <div className="forum">
-            {forums?.map((cmt) => {
-              return <Forum key={cmt.id} cmt={cmt} />;
-            })}
-          </div>
-        </div>
+        <Container>
+          <Top>
+            <ContainerTextFiled>
+              <TextField
+                id="input__question"
+                placeholder="Nhập câu hỏi"
+                style={{ width: "100%" }}
+                onChange={(e) => setInput(e.target.value)}
+              />
+            </ContainerTextFiled>
+            <Button onClick={add}>Đăng</Button>
+          </Top>
+          <Bottom>
+            {forums?.map((cmt) => (
+              <Forum key={cmt.id} cmt={cmt} />
+            ))}
+          </Bottom>
+        </Container>
       )}
     </>
   );
 }
+const Container = styled.div`
+  width: 80%;
+  height: calc(100vh - 100px);
+  margin: 0 auto;
+`;
+const Top = styled.div`
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+`;
+const ContainerTextFiled = styled.div`
+  width: 100%;
+  display: flex;
+  padding: 0 16px;
+`;
+const Button = styled.button`
+  margin-left: 10px;
+  font-size: 16px;
+  padding: 0 12px;
+  cursor: pointer;
+  background-color: #fc4445;
+  font-weight: 600;
+  color: white;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  &:hover {
+    background-color: #e7717d;
+  }
+`;
+const Bottom = styled.div``;
