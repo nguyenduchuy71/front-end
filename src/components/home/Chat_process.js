@@ -1,5 +1,7 @@
 import axios from "axios";
 
+let chat_global = "";
+
 export function close() {
     let chat = document.querySelector(".widget");
     chat.style.display = "none";
@@ -17,11 +19,15 @@ export const chat = () => {
     userChat(chatContent.value);
     let body = {
         text: chatContent.value,
+        state_chat: 1,
     };
 
     const url = "http://127.0.0.1:8000/get-response/";
     axios.post(url, body).then((res) => {
-        botResponse(res.data.response);
+        if (res.data.response == "") {
+            chat_global = res.data.text_formated;
+            chatConfirm();
+        } else botResponse(res.data.response);
         scrollChat();
     });
     chatContent.value = "";
@@ -59,4 +65,47 @@ const userChat = (req) => {
 const scrollChat = () => {
     let chat = document.querySelector("#chats");
     chat.scrollTop = chat.scrollHeight;
+};
+
+const chatConfirm = () => {
+    let chat = document.querySelector("#chats");
+    let user = document.createElement("div");
+    user.className = "bot";
+    let image = document.createElement("img");
+    image.src = "https://image.flaticon.com/icons/png/128/3649/3649460.png";
+    image.className = "avatar";
+
+    let div_content = document.createElement("div");
+    div_content.className = "botMsg";
+    let content = document.createElement("p");
+    content.innerHTML = `Ý bạn là: "${chat_global}". Nếu đúng hãy click nút oke`;
+    div_content.append(content);
+
+    let div_but = document.createElement("div");
+    let but = document.createElement("button");
+
+    but.onclick = userConfirm;
+
+    but.id = "confirm";
+    but.type = "button";
+    but.innerHTML = "oke";
+    div_but.append(but);
+
+    div_content.append(div_but);
+    console.log(div_content);
+    user.appendChild(image);
+    user.appendChild(div_content);
+    chat.appendChild(user);
+};
+
+const userConfirm = () => {
+    let body = {
+        text: chat_global,
+        state_chat: 2,
+    };
+    const url = "http://127.0.0.1:8000/get-response/";
+    axios.post(url, body).then((res) => {
+        botResponse(res.data.response);
+        scrollChat();
+    });
 };

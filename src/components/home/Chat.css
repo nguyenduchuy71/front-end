@@ -50,11 +50,14 @@
 }
 .input_text > input {
     width: 100%;
+    height: 110%;
+    margin-left: 5px;
+    font-size: 16px;
 }
 
 .sendicon {
     flex: 0.1;
-    color: blue;
+    padding-top: 2px;
 }
 
 .chatbot {
@@ -82,7 +85,7 @@
 }
 
 .avatar {
-    width: 40px !important;
+    width: 30px !important;
     height: 30px !important;
     border-radius: 50%;
 }
@@ -112,15 +115,18 @@
     width: 75%;
     display: flex;
     align-items: flex-end;
-    margin: 10px;
+    margin-top: 5px;
+    margin-right: 0;
+    padding: 1px;
 }
 .userMsg {
     box-shadow: 2px 5px 5px 1px #efeef5;
     border: 1px solid #ebedf0;
     border-radius: 1.5em;
-    padding: 3px;
+    padding: 5px;
     font-size: 0.9375rem;
     flex: 1;
+    background-color: lightblue;
 }
 
 .input_text > input {
@@ -131,4 +137,34 @@
 
 .input_text > input:focus {
     outline: none;
+}
+
+.botMsg div {
+    background-color: lightgray;
+    padding: 3px;
+    margin-top: 3px;
+    width: 107%;
+    margin-left: -7px;
+    margin-bottom: -4.5px;
+    border-radius: 0 0 1.5em 1.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#confirm {
+    background-color: lightblue;
+    outline: none;
+    width: 30%;
+    border-radius: 5px;
+    border: 0.5px solid rgb(43, 94, 94);
+}
+#confirm:hover {
+    background-color: rgb(156, 156, 236);
+    cursor: pointer;
+}
+#confirm:active {
+    background-color: #3e8e41;
+    /* box-shadow: 0 5px #666; */
+    transform: translateY(2px);
 }

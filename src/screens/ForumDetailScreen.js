@@ -77,7 +77,14 @@ function ForumDetailScreen(props) {
     <Content>
       <AuthorCotent style={{ borderBottom: "2px solid #fff" }}>
         <AuthorLeft>
-          <AuthorImage src={userInfo.avatar} alt="avatar" />
+          <AuthorImage
+            src={
+              userInfo.avatar
+                ? userInfo.avatar
+                : "https://thelifetank.com/wp-content/uploads/2018/08/avatar-default-icon.png"
+            }
+            alt="avatar"
+          />
         </AuthorLeft>
         <AuthorRight>
           <TitleForum>{cmt?.title}</TitleForum>
@@ -98,7 +105,11 @@ function ForumDetailScreen(props) {
                 <AuthorLeft>
                   <AuthorImage
                     style={{ width: "60px", height: "60px" }}
-                    src={userInfo.avatar}
+                    src={
+                      userInfo.avatar
+                        ? userInfo.avatar
+                        : "https://thelifetank.com/wp-content/uploads/2018/08/avatar-default-icon.png"
+                    }
                     alt="avatar"
                   />
                 </AuthorLeft>
@@ -127,7 +138,7 @@ function ForumDetailScreen(props) {
                       </span>
                     </div>
                   </AuthorResponseContent>
-                  <TitleForum style={{ fontSize: "18px", paddingLeft: "10px" }}>
+                  <TitleForum style={{ fontSize: "16px" }}>
                     {res.content}
                   </TitleForum>
                 </AuthorRight>
@@ -162,10 +173,14 @@ function ForumDetailScreen(props) {
           placeholder="Nhập bình luận"
           variant="outlined"
           size="small"
+          style={{ backgroundColor: "white" }}
           onChange={(e) => setInput(e.target.value)}
         />
         <div style={{ padding: " 8px" }}>
-          <Button style={{ backgroundColor: "blue" }} onClick={submitHandle}>
+          <Button
+            style={{ backgroundColor: "blue", fontSize: "16px" }}
+            onClick={submitHandle}
+          >
             Post
           </Button>
         </div>
@@ -178,7 +193,6 @@ const Content = styled.div`
   width: 80%;
   margin: 100px auto;
   padding: 10px;
-  height: calc(100vh - 100px);
   border-radius: 8px;
   background-color: #ddd;
 `;
@@ -199,7 +213,7 @@ const AuthorRightBot = styled.div`
   display: flex;
   align-items: center;
 `;
-const TitleForum = styled.p`
+const TitleForum = styled.span`
   font-size: 24px;
   font-weight: bold;
 `;

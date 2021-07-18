@@ -43,6 +43,7 @@
   height: 45px;
 }
 .button {
+  margin-top:10px;
   flex: 1;
   display: flex;
   justify-content: center;
