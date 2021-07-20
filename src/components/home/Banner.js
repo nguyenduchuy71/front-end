@@ -47,7 +47,7 @@ const Carousel = styled(Slider)`
   button {
     z-index: 1;
   }
-  @media (max-width: 600px) {
+  @media (max-width: 1025px) {
     display: none;
   }
 `;

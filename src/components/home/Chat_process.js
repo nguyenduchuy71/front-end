@@ -1,5 +1,5 @@
 import axios from "axios";
-import { URL_SERVER } from "../../url";
+import { URL_SERVER } from "../../url.js";
 
 let chat_global = "";
 
@@ -14,7 +14,7 @@ export function open() {
   chat.style.display = "block";
   document.querySelector(".chatbot").style.display = "none";
 }
-export const chat = async () => {
+export const chat = () => {
   let chatContent = document.querySelector("#keypad");
   if (chatContent.value.trim() === "") return;
   userChat(chatContent.value);
@@ -23,7 +23,8 @@ export const chat = async () => {
     state_chat: 1,
   };
 
-  await axios.post(URL_SERVER, body).then((res) => {
+  const url = `${URL_SERVER}/get-response/`;
+  axios.post(url, body).then((res) => {
     if (res.data.response == "") {
       chat_global = res.data.text_formated;
       chatConfirm();
@@ -98,12 +99,13 @@ const chatConfirm = () => {
   chat.appendChild(user);
 };
 
-const userConfirm = async () => {
+const userConfirm = () => {
   let body = {
     text: chat_global,
     state_chat: 2,
   };
-  await axios.post(URL_SERVER, body).then((res) => {
+  const url = `${URL_SERVER}/get-response/`;
+  axios.post(url, body).then((res) => {
     botResponse(res.data.response);
     scrollChat();
   });

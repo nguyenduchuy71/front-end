@@ -9,7 +9,7 @@ exports.chat = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
-var _url = require("../../url");
+var _url = require("../../url.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -28,45 +28,25 @@ function open() {
 }
 
 var chat = function chat() {
-  var chatContent, body;
-  return regeneratorRuntime.async(function chat$(_context) {
-    while (1) {
-      switch (_context.prev = _context.next) {
-        case 0:
-          chatContent = document.querySelector("#keypad");
+  var chatContent = document.querySelector("#keypad");
+  if (chatContent.value.trim() === "") return;
+  userChat(chatContent.value);
+  var body = {
+    text: chatContent.value,
+    state_chat: 1
+  };
+  var url = "".concat(_url.URL_SERVER, "/get-response/");
 
-          if (!(chatContent.value.trim() === "")) {
-            _context.next = 3;
-            break;
-          }
+  _axios["default"].post(url, body).then(function (res) {
+    if (res.data.response == "") {
+      chat_global = res.data.text_formated;
+      chatConfirm();
+    } else botResponse(res.data.response);
 
-          return _context.abrupt("return");
-
-        case 3:
-          userChat(chatContent.value);
-          body = {
-            text: chatContent.value,
-            state_chat: 1
-          };
-          _context.next = 7;
-          return regeneratorRuntime.awrap(_axios["default"].post(_url.URL_SERVER, body).then(function (res) {
-            if (res.data.response == "") {
-              chat_global = res.data.text_formated;
-              chatConfirm();
-            } else botResponse(res.data.response);
-
-            scrollChat();
-          }));
-
-        case 7:
-          chatContent.value = "";
-
-        case 8:
-        case "end":
-          return _context.stop();
-      }
-    }
+    scrollChat();
   });
+
+  chatContent.value = "";
 };
 
 exports.chat = chat;
@@ -133,25 +113,14 @@ var chatConfirm = function chatConfirm() {
 };
 
 var userConfirm = function userConfirm() {
-  var body;
-  return regeneratorRuntime.async(function userConfirm$(_context2) {
-    while (1) {
-      switch (_context2.prev = _context2.next) {
-        case 0:
-          body = {
-            text: chat_global,
-            state_chat: 2
-          };
-          _context2.next = 3;
-          return regeneratorRuntime.awrap(_axios["default"].post(_url.URL_SERVER, body).then(function (res) {
-            botResponse(res.data.response);
-            scrollChat();
-          }));
+  var body = {
+    text: chat_global,
+    state_chat: 2
+  };
+  var url = "".concat(_url.URL_SERVER, "/get-response/");
 
-        case 3:
-        case "end":
-          return _context2.stop();
-      }
-    }
+  _axios["default"].post(url, body).then(function (res) {
+    botResponse(res.data.response);
+    scrollChat();
   });
 };
