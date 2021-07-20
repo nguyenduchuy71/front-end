@@ -26,11 +26,11 @@ import {
 } from "../constants/userConstants";
 import Cookie from "js-cookie";
 import Axios from "axios";
-
+import { URL_SERVER } from "../url";
 const signup = (user) => async (dispatch) => {
   dispatch({ type: USER_SIGNUP_REQUEST, payload: user });
   try {
-    await Axios.post("/account/create-user/", user);
+    await Axios.post(`${URL_SERVER}/account/create-user/`, user);
     dispatch({ type: USER_SIGNUP_SUCCESS, payload: true });
   } catch (error) {
     dispatch({ type: USER_SIGNUP_FAIL, payload: error.message });
@@ -40,7 +40,7 @@ const signup = (user) => async (dispatch) => {
 const signin = (user) => async (dispatch) => {
   dispatch({ type: USER_SIGNIN_REQUEST, payload: user });
   try {
-    const { data } = await Axios.post("/account/login/", user);
+    const { data } = await Axios.post(`${URL_SERVER}/account/login/`, user);
     dispatch({ type: USER_SIGNIN_SUCCESS, payload: data.user });
     Cookie.set("access_token", data.access_token);
     Cookie.set("userInfo", JSON.stringify(data.user));
@@ -63,7 +63,7 @@ const signout = () => (dispatch) => {
 const checklogin = () => async (dispatch) => {
   dispatch({ type: USER_CHECKLOGIN_REQUEST, payload: {} });
   try {
-    const { data } = await Axios.get("/account/check-login/", {
+    const { data } = await Axios.get(`${URL_SERVER}/account/check-login/`, {
       headers: { Authorization: "Bearer " + Cookie.get("access_token") },
     });
     dispatch({ type: USER_CHECKLOGIN_SUCCESS, payload: data });
@@ -75,7 +75,7 @@ const checklogin = () => async (dispatch) => {
 const loadCourses = () => async (dispatch) => {
   dispatch({ type: LOAD_COURSES_REQUEST, payload: true });
   try {
-    const { data } = await Axios.get("/course/");
+    const { data } = await Axios.get(`${URL_SERVER}/course/`);
     dispatch({ type: LOAD_COURSES_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_COURSES_FAIL, payload: error.message });
@@ -85,7 +85,7 @@ const loadCourses = () => async (dispatch) => {
 const loadForums = () => async (dispatch) => {
   dispatch({ type: LOAD_FORUMS_REQUEST, payload: {} });
   try {
-    const { data } = await Axios.get("/forum/");
+    const { data } = await Axios.get(`${URL_SERVER}/forum/`);
     dispatch({ type: LOAD_FORUMS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_FORUMS_FAIL, payload: error.message });
@@ -95,7 +95,7 @@ const loadForums = () => async (dispatch) => {
 const addForum = (value) => async (dispatch) => {
   dispatch({ type: ADD_FORUM_REQUEST, payload: {} });
   try {
-    const { data } = await Axios.post("/forum/", value, {
+    const { data } = await Axios.post(`${URL_SERVER}/forum/`, value, {
       headers: { Authorization: "Bearer " + Cookie.get("access_token") },
     });
     dispatch({ type: ADD_FORUM_SUCCESS, payload: data });
@@ -107,7 +107,7 @@ const addForum = (value) => async (dispatch) => {
 const updateProfile = (value) => async (dispatch) => {
   dispatch({ type: UPDATE_PROFILE_REQUEST, payload: {} });
   try {
-    const { data } = await Axios.post("/account/update/", value, {
+    const { data } = await Axios.post(`${URL_SERVER}/account/update/`, value, {
       headers: { Authorization: "Bearer " + Cookie.get("access_token") },
     });
     Cookie.set("userInfo", JSON.stringify(data));

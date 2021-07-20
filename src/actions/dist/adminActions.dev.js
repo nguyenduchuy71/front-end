@@ -11,6 +11,8 @@ var _jsCookie = _interopRequireDefault(require("js-cookie"));
 
 var _axios = _interopRequireDefault(require("axios"));
 
+var _url = require("../url");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var deleteCourse = function deleteCourse(id) {
@@ -27,7 +29,7 @@ var deleteCourse = function deleteCourse(id) {
             });
             _context.prev = 1;
             _context.next = 4;
-            return regeneratorRuntime.awrap(_axios["default"]["delete"]("/course/", {
+            return regeneratorRuntime.awrap(_axios["default"]["delete"]("".concat(_url.URL_SERVER, "/course/"), {
               data: {
                 id: id
               }
@@ -76,7 +78,7 @@ var addCourse = function addCourse(data) {
             });
             _context2.prev = 1;
             _context2.next = 4;
-            return regeneratorRuntime.awrap(_axios["default"].post("/course/", data));
+            return regeneratorRuntime.awrap(_axios["default"].post("".concat(_url.URL_SERVER, "/course/"), data));
 
           case 4:
             _ref2 = _context2.sent;
@@ -121,7 +123,7 @@ var updateCourse = function updateCourse(data) {
             });
             _context3.prev = 1;
             _context3.next = 4;
-            return regeneratorRuntime.awrap(_axios["default"].put("/course/", data));
+            return regeneratorRuntime.awrap(_axios["default"].put("".concat(_url.URL_SERVER, "/course/"), data));
 
           case 4:
             _ref3 = _context3.sent;
@@ -166,7 +168,7 @@ var deleteForum = function deleteForum(id) {
             });
             _context4.prev = 1;
             _context4.next = 4;
-            return regeneratorRuntime.awrap(_axios["default"]["delete"]("/forum/", {
+            return regeneratorRuntime.awrap(_axios["default"]["delete"]("".concat(_url.URL_SERVER, "/forum/"), {
               data: {
                 id: id
               }
@@ -213,13 +215,13 @@ var loadForums = function loadForums() {
             });
             _context5.prev = 1;
             _context5.next = 4;
-            return regeneratorRuntime.awrap(_axios["default"].get("/account/check-login/", {
+            return regeneratorRuntime.awrap(_axios["default"].get("".concat(_url.URL_SERVER, "/account/check-login/"), {
               headers: {
                 Authorization: "Bearer " + _jsCookie["default"].get("access_token")
               }
             }).then(function (res) {
               if (res.status === 200) {
-                _axios["default"].get("/forum/", {
+                _axios["default"].get("".concat(_url.URL_SERVER, "/forum/"), {
                   headers: {
                     Authorization: "Bearer " + _jsCookie["default"].get("access_token")
                   }
@@ -273,13 +275,13 @@ var loadUsers = function loadUsers() {
             });
             _context6.prev = 1;
             _context6.next = 4;
-            return regeneratorRuntime.awrap(_axios["default"].get("/account/check-login/", {
+            return regeneratorRuntime.awrap(_axios["default"].get("".concat(_url.URL_SERVER, "/account/check-login/"), {
               headers: {
                 Authorization: "Bearer " + _jsCookie["default"].get("access_token")
               }
             }).then(function (res) {
               if (res.status === 200) {
-                _axios["default"].get("/account/get-all/", {
+                _axios["default"].get("".concat(_url.URL_SERVER, "/account/get-all/"), {
                   headers: {
                     Authorization: "Bearer " + _jsCookie["default"].get("access_token")
                   }

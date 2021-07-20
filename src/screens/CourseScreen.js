@@ -31,11 +31,23 @@ function CourseScreen() {
       {loadingCourses || loading || loadingCheckLogin ? (
         <Spinner />
       ) : (
-        <CourseContainer>
-          {courses?.map((course) => (
-            <Course key={course._id} course={course} />
-          ))}
-        </CourseContainer>
+        <>
+          {courses?.length ? (
+            <CourseContainer>
+              {courses?.map((course) => (
+                <Course key={course._id} course={course} />
+              ))}
+            </CourseContainer>
+          ) : (
+            <Content>
+              <img
+                src="https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png"
+                alt="img"
+                style={{ width: "100%" }}
+              />
+            </Content>
+          )}
+        </>
       )}
     </>
   );
@@ -54,4 +66,9 @@ const CourseContainer = styled.div`
   @media screen and (max-width: 600px) {
     grid-template-columns: repeat(1, 1fr);
   }
+`;
+const Content = styled.div`
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
 `;

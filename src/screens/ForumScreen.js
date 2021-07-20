@@ -59,11 +59,23 @@ export default function ForumScreen() {
             </ContainerTextFiled>
             <Button onClick={add}>Đăng</Button>
           </Top>
-          <Bottom>
-            {forums?.map((cmt) => (
-              <Forum key={cmt.id} cmt={cmt} />
-            ))}
-          </Bottom>
+          {forums?.length ? (
+            <>
+              <Bottom>
+                {forums?.map((cmt) => (
+                  <Forum key={cmt.id} cmt={cmt} />
+                ))}
+              </Bottom>
+            </>
+          ) : (
+            <Content>
+              <img
+                src="https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png"
+                alt="img"
+                style={{ width: "100%" }}
+              />
+            </Content>
+          )}
         </Container>
       )}
     </>
@@ -71,11 +83,10 @@ export default function ForumScreen() {
 }
 const Container = styled.div`
   width: 80%;
-  height: calc(100vh - 100px);
   margin: 0 auto;
+  margin-top: 100px;
 `;
 const Top = styled.div`
-  margin-top: 100px;
   display: flex;
   justify-content: center;
   align-items: stretch;
@@ -100,4 +111,10 @@ const Button = styled.button`
     background-color: #e7717d;
   }
 `;
-const Bottom = styled.div``;
+const Bottom = styled.div`
+  height: calc(100vh - 200px);
+`;
+const Content = styled.div`
+  display: flex;
+  justify-content: center;
+`;

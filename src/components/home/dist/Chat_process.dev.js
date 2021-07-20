@@ -9,7 +9,11 @@ exports.chat = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
+var _url = require("../../url");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var chat_global = "";
 
 function close() {
   var chat = document.querySelector(".widget");
@@ -24,20 +28,45 @@ function open() {
 }
 
 var chat = function chat() {
-  var chatContent = document.querySelector("#keypad");
-  if (chatContent.value.trim() === "") return;
-  userChat(chatContent.value);
-  var body = {
-    text: chatContent.value
-  };
-  var url = "http://127.0.0.1:8000/get-response/";
+  var chatContent, body;
+  return regeneratorRuntime.async(function chat$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          chatContent = document.querySelector("#keypad");
 
-  _axios["default"].post(url, body).then(function (res) {
-    botResponse(res.data.response);
-    scrollChat();
+          if (!(chatContent.value.trim() === "")) {
+            _context.next = 3;
+            break;
+          }
+
+          return _context.abrupt("return");
+
+        case 3:
+          userChat(chatContent.value);
+          body = {
+            text: chatContent.value,
+            state_chat: 1
+          };
+          _context.next = 7;
+          return regeneratorRuntime.awrap(_axios["default"].post(_url.URL_SERVER, body).then(function (res) {
+            if (res.data.response == "") {
+              chat_global = res.data.text_formated;
+              chatConfirm();
+            } else botResponse(res.data.response);
+
+            scrollChat();
+          }));
+
+        case 7:
+          chatContent.value = "";
+
+        case 8:
+        case "end":
+          return _context.stop();
+      }
+    }
   });
-
-  chatContent.value = "";
 };
 
 exports.chat = chat;
@@ -75,4 +104,54 @@ var userChat = function userChat(req) {
 var scrollChat = function scrollChat() {
   var chat = document.querySelector("#chats");
   chat.scrollTop = chat.scrollHeight;
+};
+
+var chatConfirm = function chatConfirm() {
+  var chat = document.querySelector("#chats");
+  var user = document.createElement("div");
+  user.className = "bot";
+  var image = document.createElement("img");
+  image.src = "https://image.flaticon.com/icons/png/128/3649/3649460.png";
+  image.className = "avatar";
+  var div_content = document.createElement("div");
+  div_content.className = "botMsg";
+  var content = document.createElement("p");
+  content.innerHTML = "\xDD b\u1EA1n l\xE0: \"".concat(chat_global, "\". N\u1EBFu \u0111\xFAng h\xE3y click n\xFAt oke");
+  div_content.append(content);
+  var div_but = document.createElement("div");
+  var but = document.createElement("button");
+  but.onclick = userConfirm;
+  but.id = "confirm";
+  but.type = "button";
+  but.innerHTML = "oke";
+  div_but.append(but);
+  div_content.append(div_but);
+  console.log(div_content);
+  user.appendChild(image);
+  user.appendChild(div_content);
+  chat.appendChild(user);
+};
+
+var userConfirm = function userConfirm() {
+  var body;
+  return regeneratorRuntime.async(function userConfirm$(_context2) {
+    while (1) {
+      switch (_context2.prev = _context2.next) {
+        case 0:
+          body = {
+            text: chat_global,
+            state_chat: 2
+          };
+          _context2.next = 3;
+          return regeneratorRuntime.awrap(_axios["default"].post(_url.URL_SERVER, body).then(function (res) {
+            botResponse(res.data.response);
+            scrollChat();
+          }));
+
+        case 3:
+        case "end":
+          return _context2.stop();
+      }
+    }
+  });
 };

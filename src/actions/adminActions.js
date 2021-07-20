@@ -20,10 +20,11 @@ import {
 } from "../constants/adminConstants";
 import Cookie from "js-cookie";
 import Axios from "axios";
+import { URL_SERVER } from "../url";
 const deleteCourse = (id) => async (dispatch) => {
   dispatch({ type: ADMIN_DELETE_COURSE_REQUEST, payload: {} });
   try {
-    const { data } = await Axios.delete("/course/", {
+    const { data } = await Axios.delete(`${URL_SERVER}/course/`, {
       data: {
         id,
       },
@@ -39,7 +40,7 @@ const deleteCourse = (id) => async (dispatch) => {
 const addCourse = (data) => async (dispatch) => {
   dispatch({ type: ADMIN_ADD_COURSE_REQUEST, payload: {} });
   try {
-    const { new_data } = await Axios.post("/course/", data);
+    const { new_data } = await Axios.post(`${URL_SERVER}/course/`, data);
     dispatch({
       type: ADMIN_ADD_COURSE_SUCCESS,
       payload: new_data,
@@ -51,7 +52,7 @@ const addCourse = (data) => async (dispatch) => {
 const updateCourse = (data) => async (dispatch) => {
   dispatch({ type: ADMIN_UPDATE_COURSE_REQUEST, payload: {} });
   try {
-    const { new_data } = await Axios.put("/course/", data);
+    const { new_data } = await Axios.put(`${URL_SERVER}/course/`, data);
     dispatch({
       type: ADMIN_UPDATE_COURSE_SUCCESS,
       payload: new_data,
@@ -63,7 +64,7 @@ const updateCourse = (data) => async (dispatch) => {
 const deleteForum = (id) => async (dispatch) => {
   dispatch({ type: ADMIN_DELETE_FORUM_REQUEST, payload: {} });
   try {
-    const { data } = await Axios.delete("/forum/", {
+    const { data } = await Axios.delete(`${URL_SERVER}/forum/`, {
       data: {
         id,
       },
@@ -79,12 +80,12 @@ const deleteForum = (id) => async (dispatch) => {
 const loadForums = () => async (dispatch) => {
   dispatch({ type: ADMIN_LOAD_FORUM_REQUEST, payload: {} });
   try {
-    await Axios.get("/account/check-login/", {
+    await Axios.get(`${URL_SERVER}/account/check-login/`, {
       headers: { Authorization: "Bearer " + Cookie.get("access_token") },
     })
       .then((res) => {
         if (res.status === 200) {
-          Axios.get("/forum/", {
+          Axios.get(`${URL_SERVER}/forum/`, {
             headers: {
               Authorization: "Bearer " + Cookie.get("access_token"),
             },
@@ -108,12 +109,12 @@ const loadForums = () => async (dispatch) => {
 const loadUsers = () => async (dispatch) => {
   dispatch({ type: ADMIN_LOAD_USERS_REQUEST, payload: {} });
   try {
-    await Axios.get("/account/check-login/", {
+    await Axios.get(`${URL_SERVER}/account/check-login/`, {
       headers: { Authorization: "Bearer " + Cookie.get("access_token") },
     })
       .then((res) => {
         if (res.status === 200) {
-          Axios.get("/account/get-all/", {
+          Axios.get(`${URL_SERVER}/account/get-all/`, {
             headers: {
               Authorization: "Bearer " + Cookie.get("access_token"),
             },

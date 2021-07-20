@@ -9,6 +9,8 @@ import Cookie from "js-cookie";
 import { signout } from "../actions/userActions";
 import { updateCourse } from "../actions/adminActions";
 import Spinner from "../components/Spinner";
+import { URL_SERVER } from "../url";
+
 function UpdateCourseScreen(props) {
   const userSignin = useSelector((state) => state.userSignin);
   const { loadingInfo, userInfo, error } = userSignin;
@@ -36,13 +38,13 @@ function UpdateCourseScreen(props) {
   };
   useEffect(() => {
     axios
-      .get("/account/check-login/", {
+      .get(`${URL_SERVER}/account/check-login/`, {
         headers: { Authorization: "Bearer " + Cookie.get("access_token") },
       })
       .then((res) => {
         if (res.status === 200) {
           axios
-            .get("/course/")
+            .get(`${URL_SERVER}/course/`)
             .then((res) => {
               if (res.status === 200) {
                 setCourse(

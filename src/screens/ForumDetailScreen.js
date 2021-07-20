@@ -8,8 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Cookie from "js-cookie";
 import { signout } from "../actions/userActions";
 import styled from "styled-components";
+import Spinner from "../components/Spinner";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
-
+import { URL_SERVER } from "../url";
 function ForumDetailScreen(props) {
   const [cmt, setCmt] = useState();
   const userSignin = useSelector((state) => state.userSignin);
@@ -26,7 +27,7 @@ function ForumDetailScreen(props) {
         date: Date().toLocaleString(),
       };
       await axios
-        .post("/forum/comment/", data, {
+        .post(`${URL_SERVER}/forum/comment/`, data, {
           headers: { Authorization: "Bearer " + Cookie.get("access_token") },
         })
         .then((res) => {
@@ -44,13 +45,13 @@ function ForumDetailScreen(props) {
   };
   useEffect(() => {
     axios
-      .get("/account/check-login/", {
+      .get(`${URL_SERVER}/account/check-login/`, {
         headers: { Authorization: "Bearer " + Cookie.get("access_token") },
       })
       .then((res) => {
         if (res.status === 200) {
           axios
-            .get("/forum/", {
+            .get(`${URL_SERVER}/forum/`, {
               headers: {
                 Authorization: "Bearer " + Cookie.get("access_token"),
               },
@@ -74,118 +75,129 @@ function ForumDetailScreen(props) {
       });
   }, []);
   return (
-    <Content>
-      <AuthorCotent style={{ borderBottom: "2px solid #fff" }}>
-        <AuthorLeft>
-          <AuthorImage
-            src={
-              userInfo.avatar
-                ? userInfo.avatar
-                : "https://thelifetank.com/wp-content/uploads/2018/08/avatar-default-icon.png"
-            }
-            alt="avatar"
-          />
-        </AuthorLeft>
-        <AuthorRight>
-          <TitleForum>{cmt?.title}</TitleForum>
-          <AuthorRightBot>
-            <DateRangeIcon />
-            <span>{cmt?.date.split("T")[0]}</span>
-          </AuthorRightBot>
-        </AuthorRight>
-      </AuthorCotent>
-      <ResponseContent>
-        <span style={{ fontSize: "18px", fontWeight: "bold" }}>
-          {responses.length} Comments
-        </span>
-        {responses.map((res) => {
-          return (
-            <ListResponse>
-              <AuthorCotent>
-                <AuthorLeft>
-                  <AuthorImage
-                    style={{ width: "60px", height: "60px" }}
-                    src={
-                      userInfo.avatar
-                        ? userInfo.avatar
-                        : "https://thelifetank.com/wp-content/uploads/2018/08/avatar-default-icon.png"
-                    }
-                    alt="avatar"
-                  />
-                </AuthorLeft>
-                <AuthorRight>
-                  <AuthorResponseContent>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        padding: "2px 4px",
+    <>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <Content>
+          <AuthorCotent style={{ borderBottom: "2px solid #fff" }}>
+            <AuthorLeft>
+              <AuthorImage
+                src={
+                  userInfo?.avatar
+                    ? userInfo?.avatar
+                    : "https://thelifetank.com/wp-content/uploads/2018/08/avatar-default-icon.png"
+                }
+                alt="avatar"
+              />
+            </AuthorLeft>
+            <AuthorRight>
+              <TitleForum>{cmt?.title}</TitleForum>
+              <AuthorRightBot>
+                <DateRangeIcon />
+                <span>{cmt?.date.split("T")[0]}</span>
+              </AuthorRightBot>
+            </AuthorRight>
+          </AuthorCotent>
+          <ResponseContent>
+            <span style={{ fontSize: "18px", fontWeight: "bold" }}>
+              {responses.length} Comments
+            </span>
+            {responses.map((res) => {
+              return (
+                <ListResponse>
+                  <AuthorCotent>
+                    <AuthorLeft>
+                      <AuthorImage
+                        style={{ width: "60px", height: "60px" }}
+                        src={
+                          userInfo.avatar
+                            ? userInfo.avatar
+                            : "https://thelifetank.com/wp-content/uploads/2018/08/avatar-default-icon.png"
+                        }
+                        alt="avatar"
+                      />
+                    </AuthorLeft>
+                    <AuthorRight>
+                      <AuthorResponseContent>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            padding: "2px 4px",
+                          }}
+                        >
+                          <PermIdentityIcon />
+                          <AuthorResponseName>{res.id}</AuthorResponseName>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            padding: "2px 4px",
+                          }}
+                        >
+                          <DateRangeIcon />
+                          <span style={{ fontSize: "18px" }}>
+                            {res.date.split("T")[0]}
+                          </span>
+                        </div>
+                      </AuthorResponseContent>
+                      <div style={{ width: "100%" }}>
+                        <TitleForum style={{ fontSize: "16px" }}>
+                          {res.content}
+                        </TitleForum>
+                      </div>
+                    </AuthorRight>
+                  </AuthorCotent>
+                  <div
+                    style={{
+                      borderBottom: "2px solid #fff",
+                      paddingBottom: "8px",
+                    }}
+                  >
+                    <Button
+                      onClick={() => {
+                        setInput(`@:${res.user} `);
                       }}
                     >
-                      <PermIdentityIcon />
-                      <AuthorResponseName>{res.id}</AuthorResponseName>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        padding: "2px 4px",
-                      }}
-                    >
-                      <DateRangeIcon />
-                      <span style={{ fontSize: "18px" }}>
-                        {res.date.split("T")[0]}
-                      </span>
-                    </div>
-                  </AuthorResponseContent>
-                  <TitleForum style={{ fontSize: "16px" }}>
-                    {res.content}
-                  </TitleForum>
-                </AuthorRight>
-              </AuthorCotent>
-              <div
-                style={{ borderBottom: "2px solid #fff", paddingBottom: "8px" }}
-              >
-                <Button
-                  onClick={() => {
-                    setInput(`@:${res.user} `);
-                  }}
-                >
-                  Reply
-                </Button>
-              </div>
-            </ListResponse>
-          );
-        })}
-      </ResponseContent>
-      <div
-        style={{
-          width: "90%",
-          margin: "0 auto",
-          display: "flex",
-          alignItems: "stretch",
-          justifyContent: "space-between",
-        }}
-      >
-        <TextField
-          fullWidth
-          value={input}
-          placeholder="Nhập bình luận"
-          variant="outlined"
-          size="small"
-          style={{ backgroundColor: "white" }}
-          onChange={(e) => setInput(e.target.value)}
-        />
-        <div style={{ padding: " 8px" }}>
-          <Button
-            style={{ backgroundColor: "blue", fontSize: "16px" }}
-            onClick={submitHandle}
+                      Reply
+                    </Button>
+                  </div>
+                </ListResponse>
+              );
+            })}
+          </ResponseContent>
+          <div
+            style={{
+              width: "90%",
+              margin: "0 auto",
+              display: "flex",
+              alignItems: "stretch",
+              justifyContent: "space-between",
+            }}
           >
-            Post
-          </Button>
-        </div>
-      </div>
-    </Content>
+            <TextField
+              fullWidth
+              value={input}
+              placeholder="Nhập bình luận"
+              variant="outlined"
+              size="small"
+              style={{ backgroundColor: "white" }}
+              onChange={(e) => setInput(e.target.value)}
+            />
+            <div style={{ padding: " 8px" }}>
+              <Button
+                style={{ backgroundColor: "blue", fontSize: "16px" }}
+                onClick={submitHandle}
+              >
+                Post
+              </Button>
+            </div>
+          </div>
+        </Content>
+      )}
+    </>
   );
 }
 export default ForumDetailScreen;
