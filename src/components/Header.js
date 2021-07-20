@@ -103,9 +103,9 @@ function Header() {
             <div>
               <ElementMenu>
                 <ExitToAppIcon />
-                <Link style={{ marginLeft: "10px" }} onClick={signOut}>
+                <span style={{ marginLeft: "10px" }} onClick={signOut}>
                   Đăng xuất
-                </Link>
+                </span>
               </ElementMenu>
               {info.is_staff && (
                 <ElementMenu>

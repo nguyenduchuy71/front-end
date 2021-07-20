@@ -139,7 +139,7 @@ function UpdateCourseScreen(props) {
                       <button
                         type="submit"
                         onClick={handleUpdatecourse}
-                        class="userUpdateButton"
+                        className="userUpdateButton"
                       >
                         Update
                       </button>

@@ -117,7 +117,7 @@ function SignUpScreen(props) {
               <FormElement>
                 <TextField
                   id="repassword"
-                  label="Xác nhận mật khẩu"
+                  label="Xác nhận"
                   placeholder="..."
                   type="password"
                   className="input-field"
@@ -189,6 +189,9 @@ const Container = styled.div`
   padding: 0 40px;
   display: flex;
   justify-content: space-between;
+  @media screen and (max-width: 420px) {
+    padding: 0 20px;
+  }
 `;
 const Left = styled.div`
   flex: 1;
@@ -209,6 +212,9 @@ const Left = styled.div`
     font-weight: 600;
     margin-bottom: 4px;
   }
+  @media screen and (max-width: 420px) {
+    display: none;
+  }
 `;
 const Right = styled.div`
   margin-left: 20px;
@@ -220,6 +226,9 @@ const Right = styled.div`
   padding: 20px;
   -webkit-box-shadow: 0px 0px 11px -1px #000000;
   box-shadow: 0px 0px 11px -1px #000000;
+  @media screen and (max-width: 420px) {
+    margin: 0;
+  }
 `;
 
 const Title = styled.h2`

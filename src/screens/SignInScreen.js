@@ -76,7 +76,7 @@ function SignInScreen(props) {
         <Bot>
           <span>
             Chưa có tài khoản?
-            <Link to="/signup" class="bot-link">
+            <Link to="/signup" className="bot-link">
               {" "}
               Đăng ký
             </Link>
@@ -95,6 +95,9 @@ const Container = styled.div`
   padding: 0 40px;
   display: flex;
   justify-content: center;
+  @media screen and (max-width: 420px) {
+    padding: 0 20px;
+  }
 `;
 const Left = styled.div`
   flex: 1;
@@ -115,6 +118,9 @@ const Left = styled.div`
     font-weight: 600;
     margin-bottom: 4px;
   }
+  @media screen and (max-width: 420px) {
+    display: none;
+  }
 `;
 const Right = styled.div`
   flex: 1.5;
@@ -127,6 +133,9 @@ const Right = styled.div`
   border-radius: 10px;
   -webkit-box-shadow: 0px 0px 11px -1px #000000;
   box-shadow: 0px 0px 11px -1px #000000;
+  @media screen and (max-width: 420px) {
+    margin: 0;
+  }
 `;
 
 const Title = styled.h2`
