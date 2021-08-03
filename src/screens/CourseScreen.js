@@ -16,6 +16,7 @@ function CourseScreen() {
   const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log(courses);
     if (userInfo) {
       dispatch(checklogin());
       if (errorCheckLogin) {
@@ -61,7 +62,7 @@ const CourseContainer = styled.div`
   gap: 40px;
   grid-template-columns: repeat(4, 1fr);
   @media screen and (max-width: 930px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
   @media screen and (max-width: 600px) {
     grid-template-columns: repeat(1, 1fr);

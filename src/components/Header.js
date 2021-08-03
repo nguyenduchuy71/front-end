@@ -58,7 +58,7 @@ function Header() {
               <img
                 src={
                   info.avatar
-                    ? info.avatar
+                    ? `https://ailabchatbot.xyz/${info.avatar}`
                     : "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
                 }
                 alt="avatar"
@@ -281,7 +281,7 @@ const ElementSubMenu = styled.li`
 const SelectMenu = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
 `;
 const ArrowContainer = styled.div`
@@ -291,6 +291,7 @@ const ArrowContainer = styled.div`
     height: 12px;
     margin-top: 30px;
     margin-left: 4px;
+    color: #fff !important;
   }
 `;
 const ElementMenu = styled.div`

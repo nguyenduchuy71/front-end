@@ -29,9 +29,10 @@ function Banner() {
 }
 
 export default Banner;
+
 const Carousel = styled(Slider)`
   margin-top: 80px;
-  margin-bottom:50px;
+  margin-bottom: 50px;
   ul li button {
     &:before {
       font-size: 10px;

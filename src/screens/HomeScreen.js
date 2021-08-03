@@ -7,14 +7,14 @@ import Fade from "react-reveal/Fade";
 
 function HomeScreen() {
   return (
-    <div className="home">
+    <>
       <Banner />
       <Fade top>
         <Features />
         <AboutUs />
       </Fade>
       <Chat />
-    </div>
+    </>
   );
 }
 
