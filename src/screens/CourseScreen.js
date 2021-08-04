@@ -55,9 +55,9 @@ function CourseScreen() {
     if (textSearch.length > 1) {
       const filterd = courses?.filter((course) => {
         if (
-          course.description.toLowerCase().includes(textSearch) ||
-          course.title.toLowerCase().includes(textSearch) ||
-          course.authen.toLowerCase().includes(textSearch)
+          course.description.toLowerCase().includes(textSearch.toLowerCase()) ||
+          course.title.toLowerCase().includes(textSearch.toLowerCase()) ||
+          course.authen.toLowerCase().includes(textSearch.toLowerCase())
         ) {
           return true;
         } else {
