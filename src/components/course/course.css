@@ -1,21 +1,11 @@
-.cards {
-  --spacing: 25px;
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: calc(-1 * var(--spacing));
-}
-@media screen and (max-width: 1023px) {
-  .cards {
-    --spacing: 0;
-  }
-}
 .card {
-  border-radius: 20px;
+  border-radius: 10px;
   overflow: hidden;
   background-color: white;
   margin-left: var(--spacing);
   margin-bottom: var(--spacing);
-  width: 100%;
+  width: calc(calc(100% / var(--columns)) - var(--spacing));
+  height: 400px;
   -webkit-box-shadow: -1px 7px 20px 2px rgba(0, 0, 0, 0.43);
   box-shadow: -1px 7px 20px 2px rgba(0, 0, 0, 0.43);
   transition: transform 0.2s ease-in;

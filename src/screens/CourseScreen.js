@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Course from "../components/course/Course";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../components/Spinner";
 import { checklogin, signout, loadCourses } from "../actions/userActions";
 import { useHistory } from "react-router-dom";
+import Pagination from "../components/Pagination";
 
 function CourseScreen() {
   const userSignin = useSelector((state) => state.userSignin);
@@ -13,10 +14,14 @@ function CourseScreen() {
   const { loadingCheckLogin, userCheck, errorCheckLogin } = userCheckLogin;
   const userLoadCourses = useSelector((state) => state.userLoadCourses);
   const { loadingCourses, courses, errorLoadCourses } = userLoadCourses;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(4);
+  const [textSearch, setTextSearch] = useState("");
+  const [filterdCourse, setFilterdCourse] = useState([]);
   const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(courses);
+    dispatch(loadCourses());
     if (userInfo) {
       dispatch(checklogin());
       if (errorCheckLogin) {
@@ -25,20 +30,79 @@ function CourseScreen() {
         window.location.reload();
       }
     }
-    dispatch(loadCourses());
-  }, [dispatch]);
+  }, [loadCourses]);
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentCourses =
+    filterdCourse.length > 0
+      ? filterdCourse.slice(indexOfFirstPost, indexOfLastPost)
+      : courses?.slice(indexOfFirstPost, indexOfLastPost);
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+  const goNext = () => {
+    if (currentPage < Math.ceil(courses?.length / postsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+  const goPrev = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+  const handleChange = (e) => {
+    setTextSearch(e.target.value);
+    if (textSearch.length > 1) {
+      const filterd = courses?.filter((course) => {
+        if (
+          course.description.toLowerCase().includes(textSearch) ||
+          course.title.toLowerCase().includes(textSearch) ||
+          course.authen.toLowerCase().includes(textSearch)
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      setFilterdCourse(filterd);
+    } else {
+      setFilterdCourse(courses);
+    }
+  };
   return (
     <>
       {loadingCourses || loading || loadingCheckLogin ? (
         <Spinner />
       ) : (
         <>
-          {courses?.length ? (
-            <CourseContainer>
-              {courses?.map((course) => (
-                <Course key={course._id} course={course} />
-              ))}
-            </CourseContainer>
+          {currentCourses?.length ? (
+            <Container>
+              <Search>
+                <ion-icon name="search-outline"></ion-icon>
+                <input
+                  type="text"
+                  placeholder="Tìm khóa học"
+                  value={textSearch}
+                  onChange={handleChange}
+                />
+              </Search>
+              <CourseContainer>
+                {currentCourses?.map((course) => (
+                  <Course key={course._id} course={course} />
+                ))}
+              </CourseContainer>
+              <Pagination
+                postsPerPage={postsPerPage}
+                totalPosts={
+                  filterdCourse.length > 0
+                    ? filterdCourse.length
+                    : courses?.length
+                }
+                paginate={paginate}
+                goPrev={goPrev}
+                goNext={goNext}
+              />
+            </Container>
           ) : (
             <Content>
               <img
@@ -55,21 +119,54 @@ function CourseScreen() {
 }
 
 export default CourseScreen;
-const CourseContainer = styled.div`
+const Container = styled.div`
   margin-top: 100px;
-  padding: 0 20px;
-  display: grid;
-  gap: 40px;
-  grid-template-columns: repeat(4, 1fr);
-  @media screen and (max-width: 930px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  @media screen and (max-width: 600px) {
-    grid-template-columns: repeat(1, 1fr);
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px 20px;
 `;
 const Content = styled.div`
   margin-top: 100px;
   display: flex;
   justify-content: center;
+`;
+const CourseContainer = styled.div`
+  --spacing: 25px;
+  --columns: 4;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-left: calc(-1 * var(--spacing));
+
+  @media screen and (max-width: 1023px) {
+    --columns: 2;
+  }
+  @media screen and (max-width: 767px) {
+    --spacing: 15px;
+    --columns: 1;
+  }
+`;
+const Search = styled.div`
+  margin-bottom: 40px;
+  padding: 10px;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  &:hover {
+    border: 1px solid #008cef;
+  }
+  input {
+    width: 100%;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    margin-left: 4px;
+  }
 `;
