@@ -21,6 +21,7 @@ function AdminUserScreen() {
   const handleDelete = (id) => {};
   const fetchUsers = async () => {
     await dispatch(loadUsers());
+    console.log(users);
   };
   const columns = [
     { field: "id", headerName: "ID", width: 100 },
@@ -31,7 +32,11 @@ function AdminUserScreen() {
       renderCell: (params) => {
         return (
           <div className="userListUser">
-            <img className="userListImg" src={params.row.avatar} alt="img" />
+            <img
+              className="userListImg"
+              src={`https://ailabchatbot.xyz/${params.row.avatar}`}
+              alt="img"
+            />
             {params.row.username}
           </div>
         );

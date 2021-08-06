@@ -20,13 +20,17 @@ export default function ForumScreen() {
   const history = useHistory();
   const add = async () => {
     if (userInfo) {
-      const data = {
-        title: input,
-        content: input,
-        date: Date().toLocaleString(),
-      };
-      await dispatch(addForum(data));
-      dispatch(loadForums());
+      if (input !== "") {
+        const data = {
+          title: input,
+          content: input,
+          date: Date().toLocaleString(),
+        };
+        await dispatch(addForum(data));
+        dispatch(loadForums());
+      } else {
+        alert("Vui lòng nhập nội dung");
+      }
     } else {
       history.push("/signin");
     }
@@ -41,6 +45,7 @@ export default function ForumScreen() {
       }
     }
     dispatch(loadForums());
+    console.log(forums);
   }, [dispatch]);
   return (
     <>
@@ -55,18 +60,19 @@ export default function ForumScreen() {
                 placeholder="Nhập câu hỏi"
                 style={{ width: "100%" }}
                 onChange={(e) => setInput(e.target.value)}
+                required
               />
             </ContainerTextFiled>
             <Button onClick={add}>Đăng</Button>
           </Top>
           {forums?.length ? (
-            <>
+            <div>
               <Bottom>
                 {forums?.map((cmt) => (
                   <Forum key={cmt.id} cmt={cmt} />
                 ))}
               </Bottom>
-            </>
+            </div>
           ) : (
             <Content>
               <img
@@ -112,7 +118,7 @@ const Button = styled.button`
   }
 `;
 const Bottom = styled.div`
-  height: calc(100vh - 200px);
+  height: 100%;
 `;
 const Content = styled.div`
   display: flex;

@@ -12,7 +12,7 @@ export default function Forum(props) {
         <Left>
           <Top>
             <img
-              src="https://www.seekpng.com/png/detail/514-5147412_default-avatar-icon.png"
+              src={`https://ailabchatbot.xyz/${cmt.user.avatar}`}
               alt="avatar"
             />
           </Top>

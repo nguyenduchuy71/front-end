@@ -21,14 +21,24 @@ function AdminForumScreen() {
   const userLoadForums = useSelector((state) => state.userLoadForums);
   const { loadingForums, forums, errorLoadForums } = userLoadForums;
   const columns = [
-    { field: "id", headerName: "ID", width: 100 },
+    {
+      field: "user",
+      headerName: "Người đăng",
+      width: 220,
+      valueFormatter: (params) => params.row?.user?.username,
+    },
     {
       field: "content",
       headerName: "Nội dung",
-      width: 250,
+      width: 280,
     },
-    { field: "user", headerName: "ID người đăng", width: 200 },
-    { field: "date", headerName: "Ngày đăng", width: 250 },
+    { field: "date", headerName: "Ngày đăng", width: 220 },
+    {
+      field: "comment",
+      headerName: "Số lượng cmts",
+      width: 180,
+      valueFormatter: (params) => params.row?.comment?.length,
+    },
     {
       field: "action",
       headerName: "Action",
@@ -50,7 +60,6 @@ function AdminForumScreen() {
   ];
   const fetchForums = async () => {
     await dispatch(loadForums());
-    console.log(forums);
   };
   const handleDelete = async (id) => {
     await dispatch(deleteForum(id));

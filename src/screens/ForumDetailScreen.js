@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./ForumDetailScreen.css";
 import DateRangeIcon from "@material-ui/icons/DateRange";
 import TextField from "@material-ui/core/TextField";
 import { useHistory } from "react-router-dom";
@@ -73,7 +72,7 @@ function ForumDetailScreen(props) {
         history.push("/signin");
         window.location.reload();
       });
-  }, []);
+  }, [dispatch]);
   return (
     <>
       {loading ? (
@@ -83,11 +82,7 @@ function ForumDetailScreen(props) {
           <AuthorCotent style={{ borderBottom: "2px solid #fff" }}>
             <AuthorLeft>
               <AuthorImage
-                src={
-                  userInfo?.avatar
-                    ? userInfo?.avatar
-                    : "https://thelifetank.com/wp-content/uploads/2018/08/avatar-default-icon.png"
-                }
+                src={`https://ailabchatbot.xyz/${cmt?.user.avatar}`}
                 alt="avatar"
               />
             </AuthorLeft>
@@ -110,11 +105,7 @@ function ForumDetailScreen(props) {
                     <AuthorLeft>
                       <AuthorImage
                         style={{ width: "60px", height: "60px" }}
-                        src={
-                          userInfo.avatar
-                            ? userInfo.avatar
-                            : "https://thelifetank.com/wp-content/uploads/2018/08/avatar-default-icon.png"
-                        }
+                        src={`https://ailabchatbot.xyz/${res.user.avatar}`}
                         alt="avatar"
                       />
                     </AuthorLeft>
@@ -128,7 +119,9 @@ function ForumDetailScreen(props) {
                           }}
                         >
                           <PermIdentityIcon />
-                          <AuthorResponseName>{res.id}</AuthorResponseName>
+                          <AuthorResponseName>
+                            {res.user.username}
+                          </AuthorResponseName>
                         </div>
                         <div
                           style={{
@@ -158,7 +151,7 @@ function ForumDetailScreen(props) {
                   >
                     <Button
                       onClick={() => {
-                        setInput(`@:${res.user} `);
+                        setInput(`@:${res.user.username} `);
                       }}
                     >
                       Reply
@@ -230,8 +223,8 @@ const TitleForum = styled.span`
   font-weight: bold;
 `;
 const AuthorImage = styled.img`
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
 `;
 const ResponseContent = styled.div`

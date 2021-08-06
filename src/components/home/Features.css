@@ -18,15 +18,13 @@
   padding: 20px;
   text-align: center;
   text-overflow: ellipsis;
-  margin: 20px 0;
+  margin: 10px 0;
 }
 .item__feature img {
-  margin-bottom: 10px;
   width: 140px;
 }
 .title__item__feature {
-  font-weight: 500;
-  margin-bottom: 10px;
+  font-weight: 600;
 }
 
 @media (max-width: 600px) {
