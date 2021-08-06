@@ -15,13 +15,19 @@ function CourseScreen() {
   const userLoadCourses = useSelector((state) => state.userLoadCourses);
   const { loadingCourses, courses, errorLoadCourses } = userLoadCourses;
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(4);
+  const [postsPerPage] = useState(40);
   const [textSearch, setTextSearch] = useState("");
   const [filterdCourse, setFilterdCourse] = useState([]);
+  const [coursesLocal, setCoursesLocal] = useState(courses);
   const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(loadCourses());
+    if (localStorage.getItem("courses")) {
+      const data = JSON.parse(localStorage.getItem("courses"));
+      setCoursesLocal(data.courses);
+    } else {
+      dispatch(loadCourses());
+    }
     if (userInfo) {
       dispatch(checklogin());
       if (errorCheckLogin) {
@@ -30,18 +36,18 @@ function CourseScreen() {
         window.location.reload();
       }
     }
-  }, [loadCourses]);
+  }, [dispatch, loadingCourses]);
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentCourses =
     filterdCourse.length > 0
       ? filterdCourse.slice(indexOfFirstPost, indexOfLastPost)
-      : courses?.slice(indexOfFirstPost, indexOfLastPost);
+      : coursesLocal?.slice(indexOfFirstPost, indexOfLastPost);
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
   const goNext = () => {
-    if (currentPage < Math.ceil(courses?.length / postsPerPage)) {
+    if (currentPage < Math.ceil(coursesLocal?.length / postsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -50,10 +56,13 @@ function CourseScreen() {
       setCurrentPage(currentPage - 1);
     }
   };
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     setTextSearch(e.target.value);
+    if (currentPage > 1) {
+      setCurrentPage(1);
+    }
     if (textSearch.length > 1) {
-      const filterd = courses?.filter((course) => {
+      const filterd = await coursesLocal?.filter((course) => {
         if (
           course.description.toLowerCase().includes(textSearch.toLowerCase()) ||
           course.title.toLowerCase().includes(textSearch.toLowerCase()) ||
@@ -66,7 +75,7 @@ function CourseScreen() {
       });
       setFilterdCourse(filterd);
     } else {
-      setFilterdCourse(courses);
+      setFilterdCourse(coursesLocal);
     }
   };
   return (
@@ -96,7 +105,7 @@ function CourseScreen() {
                 totalPosts={
                   filterdCourse.length > 0
                     ? filterdCourse.length
-                    : courses?.length
+                    : coursesLocal.length
                 }
                 paginate={paginate}
                 goPrev={goPrev}
@@ -168,5 +177,8 @@ const Search = styled.div`
     border: none;
     font-size: 16px;
     margin-left: 4px;
+  }
+  @media screen and (max-width: 767px) {
+    width: 80%;
   }
 `;

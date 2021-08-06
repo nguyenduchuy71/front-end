@@ -76,6 +76,7 @@ const loadCourses = () => async (dispatch) => {
   dispatch({ type: LOAD_COURSES_REQUEST, payload: true });
   try {
     const { data } = await Axios.get(`${URL_SERVER}/course/`);
+    localStorage.setItem("courses", JSON.stringify({ courses: data }));
     dispatch({ type: LOAD_COURSES_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_COURSES_FAIL, payload: error.message });

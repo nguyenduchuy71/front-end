@@ -50,10 +50,11 @@ function AdminForumScreen() {
   ];
   const fetchForums = async () => {
     await dispatch(loadForums());
+    console.log(forums);
   };
   const handleDelete = async (id) => {
     await dispatch(deleteForum(id));
-    fetchForums();
+    fetchForums(forums);
   };
   useEffect(() => {
     if (userInfo) {
@@ -65,7 +66,7 @@ function AdminForumScreen() {
       }
     }
     fetchForums();
-  }, [dispatch]);
+  }, []);
   return (
     <div>
       {loadingInfo || loadingForums || loadingCheckLogin ? (

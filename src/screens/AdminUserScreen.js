@@ -58,7 +58,7 @@ function AdminUserScreen() {
   useEffect(() => {
     if (userInfo) {
       fetchUsers();
-      if (errorUsers) {
+      if (errorUsers || error) {
         dispatch(signout());
         history.push("/signin");
         window.location.reload();

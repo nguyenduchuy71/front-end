@@ -48,7 +48,7 @@ function UpdateCourseScreen(props) {
             .then((res) => {
               if (res.status === 200) {
                 setCourse(
-                  res.data.find((x) => x.id === parseInt(props.match.params.id))
+                  res.data.find((x) => x.id_video === props.match.params.id)
                 );
                 setLoading(true);
               }
@@ -60,8 +60,8 @@ function UpdateCourseScreen(props) {
             setUrl(course.id_video);
             setTitle(course.title);
             setDesc(course.description);
-            setSource(course.src);
-            setImg(course.url);
+            setSource(course.authen);
+            setImg(course.image);
           }
         }
       })
@@ -70,7 +70,7 @@ function UpdateCourseScreen(props) {
         history.push("/signin");
         window.location.reload();
       });
-  }, [loading]);
+  }, [dispatch, loading]);
   return (
     <>
       {!loading || loadingInfo ? (

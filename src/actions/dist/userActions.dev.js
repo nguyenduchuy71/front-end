@@ -201,27 +201,30 @@ var loadCourses = function loadCourses() {
           case 4:
             _ref3 = _context4.sent;
             data = _ref3.data;
+            localStorage.setItem("courses", JSON.stringify({
+              courses: data
+            }));
             dispatch({
               type: _userConstants.LOAD_COURSES_SUCCESS,
               payload: data
             });
-            _context4.next = 12;
+            _context4.next = 13;
             break;
 
-          case 9:
-            _context4.prev = 9;
+          case 10:
+            _context4.prev = 10;
             _context4.t0 = _context4["catch"](1);
             dispatch({
               type: _userConstants.LOAD_COURSES_FAIL,
               payload: _context4.t0.message
             });
 
-          case 12:
+          case 13:
           case "end":
             return _context4.stop();
         }
       }
-    }, null, null, [[1, 9]]);
+    }, null, null, [[1, 10]]);
   };
 };
 

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import AdminOption from "../components/admin/AdminOption";
 import Error404Page from "./Error404Page";
@@ -21,12 +21,13 @@ function AdminCourseScreen() {
   const { loadingCourses, courses, errorLoadCourses } = userLoadCourses;
   const history = useHistory();
   const dispatch = useDispatch();
+  console.log("renderd");
   const handleDelete = (id) => {
     dispatch(deleteCourse(id));
+    localStorage.removeItem("courses");
     dispatch(loadCourses());
   };
   const columns = [
-    { field: "id", headerName: "ID", width: 100 },
     {
       field: "title",
       headerName: "Tên khóa học",
@@ -34,15 +35,15 @@ function AdminCourseScreen() {
       renderCell: (params) => {
         return (
           <div className="userListUser">
-            <img className="userListImg" src={params.row.url} alt="url" />
+            <img className="userListImg" src={params.row.image} alt="title" />
             {params.row.title}
           </div>
         );
       },
     },
-    { field: "id_video", headerName: "ID Video", width: 150 },
-    { field: "description", headerName: "Mô tả", width: 200 },
-    { field: "src", headerName: "Nguồn khóa học", width: 200 },
+    { field: "description", headerName: "Mô tả", width: 280 },
+    { field: "authen", headerName: "Nguồn khóa học", width: 200 },
+    { field: "total_videos", headerName: "Số lượng video", width: 200 },
     {
       field: "action",
       headerName: "Action",
@@ -50,12 +51,12 @@ function AdminCourseScreen() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/course/updatecourse/" + params.row.id}>
+            <Link to={"/course/updatecourse/" + params.row.id_video}>
               <button className="userListEdit">Edit</button>
             </Link>
             <DeleteOutline
               className="userListDelete"
-              onClick={() => handleDelete(params.row.id)}
+              onClick={() => handleDelete(params.row.id_video)}
             />
           </>
         );
@@ -66,16 +67,19 @@ function AdminCourseScreen() {
     await dispatch(loadCourses());
   };
   useEffect(() => {
+    dispatch(loadCourses());
     if (userInfo) {
       dispatch(checklogin());
-      if (errorCheckLogin) {
+      if (errorCheckLogin || error) {
         dispatch(signout());
         history.push("/signin");
         window.location.reload();
       }
+      if (userCheck) {
+        fetchCourses();
+      }
     }
-    fetchCourses();
-  }, [dispatch]);
+  }, []);
   return (
     <>
       {loadingCourses || loadingCheckLogin || loadingInfo ? (
@@ -93,7 +97,8 @@ function AdminCourseScreen() {
                     rows={courses ? courses : []}
                     disableSelectionOnClick
                     columns={columns}
-                    pageSize={6}
+                    pageSize={40}
+                    getRowId={(row) => row.id_video}
                     checkboxSelection
                   />
                 </div>
