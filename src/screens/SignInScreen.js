@@ -67,6 +67,11 @@ function SignInScreen(props) {
                 />
                 {errorPassword ? <p>{errorPassword}</p> : <p>*</p>}
               </FormElement>
+              <ForgetPassWord>
+                <Link to="/forgetpass">
+                  <span>Quên mật khẩu?</span>
+                </Link>
+              </ForgetPassWord>
             </FormLeft>
           </FormTop>
           <FormBottom>
@@ -77,7 +82,6 @@ function SignInScreen(props) {
           <span>
             Chưa có tài khoản?
             <Link to="/signup" className="bot-link">
-              {" "}
               Đăng ký
             </Link>
           </span>
@@ -170,12 +174,19 @@ const Button = styled.button`
   background-color: #0304ff;
   color: #fff;
   border-radius: 10px;
+  &:hover {
+    opacity: 0.9;
+  }
 `;
 const Bot = styled.div`
-  margin-top: 50px;
-  font-size: 18px;
+  margin-top: 20px;
+  font-size: 16px;
   .bot-link {
     color: #0304ff;
+    margin-left: 4px;
+  }
+  .bot-link:hover {
+    text-decoration: underline;
   }
 `;
 const FormElement = styled.div`
@@ -184,5 +195,14 @@ const FormElement = styled.div`
     color: red;
     padding: 8px 0;
     font-size: 14px;
+  }
+`;
+const ForgetPassWord = styled.div`
+  text-align: right;
+  span {
+    color: #0304ff;
+  }
+  span:hover {
+    text-decoration: underline;
   }
 `;

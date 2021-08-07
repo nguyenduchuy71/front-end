@@ -21,17 +21,20 @@ function UpdateCourseScreen(props) {
   const [desc, setDesc] = useState("");
   const [source, setSource] = useState("");
   const [img, setImg] = useState("");
+  const [views, setViews] = useState(0);
+  const [totalVideos, setTotalVideos] = useState(0);
   const history = useHistory();
   const dispatch = useDispatch();
   const handleUpdatecourse = async (e) => {
     e.preventDefault();
     const data = {
-      id: props.match.params.id,
       title: title,
       id_video: url,
       description: desc,
-      src: source,
-      url: img,
+      authen: source,
+      image: img,
+      total_videos: totalVideos,
+      view: views,
     };
     dispatch(updateCourse(data));
     history.push("/admin/courses");
@@ -62,6 +65,8 @@ function UpdateCourseScreen(props) {
             setDesc(course.description);
             setSource(course.authen);
             setImg(course.image);
+            setViews(course.view);
+            setTotalVideos(course.total_videos);
           }
         }
       })
@@ -131,6 +136,24 @@ function UpdateCourseScreen(props) {
                           className="userUpdateInput"
                           value={source}
                           onChange={(e) => setSource(e.target.value)}
+                        />
+                      </div>
+                      <div className="userUpdateItem">
+                        <label>Số lượng video</label>
+                        <input
+                          type="text"
+                          className="userUpdateInput"
+                          value={totalVideos}
+                          onChange={(e) => setTotalVideos(e.target.value)}
+                        />
+                      </div>
+                      <div className="userUpdateItem">
+                        <label>Số lượng lượt xem</label>
+                        <input
+                          type="text"
+                          className="userUpdateInput"
+                          value={views}
+                          onChange={(e) => setViews(e.target.value)}
                         />
                       </div>
                     </div>

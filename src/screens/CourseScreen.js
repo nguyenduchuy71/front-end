@@ -15,7 +15,7 @@ function CourseScreen() {
   const userLoadCourses = useSelector((state) => state.userLoadCourses);
   const { loadingCourses, courses, errorLoadCourses } = userLoadCourses;
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(20);
+  const [postsPerPage] = useState(32);
   const [textSearch, setTextSearch] = useState("");
   const [filterdCourse, setFilterdCourse] = useState([]);
   const [coursesLocal, setCoursesLocal] = useState(courses);

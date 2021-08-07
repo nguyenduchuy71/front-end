@@ -1,5 +1,5 @@
 import "./user.css";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Error404Page from "./Error404Page";
 import { useSelector, useDispatch } from "react-redux";
 import AdminOption from "../components/admin/AdminOption";
@@ -18,6 +18,8 @@ function AddCourseScreen() {
   const [desc, setDesc] = useState("");
   const [source, setSource] = useState("");
   const [img, setImg] = useState("");
+  const [views, setViews] = useState(0);
+  const [totalVideos, setTotalVideos] = useState(0);
   const history = useHistory();
   const dispatch = useDispatch();
   const handleAddCourse = (e) => {
@@ -26,8 +28,10 @@ function AddCourseScreen() {
       title: title,
       id_video: url,
       description: desc,
-      src: source,
-      url: img,
+      authen: source,
+      image: img,
+      total_videos: totalVideos,
+      view: views,
     };
     dispatch(addCourse(data));
     history.push("/admin/courses");
@@ -102,6 +106,24 @@ function AddCourseScreen() {
                           className="userUpdateInput"
                           value={source}
                           onChange={(e) => setSource(e.target.value)}
+                        />
+                      </div>
+                      <div className="userUpdateItem">
+                        <label>Số lượng video</label>
+                        <input
+                          type="text"
+                          className="userUpdateInput"
+                          value={totalVideos}
+                          onChange={(e) => setTotalVideos(e.target.value)}
+                        />
+                      </div>
+                      <div className="userUpdateItem">
+                        <label>Số lượng lượt xem</label>
+                        <input
+                          type="text"
+                          className="userUpdateInput"
+                          value={views}
+                          onChange={(e) => setViews(e.target.value)}
                         />
                       </div>
                     </div>

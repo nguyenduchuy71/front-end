@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import DateRangeIcon from "@material-ui/icons/DateRange";
 import TextField from "@material-ui/core/TextField";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
@@ -8,7 +7,6 @@ import Cookie from "js-cookie";
 import { signout } from "../actions/userActions";
 import styled from "styled-components";
 import Spinner from "../components/Spinner";
-import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import { URL_SERVER } from "../url";
 function ForumDetailScreen(props) {
   const [cmt, setCmt] = useState();
@@ -89,7 +87,7 @@ function ForumDetailScreen(props) {
             <AuthorRight>
               <TitleForum>{cmt?.title}</TitleForum>
               <AuthorRightBot>
-                <DateRangeIcon />
+                <ion-icon name="calendar-outline"></ion-icon>
                 <span>{cmt?.date.split("T")[0]}</span>
               </AuthorRightBot>
             </AuthorRight>
@@ -118,7 +116,7 @@ function ForumDetailScreen(props) {
                             padding: "2px 4px",
                           }}
                         >
-                          <PermIdentityIcon />
+                          <ion-icon name="person-circle-outline"></ion-icon>
                           <AuthorResponseName>
                             {res.user.username}
                           </AuthorResponseName>
@@ -130,14 +128,14 @@ function ForumDetailScreen(props) {
                             padding: "2px 4px",
                           }}
                         >
-                          <DateRangeIcon />
-                          <span style={{ fontSize: "18px" }}>
+                          <ion-icon name="calendar-outline"></ion-icon>
+                          <span>
                             {res.date.split("T")[0]}
                           </span>
                         </div>
                       </AuthorResponseContent>
                       <div style={{ width: "100%" }}>
-                        <TitleForum style={{ fontSize: "16px" }}>
+                        <TitleForum style={{ fontSize: "18px" }}>
                           {res.content}
                         </TitleForum>
                       </div>
@@ -240,7 +238,7 @@ const ListResponse = styled.div`
   padding: 4px;
 `;
 const AuthorResponseName = styled.p`
-  font-size: 20px;
+  font-size: 16px;
 `;
 const AuthorResponseContent = styled.div`
   display: flex;

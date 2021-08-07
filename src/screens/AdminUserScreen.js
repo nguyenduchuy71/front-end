@@ -5,7 +5,7 @@ import Error404Page from "./Error404Page";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
-import { signout } from "../actions/userActions";
+import { signout, checklogin } from "../actions/userActions";
 import { loadUsers } from "../actions/adminActions";
 import styled from "styled-components";
 import Spinner from "../components/Spinner";
@@ -16,12 +16,13 @@ function AdminUserScreen() {
   const dispatch = useDispatch();
   const userSignin = useSelector((state) => state.userSignin);
   const { loadingInfo, userInfo, error } = userSignin;
+  const userCheckLogin = useSelector((state) => state.userCheckLogin);
+  const { loadingCheckLogin, userCheck, errorCheckLogin } = userCheckLogin;
   const adminLoadUsers = useSelector((state) => state.adminLoadUsers);
   const { loadingUsers, users, errorUsers } = adminLoadUsers;
   const handleDelete = (id) => {};
   const fetchUsers = async () => {
     await dispatch(loadUsers());
-    console.log(users);
   };
   const columns = [
     { field: "id", headerName: "ID", width: 100 },
@@ -62,8 +63,9 @@ function AdminUserScreen() {
   ];
   useEffect(() => {
     if (userInfo) {
+      dispatch(checklogin());
       fetchUsers();
-      if (errorUsers || error) {
+      if (errorCheckLogin || error || errorUsers) {
         dispatch(signout());
         history.push("/signin");
         window.location.reload();
@@ -72,7 +74,7 @@ function AdminUserScreen() {
   }, [dispatch]);
   return (
     <>
-      {loadingInfo || loadingUsers ? (
+      {loadingInfo || loadingUsers || loadingCheckLogin ? (
         <Spinner />
       ) : (
         <>

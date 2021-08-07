@@ -36,7 +36,7 @@ function SignUpScreen(props) {
       check = false;
     }
     if (!password.trim() || !repassword.trim()) {
-      setPassword("Mật khẩu không được để trống");
+      setErrorPassword("Mật khẩu không được để trống");
       check = false;
     } else if (password.length < 6) {
       setErrorPassword("Mật khẩu phải dài hơn 6 kí tự");
@@ -47,7 +47,9 @@ function SignUpScreen(props) {
       check = false;
     }
     if (repassword.length < 6) {
-      setErrorRepassword("Mật khẩu phải dài hơn 6 kí tự");
+      setErrorRepassword(
+        "Mật khẩu không được để trống và phải dài hơn 6 kí tự "
+      );
       check = false;
     } else if (password !== repassword) {
       setErrorRepassword("Mật khẩu không khớp");

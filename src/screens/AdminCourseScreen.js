@@ -21,7 +21,6 @@ function AdminCourseScreen() {
   const { loadingCourses, courses, errorLoadCourses } = userLoadCourses;
   const history = useHistory();
   const dispatch = useDispatch();
-  console.log("renderd");
   const handleDelete = (id) => {
     dispatch(deleteCourse(id));
     localStorage.removeItem("courses");
