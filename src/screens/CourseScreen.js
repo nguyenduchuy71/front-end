@@ -15,7 +15,7 @@ function CourseScreen() {
   const userLoadCourses = useSelector((state) => state.userLoadCourses);
   const { loadingCourses, courses, errorLoadCourses } = userLoadCourses;
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(40);
+  const [postsPerPage] = useState(20);
   const [textSearch, setTextSearch] = useState("");
   const [filterdCourse, setFilterdCourse] = useState([]);
   const [coursesLocal, setCoursesLocal] = useState(courses);
@@ -107,6 +107,7 @@ function CourseScreen() {
                     ? filterdCourse.length
                     : coursesLocal.length
                 }
+                currentPage={currentPage}
                 paginate={paginate}
                 goPrev={goPrev}
                 goNext={goNext}
@@ -129,6 +130,7 @@ function CourseScreen() {
 
 export default CourseScreen;
 const Container = styled.div`
+  width: 100%;
   margin-top: 100px;
   display: flex;
   align-items: center;
@@ -140,24 +142,6 @@ const Content = styled.div`
   margin-top: 100px;
   display: flex;
   justify-content: center;
-`;
-const CourseContainer = styled.div`
-  --spacing: 25px;
-  --columns: 4;
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-  margin-left: calc(-1 * var(--spacing));
-
-  @media screen and (max-width: 1023px) {
-    --columns: 2;
-  }
-  @media screen and (max-width: 767px) {
-    --spacing: 15px;
-    --columns: 1;
-  }
 `;
 const Search = styled.div`
   margin-bottom: 40px;
@@ -179,6 +163,19 @@ const Search = styled.div`
     margin-left: 4px;
   }
   @media screen and (max-width: 767px) {
-    width: 80%;
+    width: 100%;
+  }
+`;
+const CourseContainer = styled.div`
+  width: 100%;
+  display: grid;
+  gap: 25px;
+  grid-template-columns: repeat(4, 1fr);
+  @media screen and (max-width: 1023px) {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0 auto;
+  }
+  @media screen and (max-width: 767px) {
+    grid-template-columns: repeat(1, 1fr);
   }
 `;

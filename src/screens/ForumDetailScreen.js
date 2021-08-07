@@ -219,8 +219,13 @@ const AuthorRightBot = styled.div`
   align-items: center;
 `;
 const TitleForum = styled.span`
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
 `;
 const AuthorImage = styled.img`
   width: 60px;

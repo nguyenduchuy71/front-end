@@ -1,6 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-function Pagination({ postsPerPage, totalPosts, paginate, goPrev, goNext }) {
+function Pagination({
+  postsPerPage,
+  totalPosts,
+  paginate,
+  currentPage,
+  goPrev,
+  goNext,
+}) {
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
@@ -11,13 +18,37 @@ function Pagination({ postsPerPage, totalPosts, paginate, goPrev, goNext }) {
         <Element onClick={() => goPrev()}>
           <ion-icon name="arrow-back-outline"></ion-icon>
         </Element>
-        {pageNumbers.map((number) => (
+        {pageNumbers.slice(0, 3).map((number) => (
           <Element key={number}>
             <a onClick={() => paginate(number)} href="#">
               {number}
             </a>
           </Element>
         ))}
+        {pageNumbers.length >= 6 ? (
+          <>
+            <Element>.</Element>
+            <Element>
+              {currentPage > 3 && currentPage <= pageNumbers.length - 3 ? (
+                <a href="#">{currentPage}</a>
+              ) : (
+                <a href="#">.</a>
+              )}
+            </Element>
+            <Element>.</Element>
+            {pageNumbers
+              .slice(pageNumbers.length - 3, pageNumbers.length)
+              .map((number) => (
+                <Element key={number}>
+                  <a onClick={() => paginate(number)} href="#">
+                    {number}
+                  </a>
+                </Element>
+              ))}
+          </>
+        ) : (
+          <></>
+        )}
         <Element onClick={() => goNext()}>
           <ion-icon name="arrow-forward-outline"></ion-icon>
         </Element>
@@ -46,11 +77,12 @@ const Element = styled.li`
   justify-content: center;
   padding: 4px 8px;
   background-color: #008cef;
-  margin-left: 10px;
+  margin-left: 6px;
   border-radius: 50%;
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
+  color: #fff;
   a {
     color: #fff;
   }

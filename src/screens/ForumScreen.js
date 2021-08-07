@@ -36,16 +36,15 @@ export default function ForumScreen() {
     }
   };
   useEffect(() => {
-    if (userInfo) {
+    /*     if (userInfo) {
       dispatch(checklogin());
       if (errorCheckLogin) {
         dispatch(signout());
         history.push("/signin");
         window.location.reload();
       }
-    }
+    } */
     dispatch(loadForums());
-    console.log(forums);
   }, [dispatch]);
   return (
     <>
@@ -66,19 +65,22 @@ export default function ForumScreen() {
             <Button onClick={add}>Đăng</Button>
           </Top>
           {forums?.length ? (
-            <div>
-              <Bottom>
-                {forums?.map((cmt) => (
-                  <Forum key={cmt.id} cmt={cmt} />
-                ))}
-              </Bottom>
-            </div>
+            <Bottom>
+              <BottomCotent>
+                <Topic>Nội dung</Topic>
+                <Details>
+                  <span>Người trả lời</span>
+                </Details>
+              </BottomCotent>
+              {forums?.map((cmt) => (
+                <Forum key={cmt.id} cmt={cmt} />
+              ))}
+            </Bottom>
           ) : (
             <Content>
               <img
                 src="https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png"
                 alt="img"
-                style={{ width: "100%" }}
               />
             </Content>
           )}
@@ -91,6 +93,10 @@ const Container = styled.div`
   width: 80%;
   margin: 0 auto;
   margin-top: 100px;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+    padding: 0 4px;
+  }
 `;
 const Top = styled.div`
   display: flex;
@@ -117,10 +123,40 @@ const Button = styled.button`
     background-color: #e7717d;
   }
 `;
-const Bottom = styled.div`
-  height: 100%;
-`;
 const Content = styled.div`
   display: flex;
   justify-content: center;
+  img {
+    width: 100%;
+    object-fit: cover;
+  }
+`;
+const Bottom = styled.div`
+  width: 100%;
+  margin-top: 20px;
+`;
+const BottomCotent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f5f2ef;
+  padding: 8px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+`;
+const Topic = styled.p`
+  flex: 1;
+  font-weight: 600;
+`;
+const Details = styled.div`
+  display: flex;
+  align-items: center;
+  span {
+    margin-left: 40px;
+    font-size: 14px;
+    color: #5f5e5e;
+  }
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
 `;

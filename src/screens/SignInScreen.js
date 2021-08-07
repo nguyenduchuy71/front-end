@@ -22,7 +22,7 @@ function SignInScreen(props) {
       setErrorPassword("Mật khẩu không được để trống");
       check = false;
     }
-    if (check == true) {
+    if (check === true) {
       await dispatch(signin(user));
       props.history.push("/");
       window.location.reload();
