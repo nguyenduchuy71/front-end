@@ -275,7 +275,4 @@ const Button = styled.button`
   background-color: #0304ff;
   color: #fff;
   border-radius: 10px;
-  &:hover {
-    opacity: 0.9;
-  }
 `;

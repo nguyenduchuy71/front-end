@@ -21,6 +21,22 @@ function CourseScreen() {
   const [coursesLocal, setCoursesLocal] = useState(courses);
   const history = useHistory();
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (localStorage.getItem("courses")) {
+      const data = JSON.parse(localStorage.getItem("courses"));
+      setCoursesLocal(data.courses);
+    } else {
+      dispatch(loadCourses());
+    }
+    if (userInfo) {
+      dispatch(checklogin());
+      if (errorCheckLogin || errorLoadCourses) {
+        dispatch(signout());
+        history.push("/signin");
+        window.location.reload();
+      }
+    }
+  }, [dispatch, loadingCourses]);
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentCourses =
@@ -62,22 +78,6 @@ function CourseScreen() {
       setFilterdCourse(coursesLocal);
     }
   };
-  useEffect(() => {
-    if (localStorage.getItem("courses")) {
-      const data = JSON.parse(localStorage.getItem("courses"));
-      setCoursesLocal(data.courses);
-    } else {
-      dispatch(loadCourses());
-    }
-    if (userInfo) {
-      dispatch(checklogin());
-      if (errorCheckLogin || errorLoadCourses) {
-        dispatch(signout());
-        history.push("/signin");
-        window.location.reload();
-      }
-    }
-  }, [dispatch, loadingCourses]);
   return (
     <>
       {loadingCourses || loading || loadingCheckLogin ? (
