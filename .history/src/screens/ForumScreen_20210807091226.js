@@ -36,14 +36,14 @@ export default function ForumScreen() {
     }
   };
   useEffect(() => {
-    if (userInfo) {
+    /*     if (userInfo) {
       dispatch(checklogin());
       if (errorCheckLogin) {
         dispatch(signout());
         history.push("/signin");
         window.location.reload();
       }
-    }
+    } */
     dispatch(loadForums());
   }, [dispatch]);
   return (

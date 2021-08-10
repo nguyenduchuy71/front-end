@@ -130,7 +130,7 @@ function ForumDetailScreen(props) {
                           }}
                         >
                           <ion-icon name="time-outline"></ion-icon>
-                          <span>{moment(res.date).fromNow()}</span>
+                          <span>{res.date.split("T")[0]}</span>
                         </div>
                       </AuthorResponseContent>
                       <div style={{ width: "100%" }}>

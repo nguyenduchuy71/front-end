@@ -7,7 +7,6 @@ import Cookie from "js-cookie";
 import { signout } from "../actions/userActions";
 import styled from "styled-components";
 import Spinner from "../components/Spinner";
-import moment from "moment";
 import { URL_SERVER } from "../url";
 function ForumDetailScreen(props) {
   const [cmt, setCmt] = useState();
@@ -88,8 +87,8 @@ function ForumDetailScreen(props) {
             <AuthorRight>
               <TitleForum>{cmt?.title}</TitleForum>
               <AuthorRightBot>
-                <ion-icon name="time-outline"></ion-icon>
-                <span>{moment(cmt?.date).fromNow()}</span>
+                <ion-icon name="calendar-outline"></ion-icon>
+                <span>{cmt?.date.split("T")[0]}</span>
               </AuthorRightBot>
             </AuthorRight>
           </AuthorCotent>
@@ -129,8 +128,10 @@ function ForumDetailScreen(props) {
                             padding: "2px 4px",
                           }}
                         >
-                          <ion-icon name="time-outline"></ion-icon>
-                          <span>{moment(res.date).fromNow()}</span>
+                          <ion-icon name="calendar-outline"></ion-icon>
+                          <span>
+                            {res.date.split("T")[0]}
+                          </span>
                         </div>
                       </AuthorResponseContent>
                       <div style={{ width: "100%" }}>

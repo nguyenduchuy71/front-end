@@ -29,8 +29,8 @@ export default function Forum(props) {
                 <span>{cmt.user.username}</span>
               </Item>
               <Item>
-                <ion-icon name="time-outline"></ion-icon>
-                <span className="text">{moment(cmt.date).fromNow()}</span>
+                <ion-icon name="calendar-outline"></ion-icon>
+                <span className="text">{cmt.date.split("T")[0]}</span>
               </Item>
               <Item>
                 <ion-icon name="document-text-outline"></ion-icon>

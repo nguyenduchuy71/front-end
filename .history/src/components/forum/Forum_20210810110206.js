@@ -29,7 +29,7 @@ export default function Forum(props) {
                 <span>{cmt.user.username}</span>
               </Item>
               <Item>
-                <ion-icon name="time-outline"></ion-icon>
+                <ion-icon name="calendar-outline"></ion-icon>
                 <span className="text">{moment(cmt.date).fromNow()}</span>
               </Item>
               <Item>

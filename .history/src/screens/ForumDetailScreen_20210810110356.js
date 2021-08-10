@@ -88,7 +88,7 @@ function ForumDetailScreen(props) {
             <AuthorRight>
               <TitleForum>{cmt?.title}</TitleForum>
               <AuthorRightBot>
-                <ion-icon name="time-outline"></ion-icon>
+                <ion-icon name="calendar-outline"></ion-icon>
                 <span>{moment(cmt?.date).fromNow()}</span>
               </AuthorRightBot>
             </AuthorRight>
@@ -129,8 +129,8 @@ function ForumDetailScreen(props) {
                             padding: "2px 4px",
                           }}
                         >
-                          <ion-icon name="time-outline"></ion-icon>
-                          <span>{moment(res.date).fromNow()}</span>
+                          <ion-icon name="calendar-outline"></ion-icon>
+                          <span>{res.date.split("T")[0]}</span>
                         </div>
                       </AuthorResponseContent>
                       <div style={{ width: "100%" }}>
